@@ -1,0 +1,24 @@
+cat > .gitignore <<'EOF'
+# Secrets / env
+**/.env
+**/config.env
+**/*.env
+**/*secrets*
+**/*.key
+**/*.pem
+**/id_*
+**/*.p12
+
+# Backups / archives
+**/*.tar
+**/*.tar.gz
+**/*.tgz
+**/*.zip
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+EOF
