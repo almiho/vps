@@ -8,11 +8,17 @@ set -euo pipefail
 # Exits non-zero if any check fails.
 # -----------------------------------------------------------------------------
 
+# --- Colors -------------------------------------------------------------------
+
+GREEN="\033[0;32m"
+RED="\033[0;31m"
+NC="\033[0m"
+
 # --- Logging helpers ----------------------------------------------------------
 
 info()    { echo "[INFO]  $*"; }
-pass()    { echo "[PASS]  $*"; }
-fail()    { echo "[FAIL]  $*" >&2; FAILED=1; }
+pass()    { echo -e "${GREEN}[PASS]${NC}  $*"; }
+fail()    { echo -e "${RED}[FAIL]${NC}  $*" >&2; FAILED=1; }
 
 FAILED=0
 
@@ -144,8 +150,8 @@ echo
 # --- Result -------------------------------------------------------------------
 
 if [[ "${FAILED}" -ne 0 ]]; then
-  echo "[FAIL]  One or more checks failed. See output above." >&2
+  echo -e "${RED}[FAIL]${NC}  One or more checks failed. See output above." >&2
   exit 1
 fi
 
-echo "[OK]    All baseline system checks passed."
+echo -e "${GREEN}[OK]${NC}    All baseline system checks passed."
