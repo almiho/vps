@@ -21,4 +21,7 @@ cat > .gitignore <<'EOF'
 .vscode/
 *.swp
 *~
-EOF
+
+__pycache__/
+*.pyc
+.pytest_cache/
