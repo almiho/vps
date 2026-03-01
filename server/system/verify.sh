@@ -96,14 +96,11 @@ echo
 
 info "Checking UFW rules..."
 
-# Match common Ubuntu UFW output variants:
-#   22/tcp              ALLOW IN    Anywhere
-#   22/tcp (OpenSSH)    ALLOW IN    Anywhere
-#   OpenSSH             ALLOW IN    Anywhere
-if ufw status | grep -qiE "(22/tcp|OpenSSH).*ALLOW IN"; then
-  pass "UFW: 22/tcp (SSH) allowed inbound"
+# Use verbose output for consistent rule formatting
+if ufw status verbose | grep -qiE '(22/tcp|OpenSSH).*ALLOW IN'; then
+  pass "UFW: SSH allowed inbound"
 else
-  fail "UFW: 22/tcp (SSH) inbound rule not found"
+  fail "UFW: SSH inbound rule not found"
 fi
 
 echo
