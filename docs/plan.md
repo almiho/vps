@@ -35,15 +35,14 @@ The tutorial videos (Caleb's setup, mission control) show the right direction:
 
 ### Phase 1 — Get it running and talking (current priority)
 
-- [ ] **Deploy OpenClaw** via `docker-compose.yml` under `server/openclaw/`
-  - Bind to Tailscale IP only (`100.67.100.125`) — not `0.0.0.0`
-  - Store API keys in `.env` file (gitignored)
-  - Use Anthropic Claude as the primary model (good reasoning, cost-effective)
-- [ ] **Connect WhatsApp**
-  - OpenClaw supports WhatsApp via phone number in env config
-  - Test: send a message, get a response
-- [ ] **Verify the assistant is reachable and responsive**
-  - Basic sanity check: ask it something, confirm it replies via WhatsApp
+- [x] **Deploy OpenClaw** via `docker-compose.yml` under `server/openclaw/`
+  - Docker host networking, no public ports
+  - Dashboard via `tailscale serve` HTTPS: `https://vps.tail3c8fba.ts.net`
+  - API keys in `.env` (gitignored), Anthropic Claude as primary model
+- [x] **Connect messaging** — Telegram (`@almiho_bot`) connected and working
+  - WhatsApp requires phone linking (skipped for now — Telegram is the primary channel)
+- [x] **Verify the assistant is reachable and responsive**
+  - Confirmed: bot replies via Telegram ✅
 
 ### Phase 2 — First real use case
 

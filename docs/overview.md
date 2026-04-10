@@ -138,7 +138,7 @@ so those services are invisible to the public internet.
 | Service | Status | Notes |
 |---|---|---|
 | `relaxedon.boats` wireframe | ✅ Running | Caddy container, password-protected, ports 80+443 |
-| OpenClaw | ❌ Not deployed | Needs `docker-compose.yml` setup |
+| OpenClaw | ✅ Running | Docker host network, Tailscale-only, Telegram connected |
 
 ### SSH config (local Mac)
 
@@ -154,14 +154,15 @@ so those services are invisible to the public internet.
 
 **Infrastructure**
 - [ ] Reboot VPS to apply pending kernel upgrade
-- [ ] Deploy OpenClaw as `docker-compose.yml` under `server/openclaw/`, bound to Tailscale IP
+- [x] Deploy OpenClaw as `docker-compose.yml` under `server/openclaw/`, bound to Tailscale IP
 - [ ] Document `relaxedon.boats` container setup under `server/`
 - [ ] Set up reverse proxy (Caddy or Traefik) to manage all web services centrally
 
 **OpenClaw / assistant**
-- [ ] Bind OpenClaw dashboard to Tailscale IP only (not `0.0.0.0`)
-- [ ] Connect WhatsApp to OpenClaw
-- [ ] Define first set of assistant capabilities to build out
+- [x] Bind OpenClaw dashboard to Tailscale only (`tailscale serve` HTTPS, host networking)
+- [x] Connect Telegram to OpenClaw (`@almiho_bot` — working)
+- [ ] Connect WhatsApp (skipped for now — requires phone linking)
+- [ ] Set up morning brief (Phase 2 — Google Calendar + Gmail → Telegram)
 
 **Security**
 - [x] Update `server/system/verify.sh` to include Tailscale status check
