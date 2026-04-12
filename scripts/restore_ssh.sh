@@ -1,9 +1,12 @@
 #!/bin/bash
-# Restore SSH keys from workspace after container restart/update
+# Restore SSH keys after container restart/update
 # Called by heartbeat automatically
+#
+# Keys live at /home/node/.openclaw/config/ssh/ — outside git, intentionally.
+# On a fresh VPS: generate a new key pair there, add the public key to GitHub.
+#   ssh-keygen -t ed25519 -C "alexi@openclaw-vps" -f /home/node/.openclaw/config/ssh/github -N ""
 
-WORKSPACE="/home/node/.openclaw/workspace"
-KEY_SRC="$WORKSPACE/config/ssh/github"
+KEY_SRC="/home/node/.openclaw/config/ssh/github"
 
 if [ ! -f "$HOME/.ssh/github" ]; then
     mkdir -p "$HOME/.ssh"
