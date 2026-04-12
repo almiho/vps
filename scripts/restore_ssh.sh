@@ -26,3 +26,7 @@ fi
 # Restore git identity (wiped by container updates)
 git config --global user.email "alexi@openclaw-vps" 2>/dev/null
 git config --global user.name "AlexI" 2>/dev/null
+
+# Ensure Claude CLI is in PATH
+export PATH="/home/node/.local/bin:$PATH"
+echo 'export PATH="/home/node/.local/bin:$PATH"' >> ~/.bashrc 2>/dev/null || true

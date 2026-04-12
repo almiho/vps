@@ -1,6 +1,6 @@
 {
   "agent": "cos",
-  "updated_at": "2026-04-12T20:01:11.190377",
+  "updated_at": "2026-04-12T20:31:53.630052",
   "health": "warning",
   "summary": "Action needed: Your input needed: OKR onboarding session",
   "alerts": [
@@ -10,13 +10,6 @@
       "body": "I can't prioritise tasks across agents without knowing your goals.\nThis is the most important thing we haven't done yet.\nVerdict: schedule this before Milestone 5 begins \u2014 everything downstream depends on it.\n\u2192 When ready, tell me: 'Let's do the OKR session'",
       "due_at": null,
       "action_required": true
-    },
-    {
-      "priority": 3,
-      "title": "Infra flagged (monitoring): OpenClaw 2026.4.9 \u2192 2026.4.11  (released 2026-04-12)",
-      "body": "I've reviewed Infra's analysis. My take: low strategic risk.\nThe changes are mostly memory/UI improvements \u2014 nothing that affects our core setup.\nRecommendation: update at your next convenient moment, not urgently.\n\u2192 When you're ready: openclaw update (or however you installed it)",
-      "due_at": null,
-      "action_required": false
     }
   ],
   "upcoming": [
