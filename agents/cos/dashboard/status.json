@@ -1,19 +1,20 @@
 {
   "agent": "cos",
-  "updated_at": "2026-04-12T17:22:04.803598",
+  "updated_at": "2026-04-12T17:24:47.142021",
   "health": "warning",
-  "summary": "Active. **Milestone 2 \u2014 Complete** \u2705.",
-  "stats": {
-    "active_cron_jobs": 0,
-    "bus_pending": 0,
-    "bus_total": 0,
-    "okr_onboarding_done": false
-  },
+  "summary": "Running. 2 of 18 agents active. Milestones 0\u20132 complete. OKR onboarding pending \u2014 needed before GTD layer activates. Infra has 1 non-urgent item to review.",
   "alerts": [
     {
-      "priority": 2,
-      "title": "OKR onboarding not yet done",
-      "body": "CoS cannot prioritise tasks without defined OKRs.\nThis is the most critical first step before the GTD layer can work.\n\u2192 Schedule an OKR session with Alexander when ready for Milestone 5.",
+      "priority": 1,
+      "title": "Your input needed: OKR onboarding session",
+      "body": "I can't prioritise tasks across agents without knowing your goals.\nThis is the most important thing we haven't done yet.\nVerdict: schedule this before Milestone 5 begins \u2014 everything downstream depends on it.\n\u2192 When ready, tell me: 'Let's do the OKR session'",
+      "due_at": null,
+      "action_required": true
+    },
+    {
+      "priority": 3,
+      "title": "Infra flagged (FYI): OpenClaw 2026.4.9 \u2192 2026.4.11  (released 2026-04-12)",
+      "body": "Infra has flagged this but no action is needed from you right now.\nI'm watching it. I'll escalate if it becomes urgent.\nInfra's note: \ud83d\udd34 Risk: MEDIUM \u2014 Contains changes to core infrastructure (gateway/agent runtime) \u2014 read notes carefully and test thoroughly",
       "due_at": null,
       "action_required": false
     }
@@ -21,22 +22,22 @@
   "upcoming": [
     {
       "priority": 1,
-      "title": "Milestone 3: Monitoring Agent \u2014 system health + Telegram alerts",
+      "title": "Delegating to Infra: build Monitoring Agent (Milestone 3)",
       "due_at": null
     },
     {
       "priority": 2,
-      "title": "Milestone 5: OKR onboarding \u2014 define goals before GTD layer activates",
+      "title": "Waiting on: your go-ahead to proceed with Milestone 3",
       "due_at": null
     },
     {
       "priority": 2,
-      "title": "Milestone 4: Comms Router \u2014 Gmail/WhatsApp \u2192 SQLite bus",
+      "title": "Planning: once Monitoring Agent is live, Infra moves to Comms Router (M4)",
       "due_at": null
     },
     {
       "priority": 3,
-      "title": "Milestone 6: School Agent \u2014 first domain agent",
+      "title": "On my radar: Phani message reminder \u2014 follow up tomorrow if not sent",
       "due_at": null
     }
   ]
