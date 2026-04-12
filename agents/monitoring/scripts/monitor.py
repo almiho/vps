@@ -34,7 +34,7 @@ def send_telegram_alert(title, body):
         try:
             result = subprocess.run(
                 ["openclaw", "agent",
-                 "--agent", "infrastructure",
+                 "--session-id", "telegram:8731775067",
                  "--message", msg,
                  "--deliver",
                  "--reply-channel", "telegram",
