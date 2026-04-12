@@ -67,8 +67,8 @@ function toggleAbout() {
 <body>
 <div class="header">
   <a href="index.html" class="back">← Dashboard</a>
-  <div style="display:flex;align-items:center;gap:0.75rem"><span style="font-size:1.5rem">👁️</span><span style="font-size:1.1rem;font-weight:700">Monitoring</span><span style="background:#22c55e;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">OK</span></div>
-  <div style="font-size:0.75rem;color:#475569">12 Apr 2026 17:56</div>
+  <div style="display:flex;align-items:center;gap:0.75rem"><span style="font-size:1.5rem">👁️</span><span style="font-size:1.1rem;font-weight:700">Monitoring</span><span style="background:#ef4444;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">❌ Error</span></div>
+  <div style="font-size:0.75rem;color:#475569">12 Apr 2026 17:58</div>
 </div>
 <div class="container" style="max-width:900px">
   
@@ -98,7 +98,7 @@ function toggleAbout() {
   </div>
 </div>
   <div class="section"><div class="section-title">Status</div>
-    <div class="status-row"><div class="status-summary">All systems healthy. Gateway ✓ Dashboard ✓ Bus ✓ Disk ✓ Agents ✓ Cron ✓</div><div class="status-updated">Last updated: 12 Apr 17:56</div></div>
+    <div class="status-row"><div class="status-summary">1 component(s) down. Telegram alert sent.</div><div class="status-updated">Last updated: 12 Apr 17:57</div></div>
   </div>
   <div class="section"><div class="section-title">🟢 Live System Health</div><svg viewBox="0 0 860 530" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:860px;font-family:system-ui,sans-serif;background:#0f172a;border-radius:12px">
 <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#334155"/></marker></defs>
@@ -128,9 +128,9 @@ function toggleAbout() {
 <text x="312" y="110" text-anchor="middle" fill="#fdba74" font-size="10">🔧 Infra</text>
 </a>
 <a href="monitoring.html">
-<rect x="376" y="90" width="108" height="32" rx="5" fill="#14532d" stroke="#22c55e" stroke-width="1.5"/>
-<circle cx="478" cy="97" r="3.5" fill="#22c55e"/>
-<text x="430" y="110" text-anchor="middle" fill="#86efac" font-size="10">👁 Watch</text>
+<rect x="376" y="90" width="108" height="32" rx="5" fill="#450a0a" stroke="#ef4444" stroke-width="1.5"/>
+<circle cx="478" cy="97" r="3.5" fill="#ef4444"/>
+<text x="430" y="110" text-anchor="middle" fill="#fca5a5" font-size="10">👁 Watch</text>
 </a>
 <a href="dashboard.html">
 <rect x="494" y="90" width="108" height="32" rx="5" fill="#14532d" stroke="#22c55e" stroke-width="1.5"/>
@@ -216,6 +216,15 @@ function toggleAbout() {
 <circle cx="280" cy="513" r="4" fill="#475569"/>
 <text x="288" y="517" fill="#64748b" font-size="10">Unknown</text>
 </svg></div>
-  <div class="section"><div class="section-title">🔴 Alerts & Actions</div><div class="empty-state">No alerts</div></div>
+  <div class="section"><div class="section-title">🔴 Alerts & Actions</div>
+    <div class="item alert-item">
+        <div class="item-priority p1">P1</div>
+        <div class="item-content">
+            <div class="item-title">Cron — Problem detected</div>
+            
+            <div class="item-body"><span class="item-body-line">Scheduler daemon not running — dashboard and health checks have stopped.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ Restart: python3 /home/node/.openclaw/workspace/scripts/scheduler.py</span></div>
+        </div>
+        <div class='action-badge'>Action needed</div>
+    </div></div>
   <div class="section"><div class="section-title">📅 Upcoming</div><div class="item"><div class="item-priority p2">P2</div><div class="item-content"><div class="item-title">Will watch Comms Router once connected (Milestone 4) — message bus queue depth</div></div></div><div class="item"><div class="item-priority p3">P3</div><div class="item-content"><div class="item-title">Will watch School Agent pickup reminders once live (Milestone 6) — time-critical</div></div></div><div class="item"><div class="item-priority p3">P3</div><div class="item-content"><div class="item-title">Will add web server auto-restart if it goes down (future improvement)</div></div></div></div>
 </div></body></html>

@@ -3,3 +3,4 @@
 {"type": "failure", "component": "heartbeats", "detail": "Stale agent(s): dashboard: status file missing or unreadable", "logged_at": "2026-04-12T17:39:55.083372"}
 {"type": "failure", "component": "cron", "detail": "Could not read cron job list", "logged_at": "2026-04-12T17:39:55.084787"}
 {"type": "failure", "component": "cron", "detail": "No scheduled cron jobs found. Dashboard regen and infra checks may have stopped.", "logged_at": "2026-04-12T17:54:29.491029"}
+{"type": "failure", "component": "cron", "detail": "Scheduler daemon not running \u2014 dashboard and health checks have stopped.\n\u2192 Restart: python3 /home/node/.openclaw/workspace/scripts/scheduler.py", "logged_at": "2026-04-12T17:58:01.095684"}
