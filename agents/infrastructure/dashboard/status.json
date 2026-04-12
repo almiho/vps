@@ -1,18 +1,46 @@
 {
   "agent": "infrastructure",
-  "updated_at": "2026-04-12T15:57:00+02:00",
-  "health": "ok",
-  "summary": "Milestone 0 in progress — directory structure and docs framework complete",
-  "alerts": [],
-  "upcoming": [
+  "updated_at": "2026-04-12T16:40:22.218393",
+  "health": "warning",
+  "summary": "Systems OK with 1 item(s) needing attention.",
+  "alerts": [
     {
       "priority": 2,
-      "title": "Set up git remote",
+      "title": "OpenClaw update available: 2026.4.9 \u2192 2026.4.11",
+      "body": "Released 2026-04-12. Stable release. Risk: LOW. Changes: \n### Changes\n\n- Dreaming/memory-wiki: add ChatGPT import ingestion plus new `Imported Insights` and `Memory Palace` diary subtabs so Dreaming can inspect imported source chats, compiled wiki pages, an... Recommendation: update during next maintenance window.",
+      "due_at": null,
+      "action_required": false
+    }
+  ],
+  "upcoming": [
+    {
+      "priority": 1,
+      "title": "Milestone 2: Dashboard Foundation",
       "due_at": null
     },
     {
       "priority": 2,
-      "title": "Milestone 1: SQLite message bus",
+      "title": "Milestone 3: Monitoring Agent",
+      "due_at": null
+    },
+    {
+      "priority": 3,
+      "title": "Milestone 4: Comms Router",
+      "due_at": null
+    },
+    {
+      "priority": 4,
+      "title": "Milestone 5: Chief of Staff \u2014 GTD Layer",
+      "due_at": null
+    },
+    {
+      "priority": 4,
+      "title": "Milestone 6: School Agent",
+      "due_at": null
+    },
+    {
+      "priority": 4,
+      "title": "Milestone 7+: Remaining Domain Agents",
       "due_at": null
     }
   ]
