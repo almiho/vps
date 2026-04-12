@@ -19,32 +19,40 @@ PREV_STATE   = f"{WORKSPACE}/agents/monitoring/data/prev_state.json"
 # Telegram delivery via OpenClaw CLI
 def send_telegram_alert(title, body):
     """Send urgent alert to Alexander via Telegram.
-    Uses --agent infrastructure as delivery vehicle (tested working pattern).
-    Blocking so we know if delivery fails.
+    Non-blocking: fires in a background thread so Watch never freezes.
+    Alert is always logged to disk first regardless of delivery outcome.
     """
+    import threading
     msg = f"Watch Alert: {title}\n\n{body}\n\nDashboard: http://100.67.100.125:8080/monitoring.html"
-    try:
-        result = subprocess.run(
-            ["openclaw", "agent",
-             "--agent", "infrastructure",
-             "--message", msg,
-             "--deliver",
-             "--reply-channel", "telegram",
-             "--reply-to", "8731775067",
-             "--reply-account", "default",
-             "--timeout", "25"],
-            capture_output=True, text=True, timeout=30
-        )
-        if not result.returncode == 0:
-            os.makedirs(os.path.dirname(ALERT_LOG), exist_ok=True)
-            with open(ALERT_LOG, "a") as f:
-                f.write(json.dumps({"type": "delivery_failure", "error": result.stderr[:200], "logged_at": datetime.now().isoformat()}) + "\n")
-        return result.returncode == 0
-    except Exception as e:
-        os.makedirs(os.path.dirname(ALERT_LOG), exist_ok=True)
+
+    # Always log to disk immediately (fast, reliable)
+    os.makedirs(os.path.dirname(ALERT_LOG), exist_ok=True)
+    with open(ALERT_LOG, "a") as f:
+        f.write(json.dumps({"type": "alert_fired", "title": title, "logged_at": datetime.now().isoformat()}) + "\n")
+
+    def deliver():
+        try:
+            result = subprocess.run(
+                ["openclaw", "agent",
+                 "--agent", "infrastructure",
+                 "--message", msg,
+                 "--deliver",
+                 "--reply-channel", "telegram",
+                 "--reply-to", "8731775067",
+                 "--reply-account", "default",
+                 "--timeout", "25"],
+                capture_output=True, text=True, timeout=30
+            )
+            outcome = "delivered" if result.returncode == 0 else f"failed: {result.stderr[:100]}"
+        except Exception as e:
+            outcome = f"exception: {e}"
         with open(ALERT_LOG, "a") as f:
-            f.write(json.dumps({"type": "delivery_exception", "error": str(e), "logged_at": datetime.now().isoformat()}) + "\n")
-        return False
+            f.write(json.dumps({"type": "delivery_outcome", "title": title, "outcome": outcome, "logged_at": datetime.now().isoformat()}) + "\n")
+
+    # Fire and forget in background thread
+    t = threading.Thread(target=deliver, daemon=True)
+    t.start()
+    return True  # Watch continues immediately
 
 def run(cmd):
     try:
