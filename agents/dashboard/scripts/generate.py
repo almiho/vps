@@ -32,6 +32,38 @@ AGENTS = [
     ("dashboard",      "Dashboard",       "📊"),
 ]
 
+# Clustered agent groups for homepage (same grouping as architecture diagram)
+AGENT_CLUSTERS = [
+    ("System", [
+        ("cos", "Chief of Staff", "🧠"),
+        ("infrastructure", "Infrastructure", "🔧"),
+        ("monitoring", "Monitoring", "👁️"),
+        ("dashboard", "Dashboard", "📊"),
+    ]),
+    ("Communications", [
+        ("comms-collector", "Comms Collector", "📨"),
+        ("inbox-manager", "Inbox Manager", "📬"),
+        ("calendar", "Calendar", "📅"),
+    ]),
+    ("Finance & Assets", [
+        ("finance", "Finance", "💰"),
+        ("real-estate", "Real Estate", "🏠"),
+        ("tax", "Tax", "📋"),
+        ("insurance", "Insurance", "🛡️"),
+    ]),
+    ("Family & Life", [
+        ("school", "School", "🎒"),
+        ("life-in-denmark", "Life in Denmark", "🇩🇰"),
+        ("health", "Health", "🏥"),
+        ("friendships", "Friendships", "👥"),
+    ]),
+    ("Vehicles & Movement", [
+        ("car", "Car", "🚗"),
+        ("boat", "Boat", "⛵"),
+        ("travel", "Travel", "✈️"),
+    ]),
+]
+
 # About section content per agent
 AGENT_ABOUT = {
     "cos": {
@@ -191,6 +223,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .alert-item { background: rgba(239,68,68,0.05); border-radius: 8px; padding: 0.75rem !important; margin-bottom: 0.5rem; border-bottom: none !important; }
 .action-badge { font-size: 0.7rem; background: #ef4444; color: white; padding: 2px 8px; border-radius: 12px; white-space: nowrap; flex-shrink: 0; }
 .empty-state { color: #475569; font-size: 0.875rem; padding: 1rem 0; text-align: center; }
+
+/* Cluster grouping on homepage */
+.cluster-section { margin-bottom: 1.25rem; }
+.cluster-section:last-child { margin-bottom: 0; }
+.cluster-label { font-size: 0.72rem; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; padding-left: 2px; border-bottom: 1px solid #1e293b; padding-bottom: 0.4rem; }
 .agents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem; }
 .agent-card { background: #1e293b; border-radius: 10px; padding: 1rem; display: flex; gap: 0.75rem; align-items: flex-start; text-decoration: none; color: inherit; border: 1px solid #334155; transition: border-color 0.15s; }
 .agent-card:hover { border-color: #475569; }
@@ -504,24 +541,37 @@ def generate_index(items, agent_statuses):
     if not upcoming_html:
         upcoming_html = '<div class="empty-state">Nothing upcoming logged yet</div>'
 
-    agents_html = ""
-    for agent_id, label, emoji in AGENTS:
-        s = agent_statuses.get(agent_id, {})
-        health = s.get("health","unknown")
-        agents_html += f'<a href="{agent_id}.html" class="agent-card health-{health}"><div class="agent-emoji">{emoji}</div><div class="agent-info"><div class="agent-name">{label} {health_badge(health)}</div><div class="agent-summary">{s.get("summary","Not yet active")}</div><div class="agent-updated">Updated: {format_time(s.get("updated_at"))}</div></div></a>'
+    # Build clustered agent grid
+    clusters_html = ""
+    for cluster_name, cluster_agents in AGENT_CLUSTERS:
+        cards = ""
+        for agent_id, label, emoji in cluster_agents:
+            s = agent_statuses.get(agent_id, {})
+            health = s.get("health","unknown")
+            cards += (f'<a href="{agent_id}.html" class="agent-card health-{health}">'
+                     f'<div class="agent-emoji">{emoji}</div>'
+                     f'<div class="agent-info">'
+                     f'<div class="agent-name">{label} {health_badge(health)}</div>'
+                     f'<div class="agent-summary">{s.get("summary","Not yet active")}</div>'
+                     f'<div class="agent-updated">Updated: {format_time(s.get("updated_at"))}</div>'
+                     f'</div></a>')
+        clusters_html += (f'<div class="cluster-section">'
+                         f'<div class="cluster-label">{cluster_name}</div>'
+                         f'<div class="agents-grid">{cards}</div>'
+                         f'</div>')
 
-    return f"""<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta http-equiv="refresh" content="900"><title>AlexI Dashboard</title><style>{CSS}</style></head>
-<body>
-<div class="header"><h1>🤝 AlexI Dashboard</h1><div class="header-meta">Updated {now} · Auto-refreshes every 15 min</div></div>
-<div class="container">
-  <div class="grid">
-    <div class="section"><div class="section-title">🔴 Needs Attention</div>{alerts_html}</div>
-    <div class="section"><div class="section-title">📅 Upcoming</div>{upcoming_html}</div>
-  </div>
-  <div class="section"><div class="section-title">🤖 Agent Status</div><div class="agents-grid">{agents_html}</div></div>
-</div></body></html>"""
+    return ('<!DOCTYPE html>\n'
+            '<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">\n'
+            f'<meta http-equiv="refresh" content="900"><title>AlexI Dashboard</title><style>{CSS}</style></head>\n'
+            '<body>\n'
+            f'<div class="header"><h1>\U0001f91d AlexI Dashboard</h1><div class="header-meta">Updated {now} \xb7 Auto-refreshes every 15 min</div></div>\n'
+            f'<div class="container">\n'
+            f'  <div class="grid">\n'
+            f'    <div class="section"><div class="section-title">\U0001f534 Needs Attention</div>{alerts_html}</div>\n'
+            f'    <div class="section"><div class="section-title">\U0001f4c5 Upcoming</div>{upcoming_html}</div>\n'
+            f'  </div>\n'
+            f'  <div class="section"><div class="section-title">\U0001f916 Agent Status</div>{clusters_html}</div>\n'
+            '</div></body></html>')
 
 def generate_agent_page(agent_id, label, emoji, status, agent_statuses=None):
     now = datetime.now().strftime("%d %b %Y %H:%M")

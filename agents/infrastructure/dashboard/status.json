@@ -1,6 +1,6 @@
 {
   "agent": "infrastructure",
-  "updated_at": "2026-04-12T18:12:59.184009",
+  "updated_at": "2026-04-12T19:08:38.941811",
   "health": "warning",
   "summary": "Review needed: OpenClaw 2026.4.9 \u2192 2026.4.11  (released 2026-04-12)",
   "alerts": [
@@ -25,7 +25,7 @@
     },
     {
       "priority": 3,
-      "title": "Milestone 4: Comms Router",
+      "title": "Milestone 4: Comms Collector",
       "due_at": null
     },
     {
