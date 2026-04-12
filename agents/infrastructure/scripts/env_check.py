@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
 """
 Infrastructure Agent — Environment Health Check
-Runs periodically, updates status.json with structured, readable assessments.
-Intelligence standard: never relay raw data — summarise, contextualise, recommend.
+
+Intelligence standard (mandatory for all agents):
+- Never relay raw data. Form a conclusion and explain it.
+- Interpret changes in the context of OUR specific setup.
+- Tell the user what to DO, not just what EXISTS.
+- Admit uncertainty explicitly when facts are missing.
+- Always answer: "What does this mean for me? Is it risky? What should I do?"
 """
 
 import json, os, subprocess, urllib.request
 from datetime import datetime
 
-WORKSPACE   = "/home/node/.openclaw/workspace"
-STATUS_PATH = f"{WORKSPACE}/agents/infrastructure/dashboard/status.json"
-ROADMAP_PATH= f"{WORKSPACE}/docs/ROADMAP.md"
+WORKSPACE    = "/home/node/.openclaw/workspace"
+STATUS_PATH  = f"{WORKSPACE}/agents/infrastructure/dashboard/status.json"
+ROADMAP_PATH = f"{WORKSPACE}/docs/ROADMAP.md"
 
 def run(cmd):
     try:
@@ -20,7 +25,8 @@ def run(cmd):
         return ""
 
 def check_openclaw_version():
-    current = run("openclaw --version 2>&1").split()[-1] if run("openclaw --version 2>&1") else "?"
+    ver_out = run("openclaw --version 2>&1")
+    current = ver_out.split()[-1] if ver_out else "unknown"
     try:
         with urllib.request.urlopen(
             "https://api.github.com/repos/openclaw/openclaw/releases/latest", timeout=5
@@ -31,28 +37,122 @@ def check_openclaw_version():
         return current, None, "", "", False
 
 def analyse_release(notes):
-    """Return structured analysis: relevant list, irrelevant list, risk level."""
+    """
+    For each relevant change: form a conclusion for OUR setup.
+    Answer: will this help us, hurt us, or need action? Be specific. Admit gaps.
+    """
     n = notes.lower()
-    rel, irr = [], []
-    for kw, label, reason in [
-        ("memory",   "Memory/wiki",        "could improve AlexI's long-term memory"),
-        ("telegram", "Telegram",           "our primary channel — worth testing after update"),
-        ("gateway",  "Gateway",            "core infra — review release notes carefully"),
-        ("agent",    "Agent runtime",      "affects how all our agents run"),
-        ("cron",     "Cron scheduler",     "we rely on cron for automation"),
-        ("embed",    "New embed tags",     "potentially useful for our HTML dashboard"),
-        ("whatsapp", "WhatsApp",           "planned for Milestone 4"),
-        ("chatgpt",  "ChatGPT import",     "could migrate existing conversations to AlexI"),
-    ]:
-        if kw in n:
-            rel.append({"label": label, "reason": reason})
-    for kw, label in [("feishu","Feishu"),("video","Video generation"),("discord","Discord")]:
+    findings = []
+
+    if "memory" in n or "memory-wiki" in n:
+        if "chatgpt import" in n or "imported insights" in n or "memory palace" in n:
+            findings.append({
+                "label": "Memory/wiki — ChatGPT import + Memory Palace tab",
+                "verdict": "✅ Worth exploring after update",
+                "lines": [
+                    "Adds ability to import ChatGPT conversation history into AlexI's memory.",
+                    "New 'Memory Palace' tab gives better visibility into what AlexI remembers.",
+                    "My assessment: this directly improves AlexI's continuity — relevant to us.",
+                    "No breaking changes expected to existing memory files.",
+                    "→ Action: after updating, check the new Memory Palace tab in the control panel."
+                ]
+            })
+        else:
+            findings.append({
+                "label": "Memory/wiki changes (details unclear in release notes)",
+                "verdict": "⚠️ Monitor after update",
+                "lines": [
+                    "Memory system was modified but the changelog is vague on specifics.",
+                    "I cannot confirm whether this helps or changes existing behaviour.",
+                    "→ Action: after updating, verify MEMORY.md is intact and AlexI responds normally.",
+                    "→ If memory feels off, check: /home/node/.openclaw/workspace/MEMORY.md"
+                ]
+            })
+
+    if "telegram" in n:
+        findings.append({
+            "label": "Telegram changes",
+            "verdict": "⚠️ Test immediately after updating",
+            "lines": [
+                "Telegram is our only active channel — any breakage here stops all communication.",
+                "Release notes don't specify what changed (I don't have more detail than this).",
+                "Risk if it breaks: you lose Telegram access to AlexI until fixed.",
+                "→ Action: immediately after updating, send a test message via Telegram.",
+                "→ If it fails: openclaw channels status — then openclaw gateway restart."
+            ]
+        })
+
+    if "gateway" in n:
+        findings.append({
+            "label": "Gateway changes",
+            "verdict": "🔴 Read full notes before updating",
+            "lines": [
+                "The gateway handles ALL traffic: Telegram, agent sessions, cron jobs.",
+                "If it breaks after an update, everything stops — agents, dashboard, alerts.",
+                "I recommend reading the full release notes before proceeding.",
+                "→ Action: only update during a quiet period. Test gateway immediately after:",
+                "→ openclaw gateway status — expect 'RPC probe: ok'."
+            ]
+        })
+
+    if "agent" in n and any(kw in n for kw in ["runtime","turn","session","acp"]):
+        findings.append({
+            "label": "Agent runtime/session changes",
+            "verdict": "⚠️ Test active agents after updating",
+            "lines": [
+                "Changes to agent sessions affect how Infra and all future agents run.",
+                "Most likely improvement (not breaking) but I cannot confirm without more detail.",
+                "→ Action: after updating, send a test message to the infrastructure agent.",
+                "→ If sessions feel broken, clear session cache: rm ~/.openclaw/agents/*/sessions/*.jsonl"
+            ]
+        })
+
+    if "cron" in n:
+        findings.append({
+            "label": "Cron scheduler changes",
+            "verdict": "⚠️ Verify jobs still running after update",
+            "lines": [
+                "We have 2 active cron jobs: dashboard regeneration (15 min) and env check (1 hr).",
+                "Cron changes could affect job scheduling or delivery.",
+                "→ Action: after updating, run: openclaw cron list",
+                "→ Check both jobs are enabled and next run times look correct."
+            ]
+        })
+
+    if "embed" in n:
+        findings.append({
+            "label": "New [embed ...] output tag",
+            "verdict": "✅ Low priority — note for future",
+            "lines": [
+                "New capability for rendering rich content inline in agent responses.",
+                "Not relevant to our current setup (we use our own HTML dashboard).",
+                "Could be useful later when building richer agent interactions.",
+                "→ No action needed now."
+            ]
+        })
+
+    if "whatsapp" in n:
+        findings.append({
+            "label": "WhatsApp changes",
+            "verdict": "✅ Relevant for Milestone 4",
+            "lines": [
+                "WhatsApp integration is planned for our Comms Router (Milestone 4).",
+                "Worth noting what changed now so we can plan accordingly.",
+                "I don't have the specific details of what changed (not in release notes summary).",
+                "→ Action: review full WhatsApp changelog when we reach Milestone 4."
+            ]
+        })
+
+    irr = []
+    for kw, label in [("feishu","Feishu"),("video_generate","Video generation"),("discord","Discord")]:
         if kw in n:
             irr.append(label)
-    has_core_changes = any(kw in n for kw in ["gateway","agent runtime","agent turn","breaking"])
-    risk = "MEDIUM" if has_core_changes else "LOW"
-    risk_note = "Review gateway/agent changes before updating" if risk == "MEDIUM" else "Safe to update at next maintenance window — no urgency"
-    return rel, irr, risk, risk_note
+
+    has_critical = any(kw in n for kw in ["gateway","breaking change","agent turn","acp"])
+    risk = "MEDIUM" if has_critical else "LOW"
+    risk_note = "Contains changes to core infrastructure (gateway/agent runtime) — read notes carefully and test thoroughly" if risk == "MEDIUM" else "No core infrastructure changes detected — relatively safe to update, but always test Telegram channel immediately after"
+
+    return findings, irr, risk, risk_note
 
 def check_gateway():
     return "ok" in run("openclaw gateway status 2>&1 | grep 'RPC probe'").lower()
@@ -89,7 +189,6 @@ def load_roadmap_milestones():
     return upcoming[:6]
 
 def build_alert(priority, title, lines, action_required=False, due_at=None):
-    """Build a structured alert with a body that renders as clean bullet lines."""
     return {
         "priority": priority,
         "title": title,
@@ -105,27 +204,35 @@ def main():
     # 1. OpenClaw version
     current, latest, notes, date, prerelease = check_openclaw_version()
     if latest and current and latest != current and not prerelease:
-        rel, irr, risk, risk_note = analyse_release(notes)
-        lines = [f"🟡 Risk: {risk} — {risk_note}"]
-        if rel:
-            lines.append("")
-            lines.append("✅ Relevant to our setup:")
-            for item in rel:
-                lines.append(f"  • {item['label']} — {item['reason']}")
+        findings, irr, risk, risk_note = analyse_release(notes)
+
+        body_lines = [
+            f"{'🔴' if risk == 'MEDIUM' else '🟡'} Risk: {risk} — {risk_note}",
+            ""
+        ]
+
+        for f in findings:
+            body_lines.append(f"{'—'*40}")
+            body_lines.append(f"{f['verdict']}  |  {f['label']}")
+            for line in f['lines']:
+                body_lines.append(f"  {line}")
+            body_lines.append("")
+
         if irr:
-            lines.append("")
-            lines.append(f"❌ Not relevant for us: {', '.join(irr)}")
+            body_lines.append(f"❌ Not relevant for us: {', '.join(irr)}")
+
         alerts.append(build_alert(2,
             f"OpenClaw {current} → {latest}  (released {date})",
-            lines
+            body_lines
         ))
         health = "warning"
 
     # 2. Gateway
     if not check_gateway():
         alerts.append(build_alert(1, "Gateway not responding", [
-            "⚠️ RPC probe failed — gateway may be down",
-            "→ Run: openclaw gateway status",
+            "⚠️ RPC probe failed — gateway may be down.",
+            "All agent communication and Telegram routing is affected.",
+            "→ Check status: openclaw gateway status",
             "→ If down: openclaw gateway start"
         ], action_required=True))
         health = "error"
@@ -133,7 +240,8 @@ def main():
     # 3. Web server
     if not check_web_server():
         alerts.append(build_alert(1, "Dashboard web server not reachable", [
-            "⚠️ http://100.67.100.125:8080/ not responding",
+            "⚠️ http://100.67.100.125:8080/ is not responding.",
+            "The dashboard is inaccessible from Tailscale devices.",
             "→ Restart: cd /home/node/.openclaw/workspace/dashboard",
             "→ Run: nohup python3 -m http.server 8080 --bind 100.67.100.125 &"
         ], action_required=True))
@@ -142,20 +250,23 @@ def main():
     # 4. Disk
     disk = check_disk()
     if disk and disk > 80:
-        alerts.append(build_alert(2 if disk <= 90 else 1,
-            f"Disk usage: {disk}%",
+        critical = disk > 90
+        alerts.append(build_alert(1 if critical else 2,
+            f"Disk usage: {disk}% {'— Critical' if critical else '— Getting high'}",
             [
-                f"{'⚠️ High' if disk <= 90 else '🔴 Critical'} disk usage at {disk}%",
+                f"{'🔴 Critical' if critical else '⚠️ High'} disk usage at {disk}%.",
+                f"{'Immediate action needed' if critical else 'Monitor and clean up soon'} to avoid storage issues.",
                 "→ Check logs: du -sh /home/node/.openclaw/workspace/logs/",
-                "→ Consider pruning old logs or rotating databases"
-            ], action_required=disk > 90))
+                "→ Consider: rm /home/node/.openclaw/workspace/logs/*/*.log (keep last 7 days)"
+            ], action_required=critical))
         if health == "ok": health = "warning"
 
-    # 5. Message bus
+    # 5. Bus
     if not check_bus():
         alerts.append(build_alert(1, "SQLite message bus missing", [
-            "🔴 data/bus.db not found",
-            "→ Re-run Milestone 1 setup"
+            "🔴 data/bus.db not found — this is critical.",
+            "Agent communication is broken without the message bus.",
+            "→ Re-run Milestone 1 setup immediately."
         ], action_required=True))
         health = "error"
 
@@ -166,7 +277,7 @@ def main():
     elif health == "warning":
         summary = f"{len(alerts)} item(s) to review — no immediate action required."
     else:
-        summary = f"⚠️ {n_action} issue(s) need immediate attention."
+        summary = f"⚠️ {n_action} issue(s) require immediate attention."
 
     status = {
         "agent": "infrastructure",
