@@ -120,22 +120,22 @@ def main():
     # ── What I'm about to delegate ────────────────────────────────────────
     upcoming.append({
         "priority": 1,
-        "title": "Delegating to Infra: build Monitoring Agent (Milestone 3)",
+        "title": "Next build: School Agent — German tracking, school calendar, registration status",
         "due_at": None
     })
     upcoming.append({
         "priority": 2,
-        "title": "Waiting on: your go-ahead to proceed with Milestone 3",
-        "due_at": None
-    })
-    upcoming.append({
-        "priority": 2,
-        "title": "Planning: once Monitoring Agent is live, Infra moves to Comms Collector (M4)",
+        "title": "Then: Tax Agent — cross-border deadlines approaching",
         "due_at": None
     })
     upcoming.append({
         "priority": 3,
-        "title": "On my radar: Phani message reminder — follow up tomorrow if not sent",
+        "title": "Then: Travel Agent — summer boat trip, booking discipline (≥30 days ahead)",
+        "due_at": None
+    })
+    upcoming.append({
+        "priority": 4,
+        "title": "Later: Comms Collector, Finance Agent, Health Agent, Friendships tracker",
         "due_at": None
     })
 
