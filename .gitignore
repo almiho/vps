@@ -2,16 +2,9 @@
 data/*.db
 data/*.db-wal
 data/*.db-shm
-
-# Logs
+# Logs and media
 logs/
-
-# Media/inbound
 media/
-
-# Node modules if any
-node_modules/
-
-# OS files
-.DS_Store
+# Nested git repos — track files, not repos
 agents/infrastructure/.git
+agents/*/. git
