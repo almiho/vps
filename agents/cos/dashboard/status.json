@@ -1,0 +1,43 @@
+{
+  "agent": "cos",
+  "updated_at": "2026-04-12T17:22:04.803598",
+  "health": "warning",
+  "summary": "Active. **Milestone 2 \u2014 Complete** \u2705.",
+  "stats": {
+    "active_cron_jobs": 0,
+    "bus_pending": 0,
+    "bus_total": 0,
+    "okr_onboarding_done": false
+  },
+  "alerts": [
+    {
+      "priority": 2,
+      "title": "OKR onboarding not yet done",
+      "body": "CoS cannot prioritise tasks without defined OKRs.\nThis is the most critical first step before the GTD layer can work.\n\u2192 Schedule an OKR session with Alexander when ready for Milestone 5.",
+      "due_at": null,
+      "action_required": false
+    }
+  ],
+  "upcoming": [
+    {
+      "priority": 1,
+      "title": "Milestone 3: Monitoring Agent \u2014 system health + Telegram alerts",
+      "due_at": null
+    },
+    {
+      "priority": 2,
+      "title": "Milestone 5: OKR onboarding \u2014 define goals before GTD layer activates",
+      "due_at": null
+    },
+    {
+      "priority": 2,
+      "title": "Milestone 4: Comms Router \u2014 Gmail/WhatsApp \u2192 SQLite bus",
+      "due_at": null
+    },
+    {
+      "priority": 3,
+      "title": "Milestone 6: School Agent \u2014 first domain agent",
+      "due_at": null
+    }
+  ]
+}
