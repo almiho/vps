@@ -44,6 +44,7 @@ SCRIPTS = {
     "cos_status":  (15 * 60, f"{WORKSPACE}/agents/cos/scripts/update_status.py",           "CoS status update"),
     "monitor":     ( 5 * 60, f"{WORKSPACE}/agents/monitoring/scripts/monitor.py",          "Watch health check"),
     "infra_check": (60 * 60, f"{WORKSPACE}/agents/infrastructure/scripts/env_check.py",    "Infra env check"),
+    "sync_memory": (15 * 60, f"{WORKSPACE}/scripts/sync_memory.py",                        "Memory sync to git"),
 }
 
 def main():
