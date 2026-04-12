@@ -162,23 +162,14 @@ def check_agent_heartbeats():
             "detail": f"All {len(healthy)} active agent(s) reporting normally"}
 
 def check_cron_jobs():
-    """Verify cron jobs are registered and enabled."""
-    try:
-        r = subprocess.run(
-            ["openclaw", "cron", "list"],
-            capture_output=True, text=True, timeout=15
-        )
-        out = r.stdout
-    except subprocess.TimeoutExpired:
-        return {"name": "cron", "ok": True, "detail": "Cron list timed out (non-critical) — jobs likely running"}
-    except:
-        return {"name": "cron", "ok": True, "detail": "Could not verify cron jobs (non-critical)"}
-    enabled = [l for l in out.split('\n') if 'every' in l.lower()]
-    if len(enabled) < 1:
-        return {"name": "cron", "ok": False,
-                "detail": "No scheduled cron jobs found. Dashboard regen and infra checks may have stopped."}
-    return {"name": "cron", "ok": True,
-            "detail": f"{len(enabled)} scheduled job(s) active and running"}
+    """Check the Python scheduler daemon is running (replaced OpenClaw cron)."""
+    result = subprocess.run(["pgrep", "-f", "scheduler.py"], capture_output=True, text=True)
+    if result.returncode == 0:
+        pid = result.stdout.strip().split()[0]
+        return {"name": "cron", "ok": True,
+                "detail": f"Scheduler daemon running (PID {pid}) — dashboard 15m, watch 5m, infra 1hr"}
+    return {"name": "cron", "ok": False,
+            "detail": "Scheduler daemon not running — dashboard and health checks have stopped.\n→ Restart: python3 /home/node/.openclaw/workspace/scripts/scheduler.py"}
 
 # ── Main ──────────────────────────────────────────────────────────────────
 

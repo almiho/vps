@@ -2,3 +2,4 @@
 {"type": "failure", "component": "cron", "detail": "Could not read cron job list", "logged_at": "2026-04-12T17:39:25.465213"}
 {"type": "failure", "component": "heartbeats", "detail": "Stale agent(s): dashboard: status file missing or unreadable", "logged_at": "2026-04-12T17:39:55.083372"}
 {"type": "failure", "component": "cron", "detail": "Could not read cron job list", "logged_at": "2026-04-12T17:39:55.084787"}
+{"type": "failure", "component": "cron", "detail": "No scheduled cron jobs found. Dashboard regen and infra checks may have stopped.", "logged_at": "2026-04-12T17:54:29.491029"}

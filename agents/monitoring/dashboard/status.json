@@ -1,6 +1,6 @@
 {
   "agent": "monitoring",
-  "updated_at": "2026-04-12T17:46:57.819321",
+  "updated_at": "2026-04-12T17:56:31.564780",
   "health": "ok",
   "summary": "All systems healthy. Gateway \u2713 Dashboard \u2713 Bus \u2713 Disk \u2713 Agents \u2713 Cron \u2713",
   "checks": {
@@ -26,7 +26,7 @@
     },
     "cron": {
       "ok": true,
-      "detail": "3 scheduled job(s) active and running"
+      "detail": "Scheduler daemon running (PID 78166) \u2014 dashboard 15m, watch 5m, infra 1hr"
     }
   },
   "alerts": [],
