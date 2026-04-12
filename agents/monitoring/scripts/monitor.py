@@ -18,19 +18,32 @@ PREV_STATE   = f"{WORKSPACE}/agents/monitoring/data/prev_state.json"
 
 # Telegram delivery via OpenClaw CLI
 def send_telegram_alert(title, body):
-    """Send urgent alert directly to Alexander via Telegram."""
-    msg = f"\ud83d\udea8 Watch Alert: {title}\n\n{body}\n\nDashboard: http://100.67.100.125:8080/monitoring.html"
+    """Send urgent alert to Alexander via Telegram.
+    Uses --agent infrastructure as delivery vehicle (tested working pattern).
+    Blocking so we know if delivery fails.
+    """
+    msg = f"Watch Alert: {title}\n\n{body}\n\nDashboard: http://100.67.100.125:8080/monitoring.html"
     try:
-        # Use openclaw agent non-blocking (background)
-        subprocess.Popen(
-            ["openclaw", "agent", "--message", msg,
-             "--deliver", "--reply-channel", "telegram",
-             "--reply-to", "8731775067", "--reply-account", "default",
-             "--timeout", "20"],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        result = subprocess.run(
+            ["openclaw", "agent",
+             "--agent", "infrastructure",
+             "--message", msg,
+             "--deliver",
+             "--reply-channel", "telegram",
+             "--reply-to", "8731775067",
+             "--reply-account", "default",
+             "--timeout", "25"],
+            capture_output=True, text=True, timeout=30
         )
-        return True
-    except:
+        if not result.returncode == 0:
+            os.makedirs(os.path.dirname(ALERT_LOG), exist_ok=True)
+            with open(ALERT_LOG, "a") as f:
+                f.write(json.dumps({"type": "delivery_failure", "error": result.stderr[:200], "logged_at": datetime.now().isoformat()}) + "\n")
+        return result.returncode == 0
+    except Exception as e:
+        os.makedirs(os.path.dirname(ALERT_LOG), exist_ok=True)
+        with open(ALERT_LOG, "a") as f:
+            f.write(json.dumps({"type": "delivery_exception", "error": str(e), "logged_at": datetime.now().isoformat()}) + "\n")
         return False
 
 def run(cmd):
