@@ -1,0 +1,8 @@
+{
+  "agent": "dashboard",
+  "updated_at": "2026-04-12T17:37:00+02:00",
+  "health": "ok",
+  "summary": "Generating 19 pages every 15 minutes. All pages current.",
+  "alerts": [],
+  "upcoming": []
+}

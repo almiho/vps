@@ -1,0 +1,50 @@
+{
+  "agent": "monitoring",
+  "updated_at": "2026-04-12T17:41:14.871866",
+  "health": "ok",
+  "summary": "All systems healthy. Gateway \u2713 Dashboard \u2713 Bus \u2713 Disk \u2713 Agents \u2713 Cron \u2713",
+  "checks": {
+    "gateway": {
+      "ok": true,
+      "detail": "RPC probe OK"
+    },
+    "web_server": {
+      "ok": true,
+      "detail": "Dashboard reachable on :8080"
+    },
+    "bus": {
+      "ok": true,
+      "detail": "Healthy. No pending messages."
+    },
+    "disk": {
+      "ok": true,
+      "detail": "8% used (7.4G of total, 89G free). Healthy."
+    },
+    "heartbeats": {
+      "ok": true,
+      "detail": "All 3 active agent(s) reporting normally"
+    },
+    "cron": {
+      "ok": true,
+      "detail": "2 scheduled job(s) active and running"
+    }
+  },
+  "alerts": [],
+  "upcoming": [
+    {
+      "priority": 2,
+      "title": "Will watch Comms Router once connected (Milestone 4) \u2014 message bus queue depth",
+      "due_at": null
+    },
+    {
+      "priority": 3,
+      "title": "Will watch School Agent pickup reminders once live (Milestone 6) \u2014 time-critical",
+      "due_at": null
+    },
+    {
+      "priority": 3,
+      "title": "Will add web server auto-restart if it goes down (future improvement)",
+      "due_at": null
+    }
+  ]
+}

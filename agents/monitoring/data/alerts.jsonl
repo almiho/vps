@@ -1,0 +1,4 @@
+{"type": "failure", "component": "heartbeats", "detail": "Stale agent(s): dashboard: status file missing or unreadable", "logged_at": "2026-04-12T17:39:14.641407"}
+{"type": "failure", "component": "cron", "detail": "Could not read cron job list", "logged_at": "2026-04-12T17:39:25.465213"}
+{"type": "failure", "component": "heartbeats", "detail": "Stale agent(s): dashboard: status file missing or unreadable", "logged_at": "2026-04-12T17:39:55.083372"}
+{"type": "failure", "component": "cron", "detail": "Could not read cron job list", "logged_at": "2026-04-12T17:39:55.084787"}
