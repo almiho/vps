@@ -11,6 +11,10 @@ from datetime import datetime
 LOG = "/home/node/.openclaw/workspace/logs/scheduler.log"
 WORKSPACE = "/home/node/.openclaw/workspace"
 
+import subprocess as _sp
+# Restore SSH keys on startup (wiped by container updates)
+_sp.run(["bash", "/home/node/.openclaw/workspace/scripts/restore_ssh.sh"], capture_output=True)
+
 def log(msg):
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     line = f"[{ts}] {msg}"

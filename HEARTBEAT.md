@@ -1,6 +1,8 @@
 # Heartbeat Tasks
 
 ## Startup Check (run every heartbeat)
+Run first: `bash /home/node/.openclaw/workspace/scripts/restore_ssh.sh`
+
 Check and auto-restart if needed:
 
 1. **Scheduler** — `pgrep -f "scheduler.py"` — if not running, start it:

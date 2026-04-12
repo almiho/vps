@@ -1,6 +1,6 @@
 {
   "agent": "monitoring",
-  "updated_at": "2026-04-12T19:41:49.045505",
+  "updated_at": "2026-04-12T20:06:23.486509",
   "health": "ok",
   "summary": "All systems healthy. Gateway \u2713 Dashboard \u2713 Bus \u2713 Disk \u2713 Agents \u2713 Scheduler \u2713",
   "checks": {
@@ -18,7 +18,7 @@
     },
     "disk": {
       "ok": true,
-      "detail": "8% used (7.4G of total, 89G free). Healthy."
+      "detail": "11% used (11G of total, 86G free). Healthy."
     },
     "heartbeats": {
       "ok": true,
@@ -26,7 +26,7 @@
     },
     "cron": {
       "ok": true,
-      "detail": "Scheduler daemon running (PID 80134) \u2014 dashboard 15m, watch 5m, infra 1hr"
+      "detail": "Scheduler daemon running (PID 414) \u2014 dashboard 15m, watch 5m, infra 1hr"
     }
   },
   "alerts": [],
