@@ -1,8 +1,8 @@
 {
   "agent": "cos",
-  "updated_at": "2026-04-12T18:05:00.958163",
+  "updated_at": "2026-04-12T18:13:07.606418",
   "health": "warning",
-  "summary": "Running. 4 of 18 agents active. Milestones 0\u20132 complete. OKR onboarding pending \u2014 needed before GTD layer activates. Infra has 1 non-urgent item to review.",
+  "summary": "Action needed: Your input needed: OKR onboarding session",
   "alerts": [
     {
       "priority": 1,

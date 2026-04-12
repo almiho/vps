@@ -144,20 +144,21 @@ def main():
     n_total  = 18
     health   = "warning" if (not okr_done or infra_health == "error") else "ok"
 
-    summary_parts = [
-        f"Running. {n_active} of {n_total} agents active.",
-        f"Milestones 0–2 complete.",
-    ]
-    if not okr_done:
-        summary_parts.append("OKR onboarding pending — needed before GTD layer activates.")
-    if infra_health == "warning":
-        summary_parts.append("Infra has 1 non-urgent item to review.")
+    # Build specific summary — name actual issues, not counts
+    action_alerts = [a for a in alerts if a.get("action_required")]
+    if action_alerts:
+        summary = f"Action needed: {action_alerts[0]['title'][:70]}"
+    elif alerts:
+        summary = f"Running. {n_active}/{n_total} agents. Review: {alerts[0]['title'][:55]}"
+    else:
+        summary = f"Running. {n_active}/{n_total} agents active. Milestones 0–2 complete. All good."
+    summary_parts = [summary]
 
     status = {
         "agent": "cos",
         "updated_at": now,
         "health": health,
-        "summary": " ".join(summary_parts),
+        "summary": summary_parts[0],
         "alerts": alerts,
         "upcoming": upcoming
     }

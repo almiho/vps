@@ -9,3 +9,5 @@
 {"type": "alert_fired", "title": "System problem: Cron", "logged_at": "2026-04-12T18:04:46.872900"}
 {"type": "failure", "component": "gateway", "detail": "RPC probe failed \u2014 gateway may be down", "logged_at": "2026-04-12T18:05:11.074136"}
 {"type": "alert_fired", "title": "System problem: Gateway", "logged_at": "2026-04-12T18:05:11.074252"}
+{"type": "failure", "component": "cron", "detail": "Scheduler daemon not running \u2014 dashboard and health checks have stopped.\n\u2192 Restart: python3 /home/node/.openclaw/workspace/scripts/scheduler.py", "logged_at": "2026-04-12T18:07:49.955674"}
+{"type": "alert_fired", "title": "System problem: Cron", "logged_at": "2026-04-12T18:07:49.955798"}

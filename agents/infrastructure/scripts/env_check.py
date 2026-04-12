@@ -271,14 +271,19 @@ def main():
         ], action_required=True))
         health = "error"
 
-    # Summary
+    # Summary — always name the actual issue, never use vague counts
     n_action = len([a for a in alerts if a.get("action_required")])
     if health == "ok":
         summary = "All systems healthy. Milestones 0–2 complete."
     elif health == "warning":
-        summary = f"{len(alerts)} item(s) to review — no immediate action required."
+        # Name the first alert, not just a count
+        first = alerts[0]["title"] if alerts else "unknown issue"
+        summary = f"Review needed: {first}" + (f" (+{len(alerts)-1} more)" if len(alerts) > 1 else "")
     else:
-        summary = f"⚠️ {n_action} issue(s) require immediate attention."
+        # Name the critical issue directly
+        critical = [a for a in alerts if a.get("action_required")]
+        first = critical[0]["title"] if critical else alerts[0]["title"]
+        summary = f"Action needed: {first}" + (f" (+{n_action-1} more)" if n_action > 1 else "")
 
     status = {
         "agent": "infrastructure",

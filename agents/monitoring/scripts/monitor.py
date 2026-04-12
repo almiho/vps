@@ -255,13 +255,15 @@ def main():
 
     if n_fail > 0:
         health = "error"
-        summary = f"{n_fail} component(s) down. Telegram alert sent."
+        first_fail = alerts[0]["title"] if alerts else "unknown component"
+        summary = f"Down: {first_fail}" + (f" (+{n_fail-1} more)" if n_fail > 1 else "") + " — alert sent"
     elif n_warn > 0:
         health = "warning"
-        summary = f"All systems up. {n_warn} warning(s) to monitor."
+        first_warn = warnings[0]["title"] if warnings else "unknown issue"
+        summary = f"Warning: {first_warn}"
     else:
         health = "ok"
-        summary = "All systems healthy. Gateway ✓ Dashboard ✓ Bus ✓ Disk ✓ Agents ✓ Cron ✓"
+        summary = "All systems healthy. Gateway ✓ Dashboard ✓ Bus ✓ Disk ✓ Agents ✓ Scheduler ✓"
 
     # Upcoming — what Watch is watching for next
     upcoming = [
