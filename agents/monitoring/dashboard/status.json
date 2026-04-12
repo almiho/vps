@@ -1,6 +1,6 @@
 {
   "agent": "monitoring",
-  "updated_at": "2026-04-12T19:04:30.963339",
+  "updated_at": "2026-04-12T19:22:53.342455",
   "health": "ok",
   "summary": "All systems healthy. Gateway \u2713 Dashboard \u2713 Bus \u2713 Disk \u2713 Agents \u2713 Scheduler \u2713",
   "checks": {
@@ -33,7 +33,7 @@
   "upcoming": [
     {
       "priority": 2,
-      "title": "Will watch Comms Router once connected (Milestone 4) \u2014 message bus queue depth",
+      "title": "Will watch Comms Collector once connected (Milestone 4) \u2014 message bus queue depth",
       "due_at": null
     },
     {
