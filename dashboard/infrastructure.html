@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Infrastructure — AlexI</title>
-<style>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Infrastructure — AlexI</title><style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
 .header { background: #1e293b; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
@@ -12,7 +9,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
 @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
-.section { background: #1e293b; border-radius: 12px; padding: 1.25rem; }
+.section { background: #1e293b; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
 .section-title { font-size: 0.875rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
 .item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid #334155; }
 .item:last-child { border-bottom: none; }
@@ -49,78 +46,152 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .status-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
 .status-summary { color: #cbd5e1; font-size: 0.9rem; }
 .status-updated { color: #475569; font-size: 0.75rem; }
-</style>
-</head>
+/* About section */
+.about-toggle { width: 100%; background: none; border: 1px solid #334155; border-radius: 8px; padding: 0.6rem 1rem; color: #64748b; font-size: 0.8rem; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.about-toggle:hover { border-color: #475569; color: #94a3b8; }
+.about-content { display: none; background: #1e293b; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
+.about-content.open { display: block; }
+.about-row { margin-bottom: 1rem; }
+.about-row:last-child { margin-bottom: 0; }
+.about-label { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
+.about-text { font-size: 0.85rem; color: #cbd5e1; line-height: 1.6; }
+.about-connects { font-size: 0.8rem; color: #94a3b8; font-style: italic; }
+</style><script>
+function toggleAbout() {
+  const content = document.getElementById('about-content');
+  const arrow = document.getElementById('about-arrow');
+  content.classList.toggle('open');
+  arrow.textContent = content.classList.contains('open') ? '▲' : '▼';
+}
+</script></head>
 <body>
 <div class="header">
   <a href="index.html" class="back">← Dashboard</a>
-  <div style="display:flex;align-items:center;gap:0.75rem">
-    <span style="font-size:1.5rem">🔧</span>
-    <span style="font-size:1.1rem;font-weight:700">Infrastructure</span>
-    <span style="background:#f59e0b;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">⚠️ Warning</span>
-  </div>
-  <div style="font-size:0.75rem;color:#475569">12 Apr 2026 17:42</div>
+  <div style="display:flex;align-items:center;gap:0.75rem"><span style="font-size:1.5rem">🔧</span><span style="font-size:1.1rem;font-weight:700">Infrastructure</span><span style="background:#f59e0b;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">⚠️ Warning</span></div>
+  <div style="font-size:0.75rem;color:#475569">12 Apr 2026 17:46</div>
 </div>
 <div class="container" style="max-width:900px">
-  <div class="section">
-    <div class="section-title">Status</div>
-    <div class="status-row">
-      <div class="status-summary">1 item(s) to review — no immediate action required.</div>
-      <div class="status-updated">Last updated: 12 Apr 17:15</div>
-    </div>
+  
+<button class="about-toggle" onclick="toggleAbout()">
+  ℹ️ About this agent &nbsp;<span id="about-arrow">▼</span>
+</button>
+<div class="about-content" id="about-content">
+  <div class="about-row">
+    <div class="about-label">Mission</div>
+    <div class="about-text">Builder and standards enforcer for the entire technical foundation.</div>
   </div>
-  <div class="section">
-    <div class="section-title">🔴 Alerts & Actions</div>
-    
+  <div class="about-row">
+    <div class="about-label">Role in the system</div>
+    <div class="about-text">Sets up, configures, and maintains everything the other agents run on. Defines standards all agents must follow. Scaffolds new agents ensuring consistency. Monitors environment health and flags technical issues proactively.</div>
+  </div>
+  <div class="about-row">
+    <div class="about-label">Why it matters</div>
+    <div class="about-text">Every other agent depends on the infrastructure Infra builds. If the message bus breaks, all agents go silent. If standards aren't enforced, agents become inconsistent and hard to maintain.</div>
+  </div>
+  <div class="about-row">
+    <div class="about-label">Connects to</div>
+    <div class="about-connects">Feeds status to CoS. Scaffolds all other agents. Manages the SQLite message bus schema and dashboard DB.</div>
+  </div>
+  <div class="about-row">
+    <div class="about-label">Does NOT overlap with</div>
+    <div class="about-connects">Infra has no opinion on finances, school schedules, or boat maintenance. It only cares that the technical plumbing works.</div>
+  </div>
+</div>
+  <div class="section"><div class="section-title">Status</div>
+    <div class="status-row"><div class="status-summary">1 item(s) to review — no immediate action required.</div><div class="status-updated">Last updated: 12 Apr 17:15</div></div>
+  </div>
+  <div class="section"><div class="section-title">🗺️ System Architecture</div><svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:800px;background:#0f172a;border-radius:12px;padding:16px">
+<defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#475569"/></marker></defs>
+<text x="400" y="22" text-anchor="middle" fill="#94a3b8" font-size="13" font-family="system-ui">System Architecture</text>
+<rect x="60" y="240" width="680" height="8" rx="4" fill="#1e40af" opacity="0.6"/>
+<text x="400" y="256" text-anchor="middle" fill="#93c5fd" font-size="10" font-family="system-ui">SQLite Message Bus</text>
+<a >
+<rect x="340" y="55" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="400" y="77" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">🧠 CoS/AlexI</text>
+</a>
+<a >
+<rect x="204" y="100" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="264" y="122" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">🔧 Infra</text>
+</a>
+<a >
+<rect x="340" y="100" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="400" y="122" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">👁️ Watch</text>
+</a>
+<a >
+<rect x="476" y="100" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="536" y="122" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">📊 Dash</text>
+</a>
+<a >
+<rect x="204" y="165" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="264" y="187" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">📨 Comms Router</text>
+</a>
+<a >
+<rect x="340" y="165" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="400" y="187" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">📬 General Comms</text>
+</a>
+<a >
+<rect x="476" y="165" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="536" y="187" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">📅 Calendar</text>
+</a>
+<a >
+<rect x="204" y="225" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="264" y="247" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">💰 Finance</text>
+</a>
+<a >
+<rect x="340" y="225" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="400" y="247" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">🏠 Real Estate</text>
+</a>
+<a >
+<rect x="476" y="225" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="536" y="247" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">📋 Tax</text>
+</a>
+<a >
+<rect x="136" y="290" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="196" y="312" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">🎒 School</text>
+</a>
+<a >
+<rect x="272" y="290" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="332" y="312" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">🇩🇰 Denmark</text>
+</a>
+<a >
+<rect x="408" y="290" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="468" y="312" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">👥 Friends</text>
+</a>
+<a >
+<rect x="544" y="290" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="604" y="312" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">✈️ Travel</text>
+</a>
+<a >
+<rect x="136" y="360" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="196" y="382" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">🚗 Car</text>
+</a>
+<a >
+<rect x="272" y="360" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="332" y="382" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">⛵ Boat</text>
+</a>
+<a >
+<rect x="408" y="360" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="468" y="382" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">🏥 Health</text>
+</a>
+<a >
+<rect x="544" y="360" width="120" height="36" rx="6" fill="#334155" stroke="#334155" stroke-width="1"/>
+<text x="604" y="382" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="system-ui">🛡️ Insurance</text>
+</a>
+<line x1="400" y1="91" x2="264" y2="100" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="400" y1="91" x2="400" y2="100" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="400" y1="91" x2="536" y2="100" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="400" y1="91" x2="264" y2="165" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="400" y1="91" x2="264" y2="225" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+</svg></div>
+  <div class="section"><div class="section-title">🔴 Alerts & Actions</div>
     <div class="item alert-item">
         <div class="item-priority p2">P2</div>
         <div class="item-content">
             <div class="item-title">OpenClaw 2026.4.9 → 2026.4.11  (released 2026-04-12)</div>
             
-            <div class="item-body"><span class="item-body-line section-head">🔴 Risk: MEDIUM — Contains changes to core infrastructure (gateway/agent runtime) — read notes carefully and test thoroughly</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line">————————————————————————————————————————</span><span class="item-body-line section-head">✅ Worth exploring after update  |  Memory/wiki — ChatGPT import + Memory Palace tab</span><span class="item-body-line">Adds ability to import ChatGPT conversation history into AlexI's memory.</span><span class="item-body-line">New 'Memory Palace' tab gives better visibility into what AlexI remembers.</span><span class="item-body-line">My assessment: this directly improves AlexI's continuity — relevant to us.</span><span class="item-body-line">No breaking changes expected to existing memory files.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ Action: after updating, check the new Memory Palace tab in the control panel.</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line">————————————————————————————————————————</span><span class="item-body-line section-head">⚠️ Test immediately after updating  |  Telegram changes</span><span class="item-body-line">Telegram is our only active channel — any breakage here stops all communication.</span><span class="item-body-line">Release notes don't specify what changed (I don't have more detail than this).</span><span class="item-body-line">Risk if it breaks: you lose Telegram access to AlexI until fixed.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ Action: immediately after updating, send a test message via Telegram.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ If it fails: openclaw channels status — then openclaw gateway restart.</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line">————————————————————————————————————————</span><span class="item-body-line section-head">🔴 Higher risk — update during a quiet moment  |  Gateway changes</span><span class="item-body-line">The gateway handles ALL traffic: Telegram, agent sessions, cron jobs.</span><span class="item-body-line">If it breaks, everything stops — agents, dashboard, Telegram alerts.</span><span class="item-body-line">Specific change details not in release summary — I can't tell you exactly what shifted.</span><span class="item-body-line">My assessment: treat as medium risk. Update when you have 5 min to test, not mid-day.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ Immediately after: openclaw gateway status — expect 'RPC probe: ok'.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ If it fails: openclaw gateway restart</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line">————————————————————————————————————————</span><span class="item-body-line section-head">⚠️ Test active agents after updating  |  Agent runtime/session changes</span><span class="item-body-line">Changes to agent sessions affect how Infra and all future agents run.</span><span class="item-body-line">Most likely improvement (not breaking) but I cannot confirm without more detail.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ Action: after updating, send a test message to the infrastructure agent.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ If sessions feel broken, clear session cache: rm ~/.openclaw/agents/*/sessions/*.jsonl</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line">————————————————————————————————————————</span><span class="item-body-line section-head">✅ Low priority — note for future  |  New [embed ...] output tag</span><span class="item-body-line">New capability for rendering rich content inline in agent responses.</span><span class="item-body-line">Not relevant to our current setup (we use our own HTML dashboard).</span><span class="item-body-line">Could be useful later when building richer agent interactions.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ No action needed now.</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line">————————————————————————————————————————</span><span class="item-body-line section-head">✅ Relevant for Milestone 4  |  WhatsApp changes</span><span class="item-body-line">WhatsApp integration is planned for our Comms Router (Milestone 4).</span><span class="item-body-line">Worth noting what changed now so we can plan accordingly.</span><span class="item-body-line">I don't have the specific details of what changed (not in release notes summary).</span><span class="item-body-line muted" style="padding-left:0.5rem">→ Action: review full WhatsApp changelog when we reach Milestone 4.</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line section-head">❌ Not relevant for us: Feishu, Video generation</span></div>
+            <div class="item-body"><span class="item-body-line section-head">🔴 Risk: MEDIUM — Contains changes to core infrastructure (gateway/agent runtime) — read notes carefully and test thoroughly</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line section-head">————————————————————————————————————————</span><span class="item-body-line section-head">✅ Worth exploring after update  |  Memory/wiki — ChatGPT import + Memory Palace tab</span><span class="item-body-line">Adds ability to import ChatGPT conversation history into AlexI's memory.</span><span class="item-body-line">New 'Memory Palace' tab gives better visibility into what AlexI remembers.</span><span class="item-body-line">My assessment: this directly improves AlexI's continuity — relevant to us.</span><span class="item-body-line">No breaking changes expected to existing memory files.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ Action: after updating, check the new Memory Palace tab in the control panel.</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line section-head">————————————————————————————————————————</span><span class="item-body-line section-head">⚠️ Test immediately after updating  |  Telegram changes</span><span class="item-body-line">Telegram is our only active channel — any breakage here stops all communication.</span><span class="item-body-line">Release notes don't specify what changed (I don't have more detail than this).</span><span class="item-body-line">Risk if it breaks: you lose Telegram access to AlexI until fixed.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ Action: immediately after updating, send a test message via Telegram.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ If it fails: openclaw channels status — then openclaw gateway restart.</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line section-head">————————————————————————————————————————</span><span class="item-body-line section-head">🔴 Higher risk — update during a quiet moment  |  Gateway changes</span><span class="item-body-line">The gateway handles ALL traffic: Telegram, agent sessions, cron jobs.</span><span class="item-body-line">If it breaks, everything stops — agents, dashboard, Telegram alerts.</span><span class="item-body-line">Specific change details not in release summary — I can't tell you exactly what shifted.</span><span class="item-body-line">My assessment: treat as medium risk. Update when you have 5 min to test, not mid-day.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ Immediately after: openclaw gateway status — expect 'RPC probe: ok'.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ If it fails: openclaw gateway restart</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line section-head">————————————————————————————————————————</span><span class="item-body-line section-head">⚠️ Test active agents after updating  |  Agent runtime/session changes</span><span class="item-body-line">Changes to agent sessions affect how Infra and all future agents run.</span><span class="item-body-line">Most likely improvement (not breaking) but I cannot confirm without more detail.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ Action: after updating, send a test message to the infrastructure agent.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ If sessions feel broken, clear session cache: rm ~/.openclaw/agents/*/sessions/*.jsonl</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line section-head">————————————————————————————————————————</span><span class="item-body-line section-head">✅ Low priority — note for future  |  New [embed ...] output tag</span><span class="item-body-line">New capability for rendering rich content inline in agent responses.</span><span class="item-body-line">Not relevant to our current setup (we use our own HTML dashboard).</span><span class="item-body-line">Could be useful later when building richer agent interactions.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ No action needed now.</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line section-head">————————————————————————————————————————</span><span class="item-body-line section-head">✅ Relevant for Milestone 4  |  WhatsApp changes</span><span class="item-body-line">WhatsApp integration is planned for our Comms Router (Milestone 4).</span><span class="item-body-line">Worth noting what changed now so we can plan accordingly.</span><span class="item-body-line">I don't have the specific details of what changed (not in release notes summary).</span><span class="item-body-line muted" style="padding-left:0.5rem">→ Action: review full WhatsApp changelog when we reach Milestone 4.</span><span class="item-body-line" style="margin-top:4px"> </span><span class="item-body-line section-head">❌ Not relevant for us: Feishu, Video generation</span></div>
         </div>
         
-    </div>
-  </div>
-  <div class="section">
-    <div class="section-title">📅 Upcoming</div>
-    
-        <div class="item">
-            <div class="item-priority p1">P1</div>
-            <div class="item-content">
-                <div class="item-title">Milestone 2: Dashboard Foundation</div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="item-priority p2">P2</div>
-            <div class="item-content">
-                <div class="item-title">Milestone 3: Monitoring Agent</div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="item-priority p3">P3</div>
-            <div class="item-content">
-                <div class="item-title">Milestone 4: Comms Router</div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="item-priority p4">P4</div>
-            <div class="item-content">
-                <div class="item-title">Milestone 5: Chief of Staff — GTD Layer</div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="item-priority p4">P4</div>
-            <div class="item-content">
-                <div class="item-title">Milestone 6: School Agent</div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="item-priority p4">P4</div>
-            <div class="item-content">
-                <div class="item-title">Milestone 7+: Remaining Domain Agents</div>
-            </div>
-        </div>
-  </div>
-</div>
-</body></html>
+    </div></div>
+  <div class="section"><div class="section-title">📅 Upcoming</div><div class="item"><div class="item-priority p1">P1</div><div class="item-content"><div class="item-title">Milestone 2: Dashboard Foundation</div></div></div><div class="item"><div class="item-priority p2">P2</div><div class="item-content"><div class="item-title">Milestone 3: Monitoring Agent</div></div></div><div class="item"><div class="item-priority p3">P3</div><div class="item-content"><div class="item-title">Milestone 4: Comms Router</div></div></div><div class="item"><div class="item-priority p4">P4</div><div class="item-content"><div class="item-title">Milestone 5: Chief of Staff — GTD Layer</div></div></div><div class="item"><div class="item-priority p4">P4</div><div class="item-content"><div class="item-title">Milestone 6: School Agent</div></div></div><div class="item"><div class="item-priority p4">P4</div><div class="item-content"><div class="item-title">Milestone 7+: Remaining Domain Agents</div></div></div></div>
+</div></body></html>

@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chief of Staff — AlexI</title>
-<style>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Chief of Staff — AlexI</title><style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
 .header { background: #1e293b; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
@@ -12,7 +9,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
 @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
-.section { background: #1e293b; border-radius: 12px; padding: 1.25rem; }
+.section { background: #1e293b; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
 .section-title { font-size: 0.875rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
 .item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid #334155; }
 .item:last-child { border-bottom: none; }
@@ -49,29 +46,62 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .status-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
 .status-summary { color: #cbd5e1; font-size: 0.9rem; }
 .status-updated { color: #475569; font-size: 0.75rem; }
-</style>
-</head>
+/* About section */
+.about-toggle { width: 100%; background: none; border: 1px solid #334155; border-radius: 8px; padding: 0.6rem 1rem; color: #64748b; font-size: 0.8rem; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.about-toggle:hover { border-color: #475569; color: #94a3b8; }
+.about-content { display: none; background: #1e293b; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
+.about-content.open { display: block; }
+.about-row { margin-bottom: 1rem; }
+.about-row:last-child { margin-bottom: 0; }
+.about-label { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
+.about-text { font-size: 0.85rem; color: #cbd5e1; line-height: 1.6; }
+.about-connects { font-size: 0.8rem; color: #94a3b8; font-style: italic; }
+</style><script>
+function toggleAbout() {
+  const content = document.getElementById('about-content');
+  const arrow = document.getElementById('about-arrow');
+  content.classList.toggle('open');
+  arrow.textContent = content.classList.contains('open') ? '▲' : '▼';
+}
+</script></head>
 <body>
 <div class="header">
   <a href="index.html" class="back">← Dashboard</a>
-  <div style="display:flex;align-items:center;gap:0.75rem">
-    <span style="font-size:1.5rem">🧠</span>
-    <span style="font-size:1.1rem;font-weight:700">Chief of Staff</span>
-    <span style="background:#f59e0b;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">⚠️ Warning</span>
-  </div>
-  <div style="font-size:0.75rem;color:#475569">12 Apr 2026 17:42</div>
+  <div style="display:flex;align-items:center;gap:0.75rem"><span style="font-size:1.5rem">🧠</span><span style="font-size:1.1rem;font-weight:700">Chief of Staff</span><span style="background:#f59e0b;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">⚠️ Warning</span></div>
+  <div style="font-size:0.75rem;color:#475569">12 Apr 2026 17:46</div>
 </div>
 <div class="container" style="max-width:900px">
-  <div class="section">
-    <div class="section-title">Status</div>
-    <div class="status-row">
-      <div class="status-summary">Running. 2 of 18 agents active. Milestones 0–2 complete. OKR onboarding pending — needed before GTD layer activates. Infra has 1 non-urgent item to review.</div>
-      <div class="status-updated">Last updated: 12 Apr 17:27</div>
-    </div>
+  
+<button class="about-toggle" onclick="toggleAbout()">
+  ℹ️ About this agent &nbsp;<span id="about-arrow">▼</span>
+</button>
+<div class="about-content" id="about-content">
+  <div class="about-row">
+    <div class="about-label">Mission</div>
+    <div class="about-text">Chief of Staff — the single point of contact between Alexander and the entire agent ecosystem.</div>
   </div>
-  <div class="section">
-    <div class="section-title">🔴 Alerts & Actions</div>
-    
+  <div class="about-row">
+    <div class="about-label">Role in the system</div>
+    <div class="about-text">AlexI doesn't just aggregate data from agents — it adds a strategic interpretation layer on top. It decides what reaches Alexander, when, and in what form. It orchestrates delegation, tracks cross-domain priorities, and ensures the whole system stays aligned with Alexander's goals.</div>
+  </div>
+  <div class="about-row">
+    <div class="about-label">Why it matters</div>
+    <div class="about-text">Without CoS, Alexander would need to manage 17 separate agents directly. CoS filters, prioritises, and presents a single coherent view. It also holds the OKR framework that gives every todo in the system a strategic purpose.</div>
+  </div>
+  <div class="about-row">
+    <div class="about-label">Connects to</div>
+    <div class="about-connects">Receives summaries from all agents. Writes to the dashboard DB. Manages OKRs that inform every domain agent's priorities.</div>
+  </div>
+  <div class="about-row">
+    <div class="about-label">Does NOT overlap with</div>
+    <div class="about-connects">CoS never stores domain data — it doesn't know tenant names or school schedules. It only knows priorities, status summaries, and strategic context. All detail lives in the specialist agents.</div>
+  </div>
+</div>
+  <div class="section"><div class="section-title">Status</div>
+    <div class="status-row"><div class="status-summary">Running. 2 of 18 agents active. Milestones 0–2 complete. OKR onboarding pending — needed before GTD layer activates. Infra has 1 non-urgent item to review.</div><div class="status-updated">Last updated: 12 Apr 17:27</div></div>
+  </div>
+  
+  <div class="section"><div class="section-title">🔴 Alerts & Actions</div>
     <div class="item alert-item">
         <div class="item-priority p1">P1</div>
         <div class="item-content">
@@ -89,35 +119,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
             <div class="item-body"><span class="item-body-line">I've reviewed Infra's analysis. My take: low strategic risk.</span><span class="item-body-line">The changes are mostly memory/UI improvements — nothing that affects our core setup.</span><span class="item-body-line">Recommendation: update at your next convenient moment, not urgently.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ When you're ready: openclaw update (or however you installed it)</span></div>
         </div>
         
-    </div>
-  </div>
-  <div class="section">
-    <div class="section-title">📅 Upcoming</div>
-    
-        <div class="item">
-            <div class="item-priority p1">P1</div>
-            <div class="item-content">
-                <div class="item-title">Delegating to Infra: build Monitoring Agent (Milestone 3)</div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="item-priority p2">P2</div>
-            <div class="item-content">
-                <div class="item-title">Waiting on: your go-ahead to proceed with Milestone 3</div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="item-priority p2">P2</div>
-            <div class="item-content">
-                <div class="item-title">Planning: once Monitoring Agent is live, Infra moves to Comms Router (M4)</div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="item-priority p3">P3</div>
-            <div class="item-content">
-                <div class="item-title">On my radar: Phani message reminder — follow up tomorrow if not sent</div>
-            </div>
-        </div>
-  </div>
-</div>
-</body></html>
+    </div></div>
+  <div class="section"><div class="section-title">📅 Upcoming</div><div class="item"><div class="item-priority p1">P1</div><div class="item-content"><div class="item-title">Delegating to Infra: build Monitoring Agent (Milestone 3)</div></div></div><div class="item"><div class="item-priority p2">P2</div><div class="item-content"><div class="item-title">Waiting on: your go-ahead to proceed with Milestone 3</div></div></div><div class="item"><div class="item-priority p2">P2</div><div class="item-content"><div class="item-title">Planning: once Monitoring Agent is live, Infra moves to Comms Router (M4)</div></div></div><div class="item"><div class="item-priority p3">P3</div><div class="item-content"><div class="item-title">On my radar: Phani message reminder — follow up tomorrow if not sent</div></div></div></div>
+</div></body></html>
