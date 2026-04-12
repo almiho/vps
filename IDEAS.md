@@ -63,10 +63,10 @@ messages (id, timestamp, source_channel, sender, subject, body,
 ```
 
 **Routing model (hybrid):**
-1. Comms Router ingests all channels, normalises, tags by domain, writes to bus
+1. Comms Collector ingests all channels, normalises, tags by domain, writes to bus
 2. Domain agents query bus for their tagged messages, process with full domain knowledge
 3. CoS handles unmatched/cross-domain items directly with Alexander
-4. General Comms Agent handles leftover general messages no domain claimed
+4. Inbox Manager Agent handles leftover general messages no domain claimed
 
 ### Scalability Note
 The CoS currently handles both GTD processing and strategic prioritisation in one agent. This is intentional at current scale. If the system grows significantly, consider splitting into a **Processing CoS** (GTD, routing, 2-min rule) and a **Strategic CoS** (OKRs, Covey, weekly review). Not needed now — revisit when scale demands it.
@@ -161,8 +161,8 @@ All agents currently run with the same access level. Sensitive agents (Finance, 
 | 0 | **Chief of Staff (CoS)** ⭐ | GTD processing, strategic prioritisation, OKRs, Covey Q2 | You (via Telegram + dashboard) |
 | 1 | **Infrastructure** | OC environment setup, best practices | — |
 | 2 | **Monitoring** | System health, message queue, proactive alerts | You + CoS |
-| 3 | **Comms Router** | Ingests Gmail/WhatsApp/scans, normalises, routes | SQLite bus |
-| 4 | **General Comms** | Unmatched messages, inbox triage, follow-ups | CoS |
+| 3 | **Comms Collector** | Ingests Gmail/WhatsApp/scans, normalises, routes | SQLite bus |
+| 4 | **Inbox Manager** | Unmatched messages, inbox triage, follow-ups | CoS |
 | 5 | **Calendar** | Owns scheduling, blocks Q2 time, prevents conflicts | CoS, Travel |
 | 6 | **Friendships** | Relationship CRM, last contact, birthdays, follow-ups | CoS |
 | 7 | **Finance** | Central financial brain, cashflow + strategy | You + CoS |
@@ -286,7 +286,7 @@ Continuously watches the system and all its components.
 
 ---
 
-### Agent 3: Comms Router
+### Agent 3: Comms Collector
 
 Ingests all input channels, normalises, and routes to the SQLite bus.
 - Fetches from Gmail, WhatsApp, and scanned letters
@@ -309,7 +309,7 @@ Every message carries full reply information all the way to execution. Source is
 
 ---
 
-### Agent 4: General Comms Agent
+### Agent 4: Inbox Manager Agent
 
 Handles messages not claimed by any domain agent.
 - General email triage, inbox zero, action suggestions
@@ -776,7 +776,7 @@ No agent spec is complete without both defined.
 ## 📬 Message Flow & Communications Architecture
 
 ### Input Sources
-Three primary channels, all normalised by Comms Router before anything else touches them:
+Three primary channels, all normalised by Comms Collector before anything else touches them:
 - 📧 **Gmail** — email threads
 - 📱 **WhatsApp** — chat messages
 - 📄 **Scanned letters** — physical mail, OCR-processed before entering flow
@@ -830,7 +830,7 @@ Three primary channels, all normalised by Comms Router before anything else touc
       |
       ↓
   [ EXECUTION ]
-  Comms Router uses reply_context to
+  Comms Collector uses reply_context to
   respond via correct original channel
 ```
 
@@ -841,9 +841,9 @@ Source is never lost, even after routing through multiple agents:
 - **Scanned letter** → filename + postal address → draft letter response
 
 ### Routing Model
-1. **Comms Router** — ingests, normalises, tags by domain, writes to bus
+1. **Comms Collector** — ingests, normalises, tags by domain, writes to bus
 2. **Domain agents** — query bus for their tagged messages, process with full domain knowledge
-3. **General Comms Agent** — handles untagged / general messages
+3. **Inbox Manager Agent** — handles untagged / general messages
 4. **CoS** — handles truly ambiguous items directly with Alexander
 
 ### Why SQLite?

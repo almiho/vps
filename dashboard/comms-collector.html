@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Finance — AlexI</title><style>
+<title>Comms Collector — AlexI</title><style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
 .header { background: #1e293b; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
@@ -67,7 +67,7 @@ function toggleAbout() {
 <body>
 <div class="header">
   <a href="index.html" class="back">← Dashboard</a>
-  <div style="display:flex;align-items:center;gap:0.75rem"><span style="font-size:1.5rem">💰</span><span style="font-size:1.1rem;font-weight:700">Finance</span><span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">—</span></div>
+  <div style="display:flex;align-items:center;gap:0.75rem"><span style="font-size:1.5rem">📨</span><span style="font-size:1.1rem;font-weight:700">Comms Collector</span><span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">—</span></div>
   <div style="font-size:0.75rem;color:#475569">12 Apr 2026 19:05</div>
 </div>
 <div class="container" style="max-width:900px">
@@ -78,23 +78,23 @@ function toggleAbout() {
 <div class="about-content" id="about-content">
   <div class="about-row">
     <div class="about-label">Mission</div>
-    <div class="about-text">Central financial brain — the only agent with the full financial picture.</div>
+    <div class="about-text">Single ingestion point for all external messages — Gmail, WhatsApp, scanned letters.</div>
   </div>
   <div class="about-row">
     <div class="about-label">Role in the system</div>
-    <div class="about-text">Tracks cashflow, flags shortfalls, maintains long-term projections and goals, surfaces optimisation opportunities. Receives financial summaries from Real Estate, Tax, Car, Boat, Insurance.</div>
+    <div class="about-text">Reads all incoming channels, normalises messages to a standard internal format, tags by domain, and writes to the SQLite message bus. Preserves full reply context so any agent can respond via the original channel.</div>
   </div>
   <div class="about-row">
     <div class="about-label">Why it matters</div>
-    <div class="about-text">Financial health affects everything. Finance Agent is the one place where all money flows are visible together — not just one property or one insurance policy.</div>
+    <div class="about-text">Without a single normalised ingestion point, every agent would need its own Gmail/WhatsApp connection. Comms Collector means channels are wired once, and all agents speak a channel-agnostic language.</div>
   </div>
   <div class="about-row">
     <div class="about-label">Connects to</div>
-    <div class="about-connects">Receives summaries from Real Estate, Tax, Insurance, Car, Boat. Reports to CoS.</div>
+    <div class="about-connects">Writes to the SQLite message bus. All domain agents read from the bus. reply_context preserved end-to-end for responding via original channel.</div>
   </div>
   <div class="about-row">
     <div class="about-label">Does NOT overlap with</div>
-    <div class="about-connects">Finance sees numbers and trends, not details. It doesn't know which tenant is late — Real Estate does. Finance just knows rental income is down.</div>
+    <div class="about-connects">Router does not process content — it only normalises and routes. No decisions about importance or action. That's CoS and domain agents.</div>
   </div>
 </div>
   <div class="section"><div class="section-title">Status</div>

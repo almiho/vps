@@ -15,8 +15,8 @@ AGENTS = [
     ("cos",            "Chief of Staff",  "🧠"),
     ("infrastructure", "Infrastructure",  "🔧"),
     ("monitoring",     "Monitoring",      "👁️"),
-    ("comms-router",   "Comms Router",    "📨"),
-    ("comms-general",  "General Comms",   "📬"),
+    ("comms-collector",   "Comms Collector",    "📨"),
+    ("inbox-manager",  "Inbox Manager",   "📬"),
     ("calendar",       "Calendar",        "📅"),
     ("friendships",    "Friendships",     "👥"),
     ("finance",        "Finance",         "💰"),
@@ -55,17 +55,17 @@ AGENT_ABOUT = {
         "connects_to": "Reads status.json from all active agents. Checks gateway, bus, disk, cron jobs. Sends Telegram alerts directly. Reports to CoS.",
         "not_overlap": "Watch never modifies anything — it only reads and alerts. All fixes are done by Infra or the relevant domain agent."
     },
-    "comms-router": {
+    "comms-collector": {
         "mission": "Single ingestion point for all external messages — Gmail, WhatsApp, scanned letters.",
         "role": "Reads all incoming channels, normalises messages to a standard internal format, tags by domain, and writes to the SQLite message bus. Preserves full reply context so any agent can respond via the original channel.",
-        "why_important": "Without a single normalised ingestion point, every agent would need its own Gmail/WhatsApp connection. Comms Router means channels are wired once, and all agents speak a channel-agnostic language.",
+        "why_important": "Without a single normalised ingestion point, every agent would need its own Gmail/WhatsApp connection. Comms Collector means channels are wired once, and all agents speak a channel-agnostic language.",
         "connects_to": "Writes to the SQLite message bus. All domain agents read from the bus. reply_context preserved end-to-end for responding via original channel.",
         "not_overlap": "Router does not process content — it only normalises and routes. No decisions about importance or action. That's CoS and domain agents."
     },
-    "comms-general": {
+    "inbox-manager": {
         "mission": "Handles messages that no domain agent claimed — general inbox triage and follow-up tracking.",
         "role": "Reads untagged messages from the bus, triages them, suggests actions, tracks things awaiting a response. Acts as the catch-all so nothing falls through the cracks.",
-        "why_important": "Not everything fits a domain. A general email from a friend, a random WhatsApp, a follow-up needed — General Comms catches what specialists miss.",
+        "why_important": "Not everything fits a domain. A general email from a friend, a random WhatsApp, a follow-up needed — Inbox Manager catches what specialists miss.",
         "connects_to": "Reads from the SQLite bus (untagged messages). Feeds action suggestions to CoS.",
         "not_overlap": "Only handles messages that have a null or 'general' domain_tag. Anything tagged school/finance/etc. goes to the specialist."
     },
@@ -101,14 +101,14 @@ AGENT_ABOUT = {
         "mission": "Full portfolio manager for owned properties — financial and operational.",
         "role": "Tracks all properties, ownership structure, valuations, mortgages. Manages tenants, leases, maintenance. Stores documents. Feeds financial summaries to Finance Agent and tax data to Tax Agent.",
         "why_important": "Multiple properties, some co-owned, most rented — this is a business in itself. Real Estate Agent is the dedicated manager so nothing slips through.",
-        "connects_to": "Feeds to Finance Agent (income/expenses), Tax Agent (rental data). Receives from Comms Router (tenant emails).",
+        "connects_to": "Feeds to Finance Agent (income/expenses), Tax Agent (rental data). Receives from Comms Collector (tenant emails).",
         "not_overlap": "Provides numbers to Finance but keeps all detail. Finance doesn't need to know about the boiler repair — just that expenses were higher this month."
     },
     "school": {
         "mission": "Education coordinator for the twins across two school systems.",
         "role": "Tracks CIS Copenhagen and Fernschule schedules, monitors day-specific changes, fires dynamic pickup reminders, tracks academic progress and teacher communications.",
         "why_important": "Pickup reminders are safety-critical. Two school systems with different schedules, deadlines, and communication channels is genuinely complex to track manually.",
-        "connects_to": "Reads from Comms Router (school emails/announcements). Feeds schedule data to Calendar and Travel Agent. Reports to CoS.",
+        "connects_to": "Reads from Comms Collector (school emails/announcements). Feeds schedule data to Calendar and Travel Agent. Reports to CoS.",
         "not_overlap": "School tracks education and schedules. Health Agent handles vaccinations and medical forms separately."
     },
     "life-in-denmark": {
@@ -357,8 +357,8 @@ def render_architecture_svg(agent_statuses=None):
             ("dashboard",      "📊 Dash"),
         ]),
         ("Communications", "#0f2e0f", [
-            ("comms-router",   "📨 Router"),
-            ("comms-general",  "📬 Comms"),
+            ("comms-collector",   "📨 Router"),
+            ("inbox-manager",  "📬 Comms"),
         ]),
         ("Finance & Assets", "#2d1a00", [
             ("finance",        "💰 Finance"),
@@ -456,7 +456,7 @@ def render_architecture_svg(agent_statuses=None):
 
     # Dashed arrows from CoS to key agents
     cx0, cy0 = positions["cos"]
-    for aid in ["infrastructure", "monitoring", "comms-router", "finance", "school"]:
+    for aid in ["infrastructure", "monitoring", "comms-collector", "finance", "school"]:
         if aid in positions:
             ax, ay = positions[aid]
             svg.append(f'<line x1="{cx0}" y1="{cy0+NH//2}" x2="{ax}" y2="{ay-NH//2}" stroke="#334155" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>')

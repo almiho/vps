@@ -67,7 +67,7 @@
 
 ---
 
-## Milestone 4: Comms Router ⏳
+## Milestone 4: Comms Collector ⏳
 *"External messages enter the system cleanly"*
 
 - ⏳ Gmail API integration (read-only first)
@@ -116,4 +116,4 @@
 8. Car Agent
 9. Boat Agent (Phase 1, then live monitoring)
 10. Friendships Agent
-11. General Comms Agent
+11. Inbox Manager Agent

@@ -249,10 +249,10 @@ The following roadmap takes the project from zero to a functioning system in con
 
 ---
 
-### 🏁 Milestone 4: The Comms Router
+### 🏁 Milestone 4: The Comms Collector
 *"External messages enter the system cleanly"*
 
-**Goal:** Comms Router ingesting Gmail, normalising messages, writing to SQLite bus with correct schema including reply_context.
+**Goal:** Comms Collector ingesting Gmail, normalising messages, writing to SQLite bus with correct schema including reply_context.
 
 **Steps:**
 - [ ] Gmail API integration (read-only first)
@@ -324,7 +324,7 @@ The following roadmap takes the project from zero to a functioning system in con
 9. **Car Agent** — relatively standalone, lower urgency
 10. **Boat Agent** — seasonal, Phase 1 first then live monitoring later
 11. **Friendships Agent** — standalone, can be built any time
-12. **General Comms Agent** — last, needs Comms Router fully stable
+12. **Inbox Manager Agent** — last, needs Comms Collector fully stable
 
 ---
 
@@ -351,8 +351,8 @@ Every agent has its own dedicated subfolder in the workspace. No agent reads or 
 │   ├── cos/               # Chief of Staff
 │   ├── infrastructure/    # Infrastructure Agent
 │   ├── monitoring/        # Monitoring Agent
-│   ├── comms-router/      # Comms Router
-│   ├── comms-general/     # General Comms Agent
+│   ├── comms-collector/      # Comms Collector
+│   ├── inbox-manager/     # Inbox Manager Agent
 │   ├── calendar/          # Calendar Agent
 │   ├── friendships/       # Friendships Agent
 │   ├── finance/           # Finance Agent

@@ -267,7 +267,7 @@ def main():
 
     # Upcoming — what Watch is watching for next
     upcoming = [
-        {"priority": 2, "title": "Will watch Comms Router once connected (Milestone 4) — message bus queue depth", "due_at": None},
+        {"priority": 2, "title": "Will watch Comms Collector once connected (Milestone 4) — message bus queue depth", "due_at": None},
         {"priority": 3, "title": "Will watch School Agent pickup reminders once live (Milestone 6) — time-critical", "due_at": None},
         {"priority": 3, "title": "Will add web server auto-restart if it goes down (future improvement)", "due_at": None},
     ]

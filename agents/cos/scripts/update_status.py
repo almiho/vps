@@ -130,7 +130,7 @@ def main():
     })
     upcoming.append({
         "priority": 2,
-        "title": "Planning: once Monitoring Agent is live, Infra moves to Comms Router (M4)",
+        "title": "Planning: once Monitoring Agent is live, Infra moves to Comms Collector (M4)",
         "due_at": None
     })
     upcoming.append({
