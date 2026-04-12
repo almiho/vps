@@ -85,13 +85,14 @@ def analyse_release(notes):
     if "gateway" in n:
         findings.append({
             "label": "Gateway changes",
-            "verdict": "🔴 Read full notes before updating",
+            "verdict": "🔴 Higher risk — update during a quiet moment",
             "lines": [
                 "The gateway handles ALL traffic: Telegram, agent sessions, cron jobs.",
-                "If it breaks after an update, everything stops — agents, dashboard, alerts.",
-                "I recommend reading the full release notes before proceeding.",
-                "→ Action: only update during a quiet period. Test gateway immediately after:",
-                "→ openclaw gateway status — expect 'RPC probe: ok'."
+                "If it breaks, everything stops — agents, dashboard, Telegram alerts.",
+                "Specific change details not in release summary — I can't tell you exactly what shifted.",
+                "My assessment: treat as medium risk. Update when you have 5 min to test, not mid-day.",
+                "→ Immediately after: openclaw gateway status — expect 'RPC probe: ok'.",
+                "→ If it fails: openclaw gateway restart"
             ]
         })
 
