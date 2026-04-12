@@ -1,0 +1,19 @@
+{
+  "agent": "infrastructure",
+  "updated_at": "2026-04-12T15:57:00+02:00",
+  "health": "ok",
+  "summary": "Milestone 0 in progress — directory structure and docs framework complete",
+  "alerts": [],
+  "upcoming": [
+    {
+      "priority": 2,
+      "title": "Set up git remote",
+      "due_at": null
+    },
+    {
+      "priority": 2,
+      "title": "Milestone 1: SQLite message bus",
+      "due_at": null
+    }
+  ]
+}
