@@ -29,15 +29,16 @@
 
 ---
 
-## Milestone 1: The Message Bus ⏳
+## Milestone 1: The Message Bus ✅
 *"Agents can talk to each other"*
 
-- ⏳ Create SQLite database at data/bus.db
-- ⏳ Create full schema (messages + agent_heartbeats tables)
-- ⏳ Enable WAL mode and verify
-- ⏳ Write conformance test (insert → read → mark processed)
-- ⏳ Document schema in docs/STANDARDS.md
-- ⏳ Verify concurrent read/write
+- ✅ Create SQLite database at data/bus.db
+- ✅ Create full schema (messages + agent_heartbeats tables)
+- ✅ Enable WAL mode
+- ✅ Conformance test passed (insert → read → mark processed → clean)
+- ✅ Document schema in docs/STANDARDS.md
+- ✅ Create data/dashboard.db with dashboard_items schema
+- ✅ Infrastructure agent heartbeat registered
 
 ---
 
