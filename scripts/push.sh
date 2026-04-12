@@ -1,38 +1,37 @@
 #!/bin/bash
 # Push workspace to server/openclaw/ on GitHub main branch
-# Handles nested git repos in agents/ directories
-
+# Uses a temp directory completely outside the workspace to avoid pollution
 set -e
-cd /home/node/.openclaw/workspace
 
+WORKSPACE="/home/node/.openclaw/workspace"
 MSG="${1:-AlexI workspace sync: $(date '+%Y-%m-%d %H:%M')}"
 
-# Remove cached nested repo reference if present
-git rm --cached agents/infrastructure 2>/dev/null || true
+# Work in /tmp — completely outside workspace
+TMPDIR=$(mktemp -d /tmp/alexi-push-XXXXXX)
+trap "rm -rf $TMPDIR" EXIT
 
-# Add .gitignore for nested repos
-cat > .gitignore << 'GITIGNORE'
-# SQLite databases
-data/*.db
-data/*.db-wal
-data/*.db-shm
-# Logs and media
-logs/
-media/
-# Nested git repos — track files, not repos
-agents/infrastructure/.git
-agents/*/. git
-GITIGNORE
+cd "$TMPDIR"
+git clone git@github.com:almiho/vps.git repo
+cd repo
 
-git add -A
-git diff --cached --quiet || git commit -m "$MSG (local)"
+# Clear and repopulate server/openclaw/
+rm -rf server/openclaw
+mkdir -p server/openclaw
 
-git fetch origin main
-git checkout -b push-temp origin/main 2>/dev/null || (git checkout master && git branch -D push-temp 2>/dev/null; git checkout -b push-temp origin/main)
+# Copy project files (explicit list — no system dirs, no DBs, no logs)
+for item in \
+  AGENTS.md AGENT_STANDARDS.md IDENTITY.md INFRA_AGENT.md \
+  IDEAS.md STATUS.md SOUL.md TOOLS.md USER.md HEARTBEAT.md \
+  .gitignore docs agents dashboard scripts; do
+  [ -e "$WORKSPACE/$item" ] && cp -r "$WORKSPACE/$item" "server/openclaw/"
+done
 
-git read-tree --prefix=server/openclaw/ -u master
-git commit -m "$MSG" || echo "Nothing new to push"
-git push origin push-temp:main
-git checkout master
-git branch -D push-temp
+git add server/openclaw/
+if git diff --cached --quiet; then
+  echo "Nothing new to push"
+  exit 0
+fi
+
+git commit -m "$MSG"
+git push origin main
 echo "✅ Pushed to github.com/almiho/vps server/openclaw/"
