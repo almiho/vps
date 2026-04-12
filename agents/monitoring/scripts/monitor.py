@@ -164,7 +164,10 @@ def check_agent_heartbeats():
                 if dt.tzinfo is None:
                     dt = dt.replace(tzinfo=timezone.utc)
                 age_hours = (now - dt).total_seconds() / 3600
-                if age_hours > 2:
+                # Thresholds per agent — allow more time for infrequent updaters
+                thresholds = {"infrastructure": 2, "cos": 1, "dashboard": 1, "monitoring": 0.5}
+                limit = thresholds.get(name, 2)
+                if age_hours > limit:
                     issues.append(f"{name}: last update {age_hours:.1f}h ago — may be stale")
                 else:
                     healthy.append(name)

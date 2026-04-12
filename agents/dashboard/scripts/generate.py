@@ -628,6 +628,23 @@ def main():
         with open(f"{OUTPUT_DIR}/{agent_id}.html", "w") as f:
             f.write(generate_agent_page(agent_id, label, emoji, agent_statuses[agent_id], agent_statuses))
 
+    # Update dashboard agent's own status.json
+    import json as _json
+    from datetime import datetime as _dt
+    _status = {
+        "agent": "dashboard",
+        "updated_at": _dt.now().isoformat(),
+        "health": "ok",
+        "summary": f"Generated {len(AGENTS)+1} pages. Runs every 15 minutes.",
+        "alerts": [],
+        "upcoming": []
+    }
+    _spath = f"{AGENTS_DIR}/dashboard/dashboard/status.json"
+    import os as _os
+    _os.makedirs(_os.path.dirname(_spath), exist_ok=True)
+    with open(_spath, "w") as _f:
+        _json.dump(_status, _f, indent=2)
+
     print(f"✅ Dashboard generated — {len(AGENTS)+1} pages")
 
 if __name__ == "__main__":

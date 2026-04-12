@@ -11,3 +11,5 @@
 {"type": "alert_fired", "title": "System problem: Gateway", "logged_at": "2026-04-12T18:05:11.074252"}
 {"type": "failure", "component": "cron", "detail": "Scheduler daemon not running \u2014 dashboard and health checks have stopped.\n\u2192 Restart: python3 /home/node/.openclaw/workspace/scripts/scheduler.py", "logged_at": "2026-04-12T18:07:49.955674"}
 {"type": "alert_fired", "title": "System problem: Cron", "logged_at": "2026-04-12T18:07:49.955798"}
+{"type": "failure", "component": "heartbeats", "detail": "Stale agent(s): dashboard: last update 2.1h ago \u2014 may be stale", "logged_at": "2026-04-12T19:40:45.004608"}
+{"type": "alert_fired", "title": "System problem: Heartbeats", "logged_at": "2026-04-12T19:40:45.004732"}
