@@ -32,16 +32,13 @@ def send_telegram_alert(title, body):
 
     def deliver():
         try:
+            # Direct message send — no AI agent, no interpretation, just delivery
             result = subprocess.run(
-                ["openclaw", "agent",
-                 "--session-id", "telegram:8731775067",
-                 "--message", msg,
-                 "--deliver",
-                 "--reply-channel", "telegram",
-                 "--reply-to", "8731775067",
-                 "--reply-account", "default",
-                 "--timeout", "25"],
-                capture_output=True, text=True, timeout=30
+                ["openclaw", "message", "send",
+                 "--channel", "telegram",
+                 "--target", "8731775067",
+                 "--message", msg],
+                capture_output=True, text=True, timeout=15
             )
             outcome = "delivered" if result.returncode == 0 else f"failed: {result.stderr[:100]}"
         except Exception as e:
