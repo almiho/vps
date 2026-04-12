@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="refresh" content="60">
+<title>AlexI Dashboard</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+  .header { background: #1e293b; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+  .header h1 { font-size: 1.25rem; font-weight: 700; color: #f1f5f9; }
+  .header-meta { font-size: 0.75rem; color: #64748b; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+  @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+  .section { background: #1e293b; border-radius: 12px; padding: 1.25rem; }
+  .section-title { font-size: 0.875rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+  .item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid #334155; }
+  .item:last-child { border-bottom: none; }
+  .item-priority { font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap; }
+  .p1 { background: #7f1d1d; color: #fca5a5; }
+  .p2 { background: #7c2d12; color: #fdba74; }
+  .p3 { background: #713f12; color: #fde68a; }
+  .p4 { background: #1e3a5f; color: #93c5fd; }
+  .p5 { background: #1e293b; color: #94a3b8; border: 1px solid #334155; }
+  .item-content { flex: 1; }
+  .item-title { font-size: 0.9rem; font-weight: 500; color: #f1f5f9; }
+  .item-meta { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
+  .alert-item { background: rgba(239,68,68,0.05); border-radius: 8px; padding: 0.75rem !important; margin-bottom: 0.5rem; border-bottom: none !important; }
+  .action-badge { font-size: 0.7rem; background: #ef4444; color: white; padding: 2px 8px; border-radius: 12px; white-space: nowrap; }
+  .empty-state { color: #475569; font-size: 0.875rem; padding: 1rem 0; text-align: center; }
+  .agents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem; }
+  .agent-card { background: #1e293b; border-radius: 10px; padding: 1rem; display: flex; gap: 0.75rem; align-items: flex-start; text-decoration: none; color: inherit; border: 1px solid #334155; transition: border-color 0.15s; }
+  .agent-card:hover { border-color: #475569; }
+  .health-ok { border-left: 3px solid #22c55e; }
+  .health-warning { border-left: 3px solid #f59e0b; }
+  .health-error { border-left: 3px solid #ef4444; }
+  .health-unknown { border-left: 3px solid #475569; }
+  .agent-emoji { font-size: 1.5rem; line-height: 1; }
+  .agent-name { font-size: 0.875rem; font-weight: 600; color: #f1f5f9; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+  .agent-summary { font-size: 0.75rem; color: #64748b; margin-top: 3px; }
+  .agent-updated { font-size: 0.7rem; color: #475569; margin-top: 3px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🤝 AlexI Dashboard</h1>
+  <div class="header-meta">Updated 12 Apr 2026 16:32 · Auto-refreshes every 60s</div>
+</div>
+<div class="container">
+  <div class="grid">
+    <div class="section">
+      <div class="section-title">🔴 Needs Attention</div>
+      <div class="empty-state">✅ No urgent items right now</div>
+    </div>
+    <div class="section">
+      <div class="section-title">📅 Upcoming</div>
+      <div class="empty-state">Nothing upcoming logged yet</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">🤖 Agent Status</div>
+    <div class="agents-grid">
+      
+        <a href="cos.html" class="agent-card health-unknown">
+            <div class="agent-emoji">🧠</div>
+            <div class="agent-info">
+                <div class="agent-name">Chief of Staff <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="infrastructure.html" class="agent-card health-ok">
+            <div class="agent-emoji">🔧</div>
+            <div class="agent-info">
+                <div class="agent-name">Infrastructure <span style="background:#22c55e;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">OK</span></div>
+                <div class="agent-summary">Milestone 0 in progress — directory structure and docs framework complete</div>
+                <div class="agent-updated">Updated: 12 Apr 15:57</div>
+            </div>
+        </a>
+        <a href="monitoring.html" class="agent-card health-unknown">
+            <div class="agent-emoji">👁️</div>
+            <div class="agent-info">
+                <div class="agent-name">Monitoring <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="comms-router.html" class="agent-card health-unknown">
+            <div class="agent-emoji">📨</div>
+            <div class="agent-info">
+                <div class="agent-name">Comms Router <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="comms-general.html" class="agent-card health-unknown">
+            <div class="agent-emoji">📬</div>
+            <div class="agent-info">
+                <div class="agent-name">General Comms <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="calendar.html" class="agent-card health-unknown">
+            <div class="agent-emoji">📅</div>
+            <div class="agent-info">
+                <div class="agent-name">Calendar <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="friendships.html" class="agent-card health-unknown">
+            <div class="agent-emoji">👥</div>
+            <div class="agent-info">
+                <div class="agent-name">Friendships <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="finance.html" class="agent-card health-unknown">
+            <div class="agent-emoji">💰</div>
+            <div class="agent-info">
+                <div class="agent-name">Finance <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="tax.html" class="agent-card health-unknown">
+            <div class="agent-emoji">📋</div>
+            <div class="agent-info">
+                <div class="agent-name">Tax <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="real-estate.html" class="agent-card health-unknown">
+            <div class="agent-emoji">🏠</div>
+            <div class="agent-info">
+                <div class="agent-name">Real Estate <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="school.html" class="agent-card health-unknown">
+            <div class="agent-emoji">🎒</div>
+            <div class="agent-info">
+                <div class="agent-name">School <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="life-in-denmark.html" class="agent-card health-unknown">
+            <div class="agent-emoji">🇩🇰</div>
+            <div class="agent-info">
+                <div class="agent-name">Life in Denmark <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="car.html" class="agent-card health-unknown">
+            <div class="agent-emoji">🚗</div>
+            <div class="agent-info">
+                <div class="agent-name">Car <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="boat.html" class="agent-card health-unknown">
+            <div class="agent-emoji">⛵</div>
+            <div class="agent-info">
+                <div class="agent-name">Boat <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="travel.html" class="agent-card health-unknown">
+            <div class="agent-emoji">✈️</div>
+            <div class="agent-info">
+                <div class="agent-name">Travel <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="health.html" class="agent-card health-unknown">
+            <div class="agent-emoji">🏥</div>
+            <div class="agent-info">
+                <div class="agent-name">Health <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="insurance.html" class="agent-card health-unknown">
+            <div class="agent-emoji">🛡️</div>
+            <div class="agent-info">
+                <div class="agent-name">Insurance <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+        <a href="dashboard.html" class="agent-card health-unknown">
+            <div class="agent-emoji">📊</div>
+            <div class="agent-info">
+                <div class="agent-name">Dashboard <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span></div>
+                <div class="agent-summary">No status available yet</div>
+                <div class="agent-updated">Updated: never</div>
+            </div>
+        </a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

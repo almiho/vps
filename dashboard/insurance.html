@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insurance — AlexI</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; }
+  .header { background: #1e293b; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+  .back { color: #64748b; text-decoration: none; font-size: 0.875rem; }
+  .back:hover { color: #94a3b8; }
+  .agent-header { display: flex; align-items: center; gap: 0.75rem; }
+  .agent-header h1 { font-size: 1.1rem; font-weight: 700; }
+  .container { max-width: 900px; margin: 0 auto; padding: 1.5rem; display: grid; gap: 1.5rem; }
+  .section { background: #1e293b; border-radius: 12px; padding: 1.25rem; }
+  .section-title { font-size: 0.875rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+  .status-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .status-summary { color: #cbd5e1; font-size: 0.9rem; }
+  .status-updated { color: #475569; font-size: 0.75rem; }
+  .item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid #334155; }
+  .item:last-child { border-bottom: none; }
+  .item-priority { font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap; }
+  .p1 { background: #7f1d1d; color: #fca5a5; } .p2 { background: #7c2d12; color: #fdba74; }
+  .p3 { background: #713f12; color: #fde68a; } .p4 { background: #1e3a5f; color: #93c5fd; }
+  .p5 { background: #1e293b; color: #94a3b8; border: 1px solid #334155; }
+  .item-content { flex: 1; }
+  .item-title { font-size: 0.9rem; font-weight: 500; color: #f1f5f9; }
+  .item-meta { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
+  .alert-item { background: rgba(239,68,68,0.05); border-radius: 8px; padding: 0.75rem !important; margin-bottom: 0.5rem; border-bottom: none !important; }
+  .action-badge { font-size: 0.7rem; background: #ef4444; color: white; padding: 2px 8px; border-radius: 12px; white-space: nowrap; }
+  .empty-state { color: #475569; font-size: 0.875rem; padding: 1rem 0; text-align: center; }
+  .not-active { text-align: center; padding: 3rem; color: #475569; }
+  .not-active .emoji { font-size: 3rem; margin-bottom: 1rem; }
+</style>
+</head>
+<body>
+<div class="header">
+  <a href="index.html" class="back">← Dashboard</a>
+  <div class="agent-header">
+    <span style="font-size:1.5rem">🛡️</span>
+    <h1>Insurance</h1>
+    <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.75rem;font-weight:600">?</span>
+  </div>
+  <div style="font-size:0.75rem;color:#475569">12 Apr 2026 16:32</div>
+</div>
+<div class="container">
+  <div class="section">
+    <div class="section-title">Status</div>
+    <div class="status-row">
+      <div class="status-summary">No status available yet</div>
+      <div class="status-updated">Last updated: never</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">🔴 Alerts & Actions</div>
+    <div class="empty-state">No alerts</div>
+  </div>
+  <div class="section">
+    <div class="section-title">📅 Upcoming</div>
+    <div class="empty-state">Nothing upcoming</div>
+  </div>
+</div>
+</body>
+</html>
