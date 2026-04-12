@@ -325,81 +325,172 @@ def render_about_section(agent_id):
 </div>"""
 
 def render_architecture_svg(agent_statuses=None):
-    """SVG architecture diagram. If agent_statuses provided, colour nodes by health (live mode)."""
+    """
+    SVG architecture diagram with domain clusters.
+    live=True: nodes coloured by health, clickable.
+    """
     live = agent_statuses is not None
 
-    def node_color(agent_id):
+    def node_bg(aid):
+        if not live: return "#1e293b"
+        h = agent_statuses.get(aid, {}).get("health", "unknown")
+        return {"ok": "#14532d", "warning": "#431407", "error": "#450a0a", "unknown": "#1e293b"}.get(h, "#1e293b")
+
+    def node_stroke(aid):
         if not live: return "#334155"
-        h = agent_statuses.get(agent_id, {}).get("health", "unknown")
-        return {"ok": "#166534", "warning": "#7c2d12", "error": "#7f1d1d", "unknown": "#1e293b"}.get(h, "#1e293b")
-
-    def text_color(agent_id):
-        if not live: return "#94a3b8"
-        h = agent_statuses.get(agent_id, {}).get("health", "unknown")
-        return {"ok": "#86efac", "warning": "#fdba74", "error": "#fca5a5", "unknown": "#64748b"}.get(h, "#64748b")
-
-    def dot_color(agent_id):
-        if not live: return "#475569"
-        h = agent_statuses.get(agent_id, {}).get("health", "unknown")
+        h = agent_statuses.get(aid, {}).get("health", "unknown")
         return {"ok": "#22c55e", "warning": "#f59e0b", "error": "#ef4444", "unknown": "#475569"}.get(h, "#475569")
 
-    rows = [
-        [("cos", "🧠 CoS/AlexI")],
-        [("infrastructure", "🔧 Infra"), ("monitoring", "👁️ Watch"), ("dashboard", "📊 Dash")],
-        [("comms-router", "📨 Comms Router"), ("comms-general", "📬 General Comms"), ("calendar", "📅 Calendar")],
-        [("finance", "💰 Finance"), ("real-estate", "🏠 Real Estate"), ("tax", "📋 Tax")],
-        [("school", "🎒 School"), ("life-in-denmark", "🇩🇰 Denmark"), ("friendships", "👥 Friends"), ("travel", "✈️ Travel")],
-        [("car", "🚗 Car"), ("boat", "⛵ Boat"), ("health", "🏥 Health"), ("insurance", "🛡️ Insurance")],
+    def node_text(aid):
+        if not live: return "#94a3b8"
+        h = agent_statuses.get(aid, {}).get("health", "unknown")
+        return {"ok": "#86efac", "warning": "#fdba74", "error": "#fca5a5", "unknown": "#64748b"}.get(h, "#64748b")
+
+    W, H = 860, 530
+    NW, NH = 108, 32
+    PAD = 10
+
+    clusters = [
+        ("System", "#0f2548", [
+            ("infrastructure", "🔧 Infra"),
+            ("monitoring",     "👁 Watch"),
+            ("dashboard",      "📊 Dash"),
+        ]),
+        ("Communications", "#0f2e0f", [
+            ("comms-router",   "📨 Router"),
+            ("comms-general",  "📬 Comms"),
+        ]),
+        ("Finance & Assets", "#2d1a00", [
+            ("finance",        "💰 Finance"),
+            ("real-estate",    "🏠 Real Estate"),
+            ("tax",            "📋 Tax"),
+            ("insurance",      "🛡 Insurance"),
+        ]),
+        ("Family & Life", "#1a1a2e", [
+            ("school",         "🎒 School"),
+            ("life-in-denmark","🇩🇰 Denmark"),
+            ("health",         "🏥 Health"),
+            ("friendships",    "👥 Friends"),
+            ("calendar",       "📅 Calendar"),
+        ]),
+        ("Vehicles & Movement", "#0d2018", [
+            ("car",    "🚗 Car"),
+            ("boat",   "⛵ Boat"),
+            ("travel", "✈ Travel"),
+        ]),
     ]
 
-    W, H = 800, 520
-    NODE_W, NODE_H = 120, 36
-    svg_lines = [f'<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:{W}px;background:#0f172a;border-radius:12px;padding:16px">']
+    svg = []
+    svg.append(f'<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:{W}px;font-family:system-ui,sans-serif;background:#0f172a;border-radius:12px">')
+    svg.append('<defs><marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#334155"/></marker></defs>')
 
-    # Title
     title = "Live System Health" if live else "System Architecture"
-    svg_lines.append(f'<text x="{W//2}" y="22" text-anchor="middle" fill="#94a3b8" font-size="13" font-family="system-ui">{title}</text>')
-
-    # SQLite bus line
-    svg_lines.append(f'<rect x="60" y="240" width="680" height="8" rx="4" fill="#1e40af" opacity="0.6"/>')
-    svg_lines.append(f'<text x="{W//2}" y="256" text-anchor="middle" fill="#93c5fd" font-size="10" font-family="system-ui">SQLite Message Bus</text>')
+    svg.append(f'<text x="{W//2}" y="20" text-anchor="middle" fill="#64748b" font-size="12">{title}</text>')
 
     positions = {}
-    y_starts = [35, 80, 145, 205, 270, 340]
 
-    for row_i, row in enumerate(rows):
-        n = len(row)
-        total_w = n * NODE_W + (n - 1) * 16
-        x_start = (W - total_w) // 2
-        y = y_starts[row_i] + 20
-        for col_i, (agent_id, label) in enumerate(row):
-            x = x_start + col_i * (NODE_W + 16)
-            positions[agent_id] = (x + NODE_W // 2, y + NODE_H // 2)
-            bg = node_color(agent_id)
-            tc = text_color(agent_id)
-            dc = dot_color(agent_id)
-            link = f'href="{agent_id}.html"' if live else ""
-            svg_lines.append(f'<a {link}>')
-            svg_lines.append(f'<rect x="{x}" y="{y}" width="{NODE_W}" height="{NODE_H}" rx="6" fill="{bg}" stroke="#334155" stroke-width="1"/>')
-            if live:
-                svg_lines.append(f'<circle cx="{x+NODE_W-8}" cy="{y+8}" r="4" fill="{dc}"/>')
-            svg_lines.append(f'<text x="{x+NODE_W//2}" y="{y+NODE_H//2+4}" text-anchor="middle" fill="{tc}" font-size="10" font-family="system-ui">{label}</text>')
-            svg_lines.append('</a>')
+    # CoS at top center
+    cos_y = 32
+    cos_x = W // 2 - NW // 2
+    positions["cos"] = (W // 2, cos_y + NH // 2)
+    svg.append(f'<rect x="{cos_x}" y="{cos_y}" width="{NW}" height="{NH}" rx="6" fill="#312e81" stroke="#6366f1" stroke-width="2"/>')
+    svg.append(f'<text x="{W//2}" y="{cos_y+NH//2+4}" text-anchor="middle" fill="#c7d2fe" font-size="11" font-weight="bold">🧠 CoS / AlexI</text>')
 
-    # Draw arrows: CoS → Infra, Watch, Dash
-    def arrow(x1, y1, x2, y2):
-        return f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>'
+    # Row 1: System cluster (y=90)
+    row1_y = 90
+    sys_agents = clusters[0][2]
+    sys_total = len(sys_agents) * NW + (len(sys_agents)-1) * PAD
+    sys_x = W//2 - sys_total//2
+    svg.append(f'<rect x="{sys_x-8}" y="{row1_y-14}" width="{sys_total+16}" height="{NH+22}" rx="8" fill="{clusters[0][1]}" opacity="0.6"/>')
+    svg.append(f'<text x="{sys_x}" y="{row1_y-4}" fill="#64748b" font-size="9">System</text>')
+    for i, (aid, lbl) in enumerate(sys_agents):
+        x = sys_x + i*(NW+PAD)
+        positions[aid] = (x+NW//2, row1_y+NH//2)
 
-    svg_lines.insert(1, '<defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#475569"/></marker></defs>')
+    # Row 2: Comms (left) + Finance&Assets (right), y=170
+    row2_y = 175
+    comms_agents = clusters[1][2]
+    comms_total = len(comms_agents)*NW + (len(comms_agents)-1)*PAD
+    comms_x = 18
+    svg.append(f'<rect x="{comms_x-8}" y="{row2_y-14}" width="{comms_total+16}" height="{NH+22}" rx="8" fill="{clusters[1][1]}" opacity="0.6"/>')
+    svg.append(f'<text x="{comms_x}" y="{row2_y-4}" fill="#64748b" font-size="9">Communications</text>')
+    for i, (aid, lbl) in enumerate(comms_agents):
+        x = comms_x + i*(NW+PAD)
+        positions[aid] = (x+NW//2, row2_y+NH//2)
 
-    cos_pos = positions.get("cos", (W//2, 55))
-    for agent_id in ["infrastructure", "monitoring", "dashboard", "comms-router", "finance"]:
-        if agent_id in positions:
-            ax, ay = positions[agent_id]
-            svg_lines.append(arrow(cos_pos[0], cos_pos[1]+NODE_H//2, ax, ay-NODE_H//2))
+    fin_agents = clusters[2][2]
+    fin_total = len(fin_agents)*NW + (len(fin_agents)-1)*PAD
+    fin_x = W - fin_total - 18
+    svg.append(f'<rect x="{fin_x-8}" y="{row2_y-14}" width="{fin_total+16}" height="{NH+22}" rx="8" fill="{clusters[2][1]}" opacity="0.6"/>')
+    svg.append(f'<text x="{fin_x}" y="{row2_y-4}" fill="#64748b" font-size="9">Finance & Assets</text>')
+    for i, (aid, lbl) in enumerate(fin_agents):
+        x = fin_x + i*(NW+PAD)
+        positions[aid] = (x+NW//2, row2_y+NH//2)
 
-    svg_lines.append('</svg>')
-    return "\n".join(svg_lines)
+    # SQLite bus between rows 2 and 3 — clearly labelled separator
+    bus_y = 255
+    svg.append(f'<rect x="30" y="{bus_y}" width="{W-60}" height="5" rx="3" fill="#1d4ed8" opacity="0.8"/>')
+    svg.append(f'<text x="{W//2}" y="{bus_y+16}" text-anchor="middle" fill="#93c5fd" font-size="9">⇄  SQLite Message Bus  —  shared communication channel for all agents  ⇄</text>')
+
+    # Row 3: Family & Life (y=290)
+    row3_y = 290
+    fam_agents = clusters[3][2]
+    fam_total = len(fam_agents)*NW + (len(fam_agents)-1)*PAD
+    fam_x = W//2 - fam_total//2
+    svg.append(f'<rect x="{fam_x-8}" y="{row3_y-14}" width="{fam_total+16}" height="{NH+22}" rx="8" fill="{clusters[3][1]}" opacity="0.6"/>')
+    svg.append(f'<text x="{fam_x}" y="{row3_y-4}" fill="#64748b" font-size="9">Family & Life</text>')
+    for i, (aid, lbl) in enumerate(fam_agents):
+        x = fam_x + i*(NW+PAD)
+        positions[aid] = (x+NW//2, row3_y+NH//2)
+
+    # Row 4: Vehicles & Movement (y=375)
+    row4_y = 375
+    veh_agents = clusters[4][2]
+    veh_total = len(veh_agents)*NW + (len(veh_agents)-1)*PAD
+    veh_x = W//2 - veh_total//2
+    svg.append(f'<rect x="{veh_x-8}" y="{row4_y-14}" width="{veh_total+16}" height="{NH+22}" rx="8" fill="{clusters[4][1]}" opacity="0.6"/>')
+    svg.append(f'<text x="{veh_x}" y="{row4_y-4}" fill="#64748b" font-size="9">Vehicles & Movement</text>')
+    for i, (aid, lbl) in enumerate(veh_agents):
+        x = veh_x + i*(NW+PAD)
+        positions[aid] = (x+NW//2, row4_y+NH//2)
+
+    # Dashed arrows from CoS to key agents
+    cx0, cy0 = positions["cos"]
+    for aid in ["infrastructure", "monitoring", "comms-router", "finance", "school"]:
+        if aid in positions:
+            ax, ay = positions[aid]
+            svg.append(f'<line x1="{cx0}" y1="{cy0+NH//2}" x2="{ax}" y2="{ay-NH//2}" stroke="#334155" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>')
+
+    # Draw all agent nodes
+    all_agents = [a for cl in clusters for a in cl[2]]
+    for aid, lbl in all_agents:
+        if aid not in positions: continue
+        px, py = positions[aid]
+        x, y = px-NW//2, py-NH//2
+        link_open = f'<a href="{aid}.html">' if live else ""
+        link_close = "</a>" if live else ""
+        bg = node_bg(aid)
+        stroke = node_stroke(aid)
+        tc = node_text(aid)
+        svg.append(link_open)
+        svg.append(f'<rect x="{x}" y="{y}" width="{NW}" height="{NH}" rx="5" fill="{bg}" stroke="{stroke}" stroke-width="{1.5 if live else 1}"/>')
+        if live:
+            h = agent_statuses.get(aid, {}).get("health", "unknown")
+            dc = {"ok": "#22c55e", "warning": "#f59e0b", "error": "#ef4444", "unknown": "#475569"}.get(h, "#475569")
+            svg.append(f'<circle cx="{x+NW-6}" cy="{y+7}" r="3.5" fill="{dc}"/>')
+        svg.append(f'<text x="{px}" y="{py+4}" text-anchor="middle" fill="{tc}" font-size="10">{lbl}</text>')
+        svg.append(link_close)
+
+    # Legend for live mode
+    if live:
+        lx, ly = 20, H-22
+        for color, label in [("#22c55e","Healthy"),("#f59e0b","Warning"),("#ef4444","Error"),("#475569","Unknown")]:
+            svg.append(f'<circle cx="{lx+5}" cy="{ly+5}" r="4" fill="{color}"/>')
+            svg.append(f'<text x="{lx+13}" y="{ly+9}" fill="#64748b" font-size="10">{label}</text>')
+            lx += 85
+
+    svg.append("</svg>")
+    return "\n".join(svg)
 
 def generate_index(items, agent_statuses):
     now = datetime.now().strftime("%d %b %Y %H:%M")
