@@ -1,13 +1,13 @@
 {
   "agent": "infrastructure",
-  "updated_at": "2026-04-12T16:44:32.276929",
+  "updated_at": "2026-04-12T17:04:42.249435",
   "health": "warning",
-  "summary": "Systems OK with 1 item(s) needing attention.",
+  "summary": "1 item(s) to review \u2014 no immediate action required.",
   "alerts": [
     {
       "priority": 2,
-      "title": "OpenClaw update available: 2026.4.9 \u2192 2026.4.11 (released 2026-04-12)",
-      "body": "Risk: MEDIUM \u2014 review gateway/agent changes before updating. Relevant to our setup: Memory/wiki enhancements (Could improve AlexI's long-term memory); Telegram changes (Our primary channel \u2014 worth reviewing); Gateway changes (Core infra \u2014 review carefully before updating); Agent runtime changes (Affects how all our agents run); New embed/output tags (Potentially useful for our HTML dashboard); WhatsApp changes (Planned for Milestone 4 \u2014 good to know); ChatGPT import (Could help migrate existing conversations to AlexI). Not relevant for us: Feishu (not used), Video generation (not used).",
+      "title": "OpenClaw 2026.4.9 \u2192 2026.4.11  (released 2026-04-12)",
+      "body": "\ud83d\udfe1 Risk: MEDIUM \u2014 Review gateway/agent changes before updating\n\n\u2705 Relevant to our setup:\n  \u2022 Memory/wiki \u2014 could improve AlexI's long-term memory\n  \u2022 Telegram \u2014 our primary channel \u2014 worth testing after update\n  \u2022 Gateway \u2014 core infra \u2014 review release notes carefully\n  \u2022 Agent runtime \u2014 affects how all our agents run\n  \u2022 New embed tags \u2014 potentially useful for our HTML dashboard\n  \u2022 WhatsApp \u2014 planned for Milestone 4\n  \u2022 ChatGPT import \u2014 could migrate existing conversations to AlexI\n\n\u274c Not relevant for us: Feishu, Video generation",
       "due_at": null,
       "action_required": false
     }
