@@ -1,12 +1,10 @@
 #!/bin/bash
 # Push workspace to server/openclaw/ on GitHub main branch
-# Uses a temp directory completely outside the workspace to avoid pollution
 set -e
 
 WORKSPACE="/home/node/.openclaw/workspace"
 MSG="${1:-AlexI workspace sync: $(date '+%Y-%m-%d %H:%M')}"
 
-# Work in /tmp — completely outside workspace
 TMPDIR=$(mktemp -d /tmp/alexi-push-XXXXXX)
 trap "rm -rf $TMPDIR" EXIT
 
@@ -14,16 +12,20 @@ cd "$TMPDIR"
 git clone git@github.com:almiho/vps.git repo
 cd repo
 
-# Clear and repopulate server/openclaw/
 rm -rf server/openclaw
 mkdir -p server/openclaw
 
-# Copy project files (explicit list — no system dirs, no DBs, no logs)
+# Copy files — strip all nested .git directories
 for item in \
   AGENTS.md AGENT_STANDARDS.md IDENTITY.md INFRA_AGENT.md \
   IDEAS.md STATUS.md SOUL.md TOOLS.md USER.md HEARTBEAT.md \
   .gitignore docs agents dashboard scripts; do
-  [ -e "$WORKSPACE/$item" ] && cp -r "$WORKSPACE/$item" "server/openclaw/"
+  src="$WORKSPACE/$item"
+  if [ -e "$src" ]; then
+    cp -r "$src" "server/openclaw/"
+    # Remove any nested .git dirs in the copy
+    find "server/openclaw/$item" -name ".git" -type d -exec rm -rf {} + 2>/dev/null || true
+  fi
 done
 
 git add server/openclaw/
