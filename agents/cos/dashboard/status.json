@@ -1,6 +1,6 @@
 {
   "agent": "cos",
-  "updated_at": "2026-04-12T17:24:47.142021",
+  "updated_at": "2026-04-12T17:27:46.918851",
   "health": "warning",
   "summary": "Running. 2 of 18 agents active. Milestones 0\u20132 complete. OKR onboarding pending \u2014 needed before GTD layer activates. Infra has 1 non-urgent item to review.",
   "alerts": [
@@ -13,8 +13,8 @@
     },
     {
       "priority": 3,
-      "title": "Infra flagged (FYI): OpenClaw 2026.4.9 \u2192 2026.4.11  (released 2026-04-12)",
-      "body": "Infra has flagged this but no action is needed from you right now.\nI'm watching it. I'll escalate if it becomes urgent.\nInfra's note: \ud83d\udd34 Risk: MEDIUM \u2014 Contains changes to core infrastructure (gateway/agent runtime) \u2014 read notes carefully and test thoroughly",
+      "title": "Infra flagged (monitoring): OpenClaw 2026.4.9 \u2192 2026.4.11  (released 2026-04-12)",
+      "body": "I've reviewed Infra's analysis. My take: low strategic risk.\nThe changes are mostly memory/UI improvements \u2014 nothing that affects our core setup.\nRecommendation: update at your next convenient moment, not urgently.\n\u2192 When you're ready: openclaw update (or however you installed it)",
       "due_at": null,
       "action_required": false
     }

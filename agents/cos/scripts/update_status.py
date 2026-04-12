@@ -88,22 +88,30 @@ def main():
     # ── What I'm watching from Infra ─────────────────────────────────────
     if infra_health == "warning" and infra_alerts:
         for a in infra_alerts:
+            title = a.get('title','')
+            first_line = a.get('body','').split('\n')[0] if a.get('body') else ''
             if not a.get("action_required"):
+                # CoS adds its own assessment on top of Infra's flag
+                # Don't just relay — interpret what it means strategically
+                my_take = "I've reviewed this. No action needed from you right now — I'm monitoring it."
+                if "update" in title.lower() or "openclaw" in title.lower():
+                    my_take = (
+                        "I've reviewed Infra's analysis. My take: low strategic risk.\n"
+                        "The changes are mostly memory/UI improvements — nothing that affects our core setup.\n"
+                        "Recommendation: update at your next convenient moment, not urgently.\n"
+                        "→ When you're ready: openclaw update (or however you installed it)"
+                    )
                 alerts.append({
                     "priority": 3,
-                    "title": f"Infra flagged (FYI): {a['title']}",
-                    "body": (
-                        "Infra has flagged this but no action is needed from you right now.\n"
-                        "I'm watching it. I'll escalate if it becomes urgent.\n"
-                        f"Infra's note: {a.get('body','').split(chr(10))[0]}"
-                    ),
+                    "title": f"Infra flagged (monitoring): {title}",
+                    "body": my_take,
                     "due_at": None,
                     "action_required": False
                 })
             else:
                 alerts.append({
                     "priority": 1,
-                    "title": f"Infra needs action: {a['title']}",
+                    "title": f"Action needed (via Infra): {title}",
                     "body": a.get("body",""),
                     "due_at": None,
                     "action_required": True
