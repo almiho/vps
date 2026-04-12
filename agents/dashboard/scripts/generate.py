@@ -255,6 +255,15 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .about-label { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
 .about-text { font-size: 0.85rem; color: #cbd5e1; line-height: 1.6; }
 .about-connects { font-size: 0.8rem; color: #94a3b8; font-style: italic; }
+.okr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.75rem; }
+@media (max-width: 768px) { .okr-grid { grid-template-columns: 1fr; } }
+.okr-card { background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 1rem; }
+.okr-card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+.okr-icon { font-size: 1.2rem; }
+.okr-title { font-size: 0.9rem; font-weight: 700; color: #c7d2fe; }
+.okr-idea { font-size: 0.78rem; color: #94a3b8; line-height: 1.5; margin-bottom: 0.75rem; font-style: italic; }
+.okr-kr-group { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.6rem; margin-bottom: 0.2rem; }
+.okr-kr-item { font-size: 0.8rem; color: #cbd5e1; line-height: 1.5; padding-left: 0.25rem; }
 """
 
 ABOUT_JS = """
@@ -329,6 +338,81 @@ def render_alert_item(a, show_agent=False):
         </div>
         {action}
     </div>"""
+
+def render_okr_section():
+    """Parse OKRs.md and render a collapsible OKR overview for the CoS page."""
+    okr_path = f"{WORKSPACE}/OKRs.md"
+    if not os.path.exists(okr_path):
+        return ""
+
+    with open(okr_path) as f:
+        lines = f.readlines()
+
+    objectives = []
+    current_obj = None
+    current_kr_group = None
+
+    for line in lines:
+        line = line.rstrip()
+        # Top-level objective: ## 1) Title
+        if line.startswith("## ") and ")" in line:
+            if current_obj:
+                objectives.append(current_obj)
+            current_obj = {"title": line[3:].strip(), "idea": "", "krs": []}
+            current_kr_group = None
+        # Idea line
+        elif current_obj and line.startswith("**Idea:**"):
+            current_obj["idea"] = line.replace("**Idea:**", "").strip()
+        # KR group heading
+        elif current_obj and line.startswith("**") and line.endswith("**") and "Idea" not in line and "Key Results" not in line and "Measure" not in line:
+            current_kr_group = line.strip("*").strip()
+        # KR bullet
+        elif current_obj and line.strip().startswith("- ") and "Measure:" not in line and current_kr_group:
+            current_obj["krs"].append({"group": current_kr_group, "text": line.strip()[2:]})
+
+    if current_obj:
+        objectives.append(current_obj)
+
+    # Render
+    cards_html = ""
+    icons = ["👨‍👩‍👧", "💪", "💶", "💼", "👥"]
+    for i, obj in enumerate(objectives):
+        icon = icons[i] if i < len(icons) else "🎯"
+        # Group KRs by group name
+        groups = {}
+        for kr in obj["krs"]:
+            groups.setdefault(kr["group"], []).append(kr["text"])
+        krs_html = ""
+        for grp, items in groups.items():
+            krs_html += f'<div class="okr-kr-group">{grp}</div>'
+            for item in items:
+                krs_html += f'<div class="okr-kr-item">• {item}</div>'
+        cards_html += f"""
+<div class="okr-card">
+  <div class="okr-card-header">
+    <span class="okr-icon">{icon}</span>
+    <span class="okr-title">{obj["title"]}</span>
+  </div>
+  {f'<div class="okr-idea">{obj["idea"]}</div>' if obj["idea"] else ""}
+  <div class="okr-krs">{krs_html}</div>
+</div>"""
+
+    return f"""
+<button class="about-toggle" onclick="toggleOkrs()" style="margin-bottom:0.5rem">
+  🎯 Personal OKRs &nbsp;<span id="okr-arrow">▶</span>
+</button>
+<div id="okr-content" style="display:none">
+  <div class="okr-grid">{cards_html}</div>
+</div>
+<script>
+function toggleOkrs() {{
+  var el = document.getElementById('okr-content');
+  var arrow = document.getElementById('okr-arrow');
+  if (el.style.display === 'none') {{ el.style.display = 'block'; arrow.textContent = '▼'; }}
+  else {{ el.style.display = 'none'; arrow.textContent = '▶'; }}
+}}
+</script>"""
+
 
 def render_about_section(agent_id):
     about = AGENT_ABOUT.get(agent_id)
@@ -592,7 +676,11 @@ def generate_agent_page(agent_id, label, emoji, status, agent_statuses=None):
 
     # Extra sections for specific agents
     extra_html = ""
-    if agent_id == "infrastructure":
+    if agent_id == "cos":
+        okr_html = render_okr_section()
+        if okr_html:
+            extra_html = f'<div class="section"><div class="section-title">🎯 Goals & OKRs</div>{okr_html}</div>'
+    elif agent_id == "infrastructure":
         extra_html = f'<div class="section"><div class="section-title">🗺️ System Architecture</div>{render_architecture_svg()}</div>'
     elif agent_id == "monitoring" and agent_statuses:
         extra_html = f'<div class="section"><div class="section-title">🟢 Live System Health</div>{render_architecture_svg(agent_statuses)}</div>'

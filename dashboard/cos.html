@@ -61,6 +61,15 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .about-label { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
 .about-text { font-size: 0.85rem; color: #cbd5e1; line-height: 1.6; }
 .about-connects { font-size: 0.8rem; color: #94a3b8; font-style: italic; }
+.okr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.75rem; }
+@media (max-width: 768px) { .okr-grid { grid-template-columns: 1fr; } }
+.okr-card { background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 1rem; }
+.okr-card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+.okr-icon { font-size: 1.2rem; }
+.okr-title { font-size: 0.9rem; font-weight: 700; color: #c7d2fe; }
+.okr-idea { font-size: 0.78rem; color: #94a3b8; line-height: 1.5; margin-bottom: 0.75rem; font-style: italic; }
+.okr-kr-group { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.6rem; margin-bottom: 0.2rem; }
+.okr-kr-item { font-size: 0.8rem; color: #cbd5e1; line-height: 1.5; padding-left: 0.25rem; }
 </style><script>
 function toggleAbout() {
   const content = document.getElementById('about-content');
@@ -72,8 +81,8 @@ function toggleAbout() {
 <body>
 <div class="header">
   <a href="index.html" class="back">← Dashboard</a>
-  <div style="display:flex;align-items:center;gap:0.75rem"><span style="font-size:1.5rem">🧠</span><span style="font-size:1.1rem;font-weight:700">Chief of Staff</span><span style="background:#f59e0b;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">⚠️ Warning</span></div>
-  <div style="font-size:0.75rem;color:#475569">12 Apr 2026 21:17</div>
+  <div style="display:flex;align-items:center;gap:0.75rem"><span style="font-size:1.5rem">🧠</span><span style="font-size:1.1rem;font-weight:700">Chief of Staff</span><span style="background:#22c55e;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">OK</span></div>
+  <div style="font-size:0.75rem;color:#475569">12 Apr 2026 22:52</div>
 </div>
 <div class="container" style="max-width:900px">
   
@@ -103,18 +112,63 @@ function toggleAbout() {
   </div>
 </div>
   <div class="section"><div class="section-title">Status</div>
-    <div class="status-row"><div class="status-summary">Action needed: Your input needed: OKR onboarding session</div><div class="status-updated">Last updated: 12 Apr 21:02</div></div>
+    <div class="status-row"><div class="status-summary">Running. 4/18 agents active. Milestones 0–2 complete. All good.</div><div class="status-updated">Last updated: 12 Apr 22:49</div></div>
   </div>
-  
-  <div class="section"><div class="section-title">🔴 Alerts & Actions</div>
-    <div class="item alert-item">
-        <div class="item-priority p1">P1</div>
-        <div class="item-content">
-            <div class="item-title">Your input needed: OKR onboarding session</div>
-            
-            <div class="item-body"><span class="item-body-line">I can't prioritise tasks across agents without knowing your goals.</span><span class="item-body-line">This is the most important thing we haven't done yet.</span><span class="item-body-line">Verdict: schedule this before Milestone 5 begins — everything downstream depends on it.</span><span class="item-body-line muted" style="padding-left:0.5rem">→ When ready, tell me: 'Let's do the OKR session'</span></div>
-        </div>
-        <div class='action-badge'>Action needed</div>
-    </div></div>
-  <div class="section"><div class="section-title">📅 Upcoming</div><div class="item"><div class="item-priority p1">P1</div><div class="item-content"><div class="item-title">Delegating to Infra: build Monitoring Agent (Milestone 3)</div></div></div><div class="item"><div class="item-priority p2">P2</div><div class="item-content"><div class="item-title">Waiting on: your go-ahead to proceed with Milestone 3</div></div></div><div class="item"><div class="item-priority p2">P2</div><div class="item-content"><div class="item-title">Planning: once Monitoring Agent is live, Infra moves to Comms Collector (M4)</div></div></div><div class="item"><div class="item-priority p3">P3</div><div class="item-content"><div class="item-title">On my radar: Phani message reminder — follow up tomorrow if not sent</div></div></div></div>
+  <div class="section"><div class="section-title">🎯 Goals & OKRs</div>
+<button class="about-toggle" onclick="toggleOkrs()" style="margin-bottom:0.5rem">
+  🎯 Personal OKRs &nbsp;<span id="okr-arrow">▶</span>
+</button>
+<div id="okr-content" style="display:none">
+  <div class="okr-grid">
+<div class="okr-card">
+  <div class="okr-card-header">
+    <span class="okr-icon">👨‍👩‍👧</span>
+    <span class="okr-title">1) Be a Present and Supportive Partner and Father</span>
+  </div>
+  <div class="okr-idea">Provide stability, continuity, and positive experiences for the children and family during this international phase. Focus on education, relationships, and shared experiences while keeping family logistics predictable.</div>
+  <div class="okr-krs"><div class="okr-kr-group">Time and engagement with the kids</div><div class="okr-kr-item">• Pick up the kids and spend dedicated afternoon time together</div><div class="okr-kr-group">German learning and school readiness</div><div class="okr-kr-item">• Conduct regular German practice sessions</div><div class="okr-kr-item">• Stay consistently 2–3 days ahead with German preparation</div><div class="okr-kr-item">• Maintain German test results at ≥ 85% points on average</div><div class="okr-kr-group">Trips and experiences</div><div class="okr-kr-item">• Plan and execute a summer boat trip including:</div><div class="okr-kr-item">• At least 2–3 interesting destinations specifically for Tanja</div><div class="okr-kr-item">• At least 1 real highlight per week for the kids (sometimes 1–2)</div><div class="okr-kr-group">Planning discipline</div><div class="okr-kr-item">• Book family trips and travel ≥ 30 days before departure on average</div><div class="okr-kr-group">Family coordination discipline</div><div class="okr-kr-item">• Record all upcoming events and dates on the family dashboard within 24 hours after they are communicated via any channel (mail, school app, WhatsApp, etc.)</div><div class="okr-kr-item">• Target: ≥ 95%</div><div class="okr-kr-group">Administrative readiness for the kids</div><div class="okr-kr-item">• Successfully register both kids in Denmark</div><div class="okr-kr-item">• Ensure health insurance coverage for both kids in Denmark</div></div>
+</div>
+<div class="okr-card">
+  <div class="okr-card-header">
+    <span class="okr-icon">💪</span>
+    <span class="okr-title">2) Maintain Strong Physical and Mental Energy</span>
+  </div>
+  <div class="okr-idea">Build a sustainable baseline of health and resilience that supports performance, presence, and long-term well-being.</div>
+  <div class="okr-krs"><div class="okr-kr-group">Movement and routine</div><div class="okr-kr-item">• Bike to work at least 3 times per week on average</div><div class="okr-kr-group">Weight and physical health</div><div class="okr-kr-item">• Obtain a scale and track weight regularly</div><div class="okr-kr-item">• Reduce body weight to below 90 kg</div><div class="okr-kr-item">• Maintain a clear downward trend throughout the year</div><div class="okr-kr-group">Energy awareness</div><div class="okr-kr-item">• Track personal energy level once per week</div><div class="okr-kr-item">• 1 = exhausted, 2 = tired, 3 = normal, 4 = good, 5 = excellent</div><div class="okr-kr-item">• Target: Average ≥ 3</div><div class="okr-kr-item">• Tracking support: AlexI (Health Agent) records weekly entries</div><div class="okr-kr-group">Recovery and social balance</div><div class="okr-kr-item">• Plan and firmly schedule a Männertour with Tobi, Timo, and Holger</div><div class="okr-kr-group">Health maintenance</div><div class="okr-kr-item">• Complete one routine health-related check</div></div>
+</div>
+<div class="okr-card">
+  <div class="okr-card-header">
+    <span class="okr-icon">💶</span>
+    <span class="okr-title">3) Ensure Financial Clarity, Liquidity, and Personal Organization</span>
+  </div>
+  <div class="okr-idea">Maintain control and preparedness in a complex cross-border setup by ensuring visibility, resilience, and reliable organization.</div>
+  <div class="okr-krs"><div class="okr-kr-group">Financial visibility</div><div class="okr-kr-item">• Maintain one clear overview of finances, obligations, and key deadlines</div><div class="okr-kr-item">• Review and update financial overview quarterly</div><div class="okr-kr-group">Organization and documentation</div><div class="okr-kr-item">• Keep important documents organized in one reliable system</div><div class="okr-kr-group">Resilience and contingency planning</div><div class="okr-kr-item">• Define and document a backup scenario in case of job termination, including:</div><div class="okr-kr-item">• Cancel apartment and school if needed</div><div class="okr-kr-item">• Return to Germany</div><div class="okr-kr-item">• Secure interim financial stability</div><div class="okr-kr-item">• Identify next employment options</div><div class="okr-kr-item">• Ensure sufficient financial buffer to execute this scenario calmly if required</div></div>
+</div>
+<div class="okr-card">
+  <div class="okr-card-header">
+    <span class="okr-icon">💼</span>
+    <span class="okr-title">4) Be Successful and Confident in My Current Role</span>
+  </div>
+  <div class="okr-idea">Build credibility, momentum, and confidence in the role by delivering results, maintaining alignment, and strengthening leadership impact.</div>
+  <div class="okr-krs"><div class="okr-kr-group">Organisational health and leadership impact</div><div class="okr-kr-item">• Achieve and maintain a Peakon engagement score of 8.3 or higher</div><div class="okr-kr-item">• Review Peakon results monthly</div><div class="okr-kr-group">Focus and delivery</div><div class="okr-kr-item">• Maintain clarity on the top priorities and review them weekly</div><div class="okr-kr-group">Stakeholder relationship</div><div class="okr-kr-item">• Maintain a strong working relationship with Anna</div><div class="okr-kr-item">• Hold bi-weekly 1:1 meetings with Anna</div></div>
+</div>
+<div class="okr-card">
+  <div class="okr-card-header">
+    <span class="okr-icon">👥</span>
+    <span class="okr-title">5) Maintain and Strengthen Important Personal Relationships Outside the Core Family</span>
+  </div>
+  <div class="okr-idea">Preserve strong connections with a small group of trusted friends who provide support, perspective, and continuity despite a busy schedule.</div>
+  <div class="okr-krs"><div class="okr-kr-group">Connection discipline</div><div class="okr-kr-item">• Reach out proactively to each person at least once per month</div><div class="okr-kr-group">Relationship continuity</div><div class="okr-kr-item">• Maintain meaningful contact despite travel and workload</div></div>
+</div></div>
+</div>
+<script>
+function toggleOkrs() {
+  var el = document.getElementById('okr-content');
+  var arrow = document.getElementById('okr-arrow');
+  if (el.style.display === 'none') { el.style.display = 'block'; arrow.textContent = '▼'; }
+  else { el.style.display = 'none'; arrow.textContent = '▶'; }
+}
+</script></div>
+  <div class="section"><div class="section-title">🔴 Alerts & Actions</div><div class="empty-state">No alerts</div></div>
+  <div class="section"><div class="section-title">📅 Upcoming</div><div class="item"><div class="item-priority p1">P1</div><div class="item-content"><div class="item-title">Next build: School Agent — German tracking, school calendar, registration status</div></div></div><div class="item"><div class="item-priority p2">P2</div><div class="item-content"><div class="item-title">Then: Tax Agent — cross-border deadlines approaching</div></div></div><div class="item"><div class="item-priority p3">P3</div><div class="item-content"><div class="item-title">Then: Travel Agent — summer boat trip, booking discipline (≥30 days ahead)</div></div></div><div class="item"><div class="item-priority p4">P4</div><div class="item-content"><div class="item-title">Later: Comms Collector, Finance Agent, Health Agent, Friendships tracker</div></div></div></div>
 </div></body></html>
