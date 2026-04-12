@@ -1,13 +1,13 @@
 {
   "agent": "infrastructure",
-  "updated_at": "2026-04-12T16:40:22.218393",
+  "updated_at": "2026-04-12T16:44:32.276929",
   "health": "warning",
   "summary": "Systems OK with 1 item(s) needing attention.",
   "alerts": [
     {
       "priority": 2,
-      "title": "OpenClaw update available: 2026.4.9 \u2192 2026.4.11",
-      "body": "Released 2026-04-12. Stable release. Risk: LOW. Changes: \n### Changes\n\n- Dreaming/memory-wiki: add ChatGPT import ingestion plus new `Imported Insights` and `Memory Palace` diary subtabs so Dreaming can inspect imported source chats, compiled wiki pages, an... Recommendation: update during next maintenance window.",
+      "title": "OpenClaw update available: 2026.4.9 \u2192 2026.4.11 (released 2026-04-12)",
+      "body": "Risk: MEDIUM \u2014 review gateway/agent changes before updating. Relevant to our setup: Memory/wiki enhancements (Could improve AlexI's long-term memory); Telegram changes (Our primary channel \u2014 worth reviewing); Gateway changes (Core infra \u2014 review carefully before updating); Agent runtime changes (Affects how all our agents run); New embed/output tags (Potentially useful for our HTML dashboard); WhatsApp changes (Planned for Milestone 4 \u2014 good to know); ChatGPT import (Could help migrate existing conversations to AlexI). Not relevant for us: Feishu (not used), Video generation (not used).",
       "due_at": null,
       "action_required": false
     }
