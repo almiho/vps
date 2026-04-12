@@ -408,6 +408,22 @@ agents/[name]/
 
 The Infrastructure Agent is responsible for ensuring `AGENT_STANDARDS.md` is not just a document — it is actively implemented in every agent that gets built.
 
+### Critical: File Placement Rules
+
+OpenClaw agents have TWO separate directories — both matter:
+
+```
+/home/node/.openclaw/agents/[name]/agent/   ← OpenClaw internals (auth, etc.) — DO NOT USE
+/home/node/.openclaw/workspace/agents/[name]/  ← Agent workspace files (SOUL, AGENTS, USER etc.) ✅
+```
+
+The agent's workspace (where it reads its SOUL.md, AGENTS.md, IDENTITY.md, USER.md) is defined in `openclaw.json` under `agents[name].workspace`. Always verify this path before writing files. For all agents in this project it will be:
+```
+/home/node/.openclaw/workspace/agents/[agent-name]/
+```
+
+The `agentDir` (`/home/node/.openclaw/agents/[name]/agent/`) is for OpenClaw's own internal use — do not put mission files there.
+
 ### When scaffolding a new agent, the Infrastructure Agent must:
 
 1. **Create the agent directory structure** exactly as defined in AGENT_STANDARDS.md
