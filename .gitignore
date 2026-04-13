@@ -1,3 +1,6 @@
+# macOS
+.DS_Store
+
 # SSH private keys — stored at /home/node/.openclaw/config/ssh/ (outside git)
 config/ssh/github
 # SQLite databases
