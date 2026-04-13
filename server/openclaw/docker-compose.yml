@@ -10,6 +10,8 @@ services:
     volumes:
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw
       - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace
+      - ${OPENCLAW_LOCAL_DIR}:/home/node/.local
+      - ${OPENCLAW_CONFIG_HOME_DIR}:/home/node/.config
     network_mode: host
     init: true
     restart: unless-stopped
@@ -54,6 +56,8 @@ services:
     volumes:
       - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw
       - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace
+      - ${OPENCLAW_LOCAL_DIR}:/home/node/.local
+      - ${OPENCLAW_CONFIG_HOME_DIR}:/home/node/.config
     stdin_open: true
     tty: true
     init: true
