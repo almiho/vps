@@ -7,11 +7,15 @@ Intelligence standard: don't report metrics, interpret them.
 Silent when healthy. Loud when it matters.
 """
 
-import json, os, sqlite3, subprocess, urllib.request, urllib.parse
+import json, os, sqlite3, subprocess, sys, urllib.request, urllib.parse
 from datetime import datetime, timezone
+
+sys.path.insert(0, "/home/node/.openclaw/workspace/scripts")
+from agent_logger import AgentLogger
 
 WORKSPACE    = "/home/node/.openclaw/workspace"
 STATUS_PATH  = f"{WORKSPACE}/agents/monitoring/dashboard/status.json"
+log = AgentLogger("monitoring")
 ALERT_LOG    = f"{WORKSPACE}/agents/monitoring/data/alerts.jsonl"
 AGENTS_DIR   = f"{WORKSPACE}/agents"
 PREV_STATE   = f"{WORKSPACE}/agents/monitoring/data/prev_state.json"
@@ -80,23 +84,90 @@ def log_alert(alert):
 def check_gateway():
     out = run("openclaw gateway status 2>&1")
     ok = "rpc probe: ok" in out.lower()
-    return {
-        "name": "gateway",
-        "ok": ok,
-        "detail": "RPC probe OK" if ok else "RPC probe failed — gateway may be down"
-    }
+    if ok:
+        return {"name": "gateway", "ok": True, "detail": "RPC probe OK — gateway healthy"}
+
+    # Probe failed — investigate before concluding
+    proc = run("pgrep -f 'openclaw' 2>/dev/null | wc -l").strip()
+    proc_count = int(proc) if proc.isdigit() else 0
+
+    # Check if web server is still up (separate service, helps assess scope)
+    try:
+        import urllib.request as _ur
+        with _ur.urlopen("http://100.67.100.125:8080/", timeout=3) as r:
+            web_ok = r.status == 200
+    except Exception:
+        web_ok = False
+
+    # Check recent scheduler log for gateway errors
+    recent = run("tail -20 /home/node/.openclaw/workspace/logs/scheduler.log 2>/dev/null")
+    recent_errors = [l for l in recent.splitlines() if "gateway" in l.lower() or "error" in l.lower()]
+
+    # Build an evidence-based diagnosis
+    if proc_count > 0 and web_ok:
+        detail = (
+            f"RPC probe failed, but {proc_count} openclaw process(es) running and web server reachable. "
+            "Assessment: likely a transient connectivity blip, not a full outage. "
+            "Will self-resolve — if it persists next cycle, escalate. "
+            "→ If it recurs: openclaw gateway restart"
+        )
+        if recent_errors:
+            detail += f"\nRecent log hint: {recent_errors[-1].strip()}"
+    elif proc_count == 0:
+        detail = (
+            "RPC probe failed and no openclaw processes found — gateway appears completely stopped. "
+            "Assessment: full outage, this needs immediate attention. "
+            "→ Start gateway: openclaw gateway start"
+        )
+    elif not web_ok:
+        detail = (
+            "RPC probe failed and web server also unreachable. "
+            "Assessment: broad connectivity failure or full service crash. "
+            f"openclaw processes running: {proc_count}. "
+            "→ Check: openclaw gateway status | then: openclaw gateway restart"
+        )
+    else:
+        detail = (
+            f"RPC probe failed. Process count: {proc_count}, web server: {'up' if web_ok else 'down'}. "
+            "Unable to form a confident diagnosis from available signals. "
+            "→ Run manually: openclaw gateway status"
+        )
+
+    return {"name": "gateway", "ok": False, "detail": detail}
 
 def check_web_server():
     try:
         with urllib.request.urlopen("http://100.67.100.125:8080/", timeout=5) as r:
             ok = r.status == 200
-    except:
+    except Exception:
         ok = False
-    return {
-        "name": "web_server",
-        "ok": ok,
-        "detail": "Dashboard reachable on :8080" if ok else "Dashboard not reachable at http://100.67.100.125:8080/"
-    }
+
+    if ok:
+        return {"name": "web_server", "ok": True, "detail": "Dashboard reachable at http://100.67.100.125:8080/"}
+
+    # Not reachable — investigate
+    proc = run("pgrep -f 'http.server' 2>/dev/null").strip()
+    proc_running = bool(proc)
+    recent = run("tail -5 /home/node/.openclaw/workspace/logs/webserver.log 2>/dev/null")
+
+    if not proc_running:
+        detail = (
+            "Dashboard unreachable at :8080 and web server process not found — it has stopped. "
+            "Assessment: process crashed or was never started. "
+            "→ Restart: cd /home/node/.openclaw/workspace/dashboard && "
+            "nohup python3 -m http.server 8080 --bind 100.67.100.125 &"
+        )
+    else:
+        detail = (
+            f"Dashboard unreachable at :8080, but web server process is running (PID {proc}). "
+            "Assessment: process alive but not responding — may be hung or bound to wrong address. "
+            "→ Kill and restart: kill " + proc + " && cd /home/node/.openclaw/workspace/dashboard && "
+            "nohup python3 -m http.server 8080 --bind 100.67.100.125 &"
+        )
+        if recent:
+            detail += f"\nLast log entry: {recent.splitlines()[-1].strip()}"
+
+    return {"name": "web_server", "ok": False, "detail": detail}
 
 def check_bus():
     bus = f"{WORKSPACE}/data/bus.db"
@@ -195,6 +266,7 @@ def check_cron_jobs():
 # ── Main ──────────────────────────────────────────────────────────────────
 
 def main():
+    log.info("run_start", "Beginning health checks")
     now = datetime.now().isoformat()
     prev = load_prev_state()
     checks = [
@@ -216,6 +288,7 @@ def main():
         is_warn = c.get("warn", False)
 
         if not is_ok:
+            log.error(f"check_{c['name']}", c["detail"])
             # New failure — alert if it wasn't already failing
             if was_ok:
                 new_failures.append(c)
@@ -231,6 +304,7 @@ def main():
                 "due_at": None
             })
         elif is_warn:
+            log.warning(f"check_{c['name']}", c["detail"])
             warnings.append({
                 "priority": 2,
                 "title": f"{c['name'].replace('_',' ').title()} — Warning",
@@ -239,11 +313,15 @@ def main():
                 "due_at": None
             })
 
+        else:
+            log.info(f"check_{c['name']}", c["detail"])
+
     # Send Telegram for NEW failures only (avoid spam on repeat runs)
     for failure in new_failures:
         name = failure["name"].replace("_", " ").title()
         detail = failure["detail"]
         log_alert({"type": "failure", "component": failure["name"], "detail": detail})
+        log.error("alert_sent", f"Telegram alert fired: {name} — {detail[:80]}")
         send_telegram_alert(
             f"System problem: {name}",
             f"{detail}\n\nCheck dashboard: http://100.67.100.125:8080/monitoring.html"
@@ -289,6 +367,7 @@ def main():
     with open(STATUS_PATH, "w") as f:
         json.dump(status, f, indent=2)
 
+    log.info("run_complete", f"health={health}, failures={n_fail}, warnings={n_warn}")
     print(f"✅ Watch: health={health}, failures={n_fail}, warnings={n_warn}")
     return health
 

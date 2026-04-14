@@ -281,6 +281,36 @@ If the answer is no — rewrite it until it is.
 
 This standard applies to every check, every alert, every recommendation, every status update.
 
+---
+
+## 14. Investigation Standard — When Something Looks Wrong, Investigate
+
+**A single failed check is a signal, not a conclusion.**
+
+When a probe, check, or query returns a bad result, do not immediately report it as a confirmed problem. Do what a smart colleague would do: investigate first, then report.
+
+**Mandatory investigation steps before reporting a failure:**
+1. **Cross-reference with other checks.** If the gateway probe failed but the web server is reachable and the scheduler is running, that changes the diagnosis completely.
+2. **Check the process.** Is the relevant process/service actually running? (`pgrep`, process list)
+3. **Scan recent logs.** What happened in the minutes before the failure? Is there a pattern, a crash, a restart?
+4. **Distinguish transient from persistent.** Did this just start failing, or has it been failing? (Use prev_state for monitoring agents.)
+5. **Assess blast radius.** What else is affected if this is genuinely broken?
+
+**Then build a diagnosis:**
+- If evidence is conclusive: state what is wrong and why you're confident.
+- If evidence is mixed or inconclusive: say so explicitly. "Probe failed but process is running and other systems are healthy — likely transient. Will confirm on next cycle."
+- Always give a specific recommended next step based on what you found, not a generic "check the logs."
+
+**Read-only investigation only.** Never restart services, modify state, or take corrective action automatically. Investigate, diagnose, recommend — then wait for Alexander to act.
+
+❌ Wrong: "RPC probe failed — gateway may be down. → Check: openclaw gateway status"
+✅ Right: "Gateway RPC probe failed. Investigation: process is running (PID 4821), web server reachable, no recent crashes in logs. Assessment: likely a transient connectivity blip, not an outage. Confidence: medium. → If this recurs next cycle, run: openclaw gateway restart"
+
+❌ Wrong: "Web server not reachable"
+✅ Right: "Dashboard unreachable at :8080. Investigation: web server process not found in process list — it appears to have crashed. Last log entry was 14 min ago (normal). → Restart: cd /workspace/dashboard && nohup python3 -m http.server 8080 --bind 100.67.100.125 &"
+
+This applies to the monitoring agent, infrastructure agent, and any future agent that performs health checks or watches external state.
+
 ## 15. Communication with Alexander
 
 - Never send half-baked or low-confidence information without flagging it as such

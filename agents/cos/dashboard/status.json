@@ -1,36 +1,36 @@
 {
   "agent": "cos",
-  "updated_at": "2026-04-12T21:17:55.073570",
-  "health": "warning",
-  "summary": "Action needed: Your input needed: OKR onboarding session",
+  "updated_at": "2026-04-14T09:16:50.296723",
+  "health": "ok",
+  "summary": "Running. 4/18 agents. Review: Infra flagged (monitoring): OpenClaw 2026.4.11 \u2192 2026.4",
   "alerts": [
     {
-      "priority": 1,
-      "title": "Your input needed: OKR onboarding session",
-      "body": "I can't prioritise tasks across agents without knowing your goals.\nThis is the most important thing we haven't done yet.\nVerdict: schedule this before Milestone 5 begins \u2014 everything downstream depends on it.\n\u2192 When ready, tell me: 'Let's do the OKR session'",
+      "priority": 3,
+      "title": "Infra flagged (monitoring): OpenClaw 2026.4.11 \u2192 2026.4.12  (released 2026-04-13)",
+      "body": "I've reviewed Infra's analysis. My take: low strategic risk.\nThe changes are mostly memory/UI improvements \u2014 nothing that affects our core setup.\nRecommendation: update at your next convenient moment, not urgently.\n\u2192 When you're ready: openclaw update (or however you installed it)",
       "due_at": null,
-      "action_required": true
+      "action_required": false
     }
   ],
   "upcoming": [
     {
       "priority": 1,
-      "title": "Delegating to Infra: build Monitoring Agent (Milestone 3)",
+      "title": "Next build: School Agent \u2014 German tracking, school calendar, registration status",
       "due_at": null
     },
     {
       "priority": 2,
-      "title": "Waiting on: your go-ahead to proceed with Milestone 3",
-      "due_at": null
-    },
-    {
-      "priority": 2,
-      "title": "Planning: once Monitoring Agent is live, Infra moves to Comms Collector (M4)",
+      "title": "Then: Tax Agent \u2014 cross-border deadlines approaching",
       "due_at": null
     },
     {
       "priority": 3,
-      "title": "On my radar: Phani message reminder \u2014 follow up tomorrow if not sent",
+      "title": "Then: Travel Agent \u2014 summer boat trip, booking discipline (\u226530 days ahead)",
+      "due_at": null
+    },
+    {
+      "priority": 4,
+      "title": "Later: Comms Collector, Finance Agent, Health Agent, Friendships tracker",
       "due_at": null
     }
   ]

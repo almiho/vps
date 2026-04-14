@@ -3,13 +3,18 @@
 Dashboard Generator — AlexI Project
 """
 
-import sqlite3, json, os
+import sqlite3, json, os, sys
 from datetime import datetime
+
+sys.path.insert(0, "/home/node/.openclaw/workspace/scripts")
+from agent_logger import AgentLogger
 
 WORKSPACE   = "/home/node/.openclaw/workspace"
 DB_PATH     = f"{WORKSPACE}/data/dashboard.db"
 OUTPUT_DIR  = f"{WORKSPACE}/dashboard"
 AGENTS_DIR  = f"{WORKSPACE}/agents"
+LOG_DATA_DIR = f"{OUTPUT_DIR}/data/logs"
+log = AgentLogger("dashboard")
 
 AGENTS = [
     ("cos",            "Chief of Staff",  "🧠"),
@@ -264,6 +269,33 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .okr-idea { font-size: 0.78rem; color: #94a3b8; line-height: 1.5; margin-bottom: 0.75rem; font-style: italic; }
 .okr-kr-group { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.6rem; margin-bottom: 0.2rem; }
 .okr-kr-item { font-size: 0.8rem; color: #cbd5e1; line-height: 1.5; padding-left: 0.25rem; }
+/* Log section */
+details.log-section > summary { cursor:pointer; color:#64748b; font-size:0.8rem; padding:0.4rem 0; user-select:none; list-style:none; }
+details.log-section > summary::before { content:'▶ '; font-size:0.7rem; }
+details.log-section[open] > summary::before { content:'▼ '; }
+details.log-section > summary:hover { color:#94a3b8; }
+.log-reload-btn { background:none; border:1px solid #334155; border-radius:6px; color:#64748b; padding:3px 10px; font-size:0.75rem; cursor:pointer; line-height:1; }
+.log-reload-btn:hover { border-color:#475569; color:#94a3b8; }
+.log-filter-bar { display:flex; flex-wrap:wrap; gap:0.75rem; margin:0.6rem 0 0.4rem; }
+.log-filter-group { display:flex; align-items:center; gap:0.3rem; }
+.log-filter-label { font-size:0.7rem; color:#475569; text-transform:uppercase; letter-spacing:0.05em; margin-right:2px; }
+.log-filter-btn { background:none; border:1px solid #334155; border-radius:4px; color:#64748b; padding:2px 8px; font-size:0.72rem; cursor:pointer; }
+.log-filter-btn:hover { border-color:#475569; color:#94a3b8; }
+.log-filter-btn.active { background:#1e3a5f; border-color:#3b82f6; color:#93c5fd; }
+.log-container { margin-top:0.25rem; font-family:'SF Mono',Menlo,monospace; }
+.log-row { display:grid; grid-template-columns:150px 90px 68px 130px 1fr; gap:6px; padding:3px 6px; border-bottom:1px solid #0f172a; font-size:0.74rem; align-items:start; }
+.log-row:hover { background:#162032; }
+.log-ts { color:#475569; white-space:nowrap; }
+.log-agent { color:#a78bfa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.log-level { font-weight:700; }
+.log-lvl-debug { color:#475569; }
+.log-lvl-info { color:#64748b; }
+.log-lvl-warning { color:#f59e0b; }
+.log-lvl-error { color:#ef4444; }
+.log-lvl-critical { color:#fca5a5; background:#450a0a; padding:0 3px; border-radius:3px; }
+.log-event { color:#7dd3fc; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.log-msg { color:#94a3b8; }
+.log-empty { color:#475569; font-size:0.8rem; padding:0.5rem 0; }
 """
 
 ABOUT_JS = """
@@ -274,6 +306,127 @@ function toggleAbout() {
   arrow.textContent = content.classList.contains('open') ? '▲' : '▼';
 }
 """
+
+def read_agent_logs(agent_id, n=20):
+    """Read last n log entries for an agent."""
+    return AgentLogger.read_recent(agent_id, n)
+
+def write_log_json(agent_id, entries):
+    """Write log entries as JSON array to dashboard/data/logs/[agent].json."""
+    os.makedirs(LOG_DATA_DIR, exist_ok=True)
+    with open(f"{LOG_DATA_DIR}/{agent_id}.json", "w") as f:
+        json.dump(entries, f)
+
+def render_log_section(agent_id, entries, combined=False):
+    """
+    Render a collapsible log section with agent/level filters and a reload button.
+    combined=True: shows all active agents merged, with agent filter buttons.
+    """
+    fetch_url = "/data/logs/_combined.json" if combined else f"/data/logs/{agent_id}.json"
+    fn_suffix = "combined" if combined else agent_id.replace("-", "_")
+    container_id = f"log-{fn_suffix}"
+    title = "📋 Combined System Log" if combined else "📋 Recent Log"
+
+    # Collect unique agents for filter buttons (combined only)
+    agents_in_log = []
+    if combined:
+        seen = []
+        for e in entries:
+            a = e.get("agent", "")
+            if a and a not in seen:
+                seen.append(a)
+        agents_in_log = seen
+
+    entries_json = json.dumps(entries)
+
+    # Agent filter buttons HTML
+    agent_filter_html = ""
+    if combined and agents_in_log:
+        btns = '<button class="log-filter-btn active" onclick="logFilterAgent_{fn_suffix}(this,\'all\')">All</button>'.format(fn_suffix=fn_suffix)
+        for a in agents_in_log:
+            btns += f'<button class="log-filter-btn" onclick="logFilterAgent_{fn_suffix}(this,\'{a}\')">{a}</button>'
+        agent_filter_html = f'<div class="log-filter-group"><span class="log-filter-label">Agent:</span>{btns}</div>'
+
+    return f"""
+<div class="section" style="margin-top:1.5rem">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem">
+    <div class="section-title" style="margin:0">{title}</div>
+    <button class="log-reload-btn" onclick="logReload_{fn_suffix}()">↻ Reload</button>
+  </div>
+  <details class="log-section">
+    <summary>{len(entries)} entries — click to expand</summary>
+    <div class="log-filter-bar">
+      <div class="log-filter-group">
+        <span class="log-filter-label">Level:</span>
+        <button class="log-filter-btn active" onclick="logFilterLevel_{fn_suffix}(this,'all')">All</button>
+        <button class="log-filter-btn" onclick="logFilterLevel_{fn_suffix}(this,'warning')">Warning+</button>
+        <button class="log-filter-btn" onclick="logFilterLevel_{fn_suffix}(this,'error')">Error+</button>
+      </div>
+      {agent_filter_html}
+    </div>
+    <div id="{container_id}" class="log-container"></div>
+  </details>
+</div>
+<script>
+(function() {{
+  var LEVEL_ORDER = {{debug:0,info:1,warning:2,error:3,critical:4}};
+  var state_{fn_suffix} = {{data:[], levelMin:-1, agent:'all'}};
+
+  function renderRows_{fn_suffix}() {{
+    var s = state_{fn_suffix};
+    var el = document.getElementById('{container_id}');
+    var rows = s.data.slice().reverse().filter(function(e) {{
+      var lvlOk = s.levelMin < 0 || (LEVEL_ORDER[e.level||'info']||0) >= s.levelMin;
+      var agOk = s.agent === 'all' || e.agent === s.agent;
+      return lvlOk && agOk;
+    }});
+    if (!rows.length) {{ el.innerHTML = '<div class="log-empty">No entries match the current filter.</div>'; return; }}
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {{
+      var e = rows[i];
+      var ts = (e.timestamp||'').slice(0,19).replace('T',' ');
+      var lvl = e.level||'info';
+      html += '<div class="log-row">'
+        + '<span class="log-ts">'+ts+'</span>'
+        + '<span class="log-agent">'+(e.agent||'')+'</span>'
+        + '<span class="log-level log-lvl-'+lvl+'">'+lvl.toUpperCase()+'</span>'
+        + '<span class="log-event">'+(e.event||'')+'</span>'
+        + '<span class="log-msg">'+(e.message||'')+'</span>'
+        + '</div>';
+    }}
+    el.innerHTML = html;
+  }}
+
+  function setActive(btn) {{
+    var group = btn.parentElement;
+    group.querySelectorAll('.log-filter-btn').forEach(function(b){{b.classList.remove('active');}});
+    btn.classList.add('active');
+  }}
+
+  window.logFilterLevel_{fn_suffix} = function(btn, level) {{
+    setActive(btn);
+    var map = {{all:-1, warning:2, error:3}};
+    state_{fn_suffix}.levelMin = map[level] !== undefined ? map[level] : -1;
+    renderRows_{fn_suffix}();
+  }};
+
+  window.logFilterAgent_{fn_suffix} = function(btn, agent) {{
+    setActive(btn);
+    state_{fn_suffix}.agent = agent;
+    renderRows_{fn_suffix}();
+  }};
+
+  window.logReload_{fn_suffix} = function() {{
+    fetch('{fetch_url}?t='+Date.now())
+      .then(function(r){{return r.json();}})
+      .then(function(d){{ state_{fn_suffix}.data = d; renderRows_{fn_suffix}(); }})
+      .catch(function(){{}});
+  }};
+
+  state_{fn_suffix}.data = {entries_json};
+  renderRows_{fn_suffix}();
+}})();
+</script>"""
 
 def load_agent_status(agent_id):
     try:
@@ -455,46 +608,46 @@ def render_architecture_svg(agent_statuses=None):
     def node_bg(aid):
         if not live: return "#1e293b"
         h = agent_statuses.get(aid, {}).get("health", "unknown")
-        return {"ok": "#14532d", "warning": "#431407", "error": "#450a0a", "unknown": "#1e293b"}.get(h, "#1e293b")
+        return {"ok": "#14532d", "warning": "#f59e0b", "error": "#450a0a", "unknown": "#1e293b"}.get(h, "#1e293b")
 
     def node_stroke(aid):
         if not live: return "#334155"
         h = agent_statuses.get(aid, {}).get("health", "unknown")
-        return {"ok": "#22c55e", "warning": "#f59e0b", "error": "#ef4444", "unknown": "#475569"}.get(h, "#475569")
+        return {"ok": "#22c55e", "warning": "#d97706", "error": "#ef4444", "unknown": "#475569"}.get(h, "#475569")
 
     def node_text(aid):
         if not live: return "#94a3b8"
         h = agent_statuses.get(aid, {}).get("health", "unknown")
-        return {"ok": "#86efac", "warning": "#fdba74", "error": "#fca5a5", "unknown": "#64748b"}.get(h, "#64748b")
+        return {"ok": "#86efac", "warning": "#1c1917", "error": "#fca5a5", "unknown": "#64748b"}.get(h, "#64748b")
 
     W, H = 860, 530
     NW, NH = 108, 32
     PAD = 10
 
     clusters = [
-        ("System", "#0f2548", [
+        ("System", "#1a3d6e", [
             ("infrastructure", "🔧 Infra"),
             ("monitoring",     "👁 Watch"),
             ("dashboard",      "📊 Dash"),
         ]),
-        ("Communications", "#0f2e0f", [
+        ("Communications", "#0f3d48", [
             ("comms-collector",   "📨 Router"),
             ("inbox-manager",  "📬 Comms"),
         ]),
-        ("Finance & Assets", "#2d1a00", [
+        ("Finance & Assets", "#3d0f6e", [
             ("finance",        "💰 Finance"),
             ("real-estate",    "🏠 Real Estate"),
             ("tax",            "📋 Tax"),
             ("insurance",      "🛡 Insurance"),
         ]),
-        ("Family & Life", "#1a1a2e", [
+        ("Family & Life", "#3d1548", [
             ("school",         "🎒 School"),
             ("life-in-denmark","🇩🇰 Denmark"),
             ("health",         "🏥 Health"),
             ("friendships",    "👥 Friends"),
             ("calendar",       "📅 Calendar"),
         ]),
-        ("Vehicles & Movement", "#0d2018", [
+        ("Vehicles & Movement", "#0f1a55", [
             ("car",    "🚗 Car"),
             ("boat",   "⛵ Boat"),
             ("travel", "✈ Travel"),
@@ -657,7 +810,7 @@ def generate_index(items, agent_statuses):
             f'  <div class="section"><div class="section-title">\U0001f916 Agent Status</div>{clusters_html}</div>\n'
             '</div></body></html>')
 
-def generate_agent_page(agent_id, label, emoji, status, agent_statuses=None):
+def generate_agent_page(agent_id, label, emoji, status, agent_statuses=None, agent_logs=None):
     now = datetime.now().strftime("%d %b %Y %H:%M")
     health = status.get("health","unknown")
     summary = status.get("summary","Not yet active")
@@ -683,7 +836,14 @@ def generate_agent_page(agent_id, label, emoji, status, agent_statuses=None):
     elif agent_id == "infrastructure":
         extra_html = f'<div class="section"><div class="section-title">🗺️ System Architecture</div>{render_architecture_svg()}</div>'
     elif agent_id == "monitoring" and agent_statuses:
-        extra_html = f'<div class="section"><div class="section-title">🟢 Live System Health</div>{render_architecture_svg(agent_statuses)}</div>'
+        combined_entries = agent_logs.get("_combined", []) if agent_logs else []
+        combined_log_html = render_log_section("monitoring", combined_entries, combined=True)
+        extra_html = (f'<div class="section"><div class="section-title">🟢 Live System Health</div>{render_architecture_svg(agent_statuses)}</div>'
+                      + combined_log_html)
+
+    # Per-agent log section (at bottom of every page)
+    agent_log_entries = (agent_logs or {}).get(agent_id, [])
+    log_html = render_log_section(agent_id, agent_log_entries)
 
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -702,37 +862,52 @@ def generate_agent_page(agent_id, label, emoji, status, agent_statuses=None):
   {extra_html}
   <div class="section"><div class="section-title">🔴 Alerts & Actions</div>{alerts_html}</div>
   <div class="section"><div class="section-title">📅 Upcoming</div>{upcoming_html}</div>
+  {log_html}
 </div></body></html>"""
 
 def main():
+    log.info("run_start", "Beginning dashboard generation")
     os.makedirs(OUTPUT_DIR, exist_ok=True)
+    os.makedirs(LOG_DATA_DIR, exist_ok=True)
     items = load_dashboard_items()
     agent_statuses = {aid: load_agent_status(aid) for aid, _, _ in AGENTS}
+
+    # Read logs for all agents and write per-agent JSON files
+    ACTIVE_AGENTS = ["cos", "infrastructure", "monitoring", "dashboard"]
+    agent_logs = {}
+    for agent_id, _, _ in AGENTS:
+        entries = read_agent_logs(agent_id, n=50)
+        agent_logs[agent_id] = entries
+        write_log_json(agent_id, entries)
+
+    # Combined log for monitoring page (last 30 entries across active agents, newest first)
+    combined = AgentLogger.read_combined(ACTIVE_AGENTS, n=30)
+    agent_logs["_combined"] = combined
+    with open(f"{LOG_DATA_DIR}/_combined.json", "w") as f:
+        json.dump(combined, f)
 
     with open(f"{OUTPUT_DIR}/index.html", "w") as f:
         f.write(generate_index(items, agent_statuses))
 
     for agent_id, label, emoji in AGENTS:
         with open(f"{OUTPUT_DIR}/{agent_id}.html", "w") as f:
-            f.write(generate_agent_page(agent_id, label, emoji, agent_statuses[agent_id], agent_statuses))
+            f.write(generate_agent_page(agent_id, label, emoji, agent_statuses[agent_id], agent_statuses, agent_logs))
 
     # Update dashboard agent's own status.json
-    import json as _json
-    from datetime import datetime as _dt
     _status = {
         "agent": "dashboard",
-        "updated_at": _dt.now().isoformat(),
+        "updated_at": datetime.now().isoformat(),
         "health": "ok",
         "summary": f"Generated {len(AGENTS)+1} pages. Runs every 15 minutes.",
         "alerts": [],
         "upcoming": []
     }
     _spath = f"{AGENTS_DIR}/dashboard/dashboard/status.json"
-    import os as _os
-    _os.makedirs(_os.path.dirname(_spath), exist_ok=True)
+    os.makedirs(os.path.dirname(_spath), exist_ok=True)
     with open(_spath, "w") as _f:
-        _json.dump(_status, _f, indent=2)
+        json.dump(_status, _f, indent=2)
 
+    log.info("run_complete", f"Generated {len(AGENTS)+1} pages")
     print(f"✅ Dashboard generated — {len(AGENTS)+1} pages")
 
 if __name__ == "__main__":

@@ -61,6 +61,42 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .about-label { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
 .about-text { font-size: 0.85rem; color: #cbd5e1; line-height: 1.6; }
 .about-connects { font-size: 0.8rem; color: #94a3b8; font-style: italic; }
+.okr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.75rem; }
+@media (max-width: 768px) { .okr-grid { grid-template-columns: 1fr; } }
+.okr-card { background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 1rem; }
+.okr-card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+.okr-icon { font-size: 1.2rem; }
+.okr-title { font-size: 0.9rem; font-weight: 700; color: #c7d2fe; }
+.okr-idea { font-size: 0.78rem; color: #94a3b8; line-height: 1.5; margin-bottom: 0.75rem; font-style: italic; }
+.okr-kr-group { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.6rem; margin-bottom: 0.2rem; }
+.okr-kr-item { font-size: 0.8rem; color: #cbd5e1; line-height: 1.5; padding-left: 0.25rem; }
+/* Log section */
+details.log-section > summary { cursor:pointer; color:#64748b; font-size:0.8rem; padding:0.4rem 0; user-select:none; list-style:none; }
+details.log-section > summary::before { content:'▶ '; font-size:0.7rem; }
+details.log-section[open] > summary::before { content:'▼ '; }
+details.log-section > summary:hover { color:#94a3b8; }
+.log-reload-btn { background:none; border:1px solid #334155; border-radius:6px; color:#64748b; padding:3px 10px; font-size:0.75rem; cursor:pointer; line-height:1; }
+.log-reload-btn:hover { border-color:#475569; color:#94a3b8; }
+.log-filter-bar { display:flex; flex-wrap:wrap; gap:0.75rem; margin:0.6rem 0 0.4rem; }
+.log-filter-group { display:flex; align-items:center; gap:0.3rem; }
+.log-filter-label { font-size:0.7rem; color:#475569; text-transform:uppercase; letter-spacing:0.05em; margin-right:2px; }
+.log-filter-btn { background:none; border:1px solid #334155; border-radius:4px; color:#64748b; padding:2px 8px; font-size:0.72rem; cursor:pointer; }
+.log-filter-btn:hover { border-color:#475569; color:#94a3b8; }
+.log-filter-btn.active { background:#1e3a5f; border-color:#3b82f6; color:#93c5fd; }
+.log-container { margin-top:0.25rem; font-family:'SF Mono',Menlo,monospace; }
+.log-row { display:grid; grid-template-columns:150px 90px 68px 130px 1fr; gap:6px; padding:3px 6px; border-bottom:1px solid #0f172a; font-size:0.74rem; align-items:start; }
+.log-row:hover { background:#162032; }
+.log-ts { color:#475569; white-space:nowrap; }
+.log-agent { color:#a78bfa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.log-level { font-weight:700; }
+.log-lvl-debug { color:#475569; }
+.log-lvl-info { color:#64748b; }
+.log-lvl-warning { color:#f59e0b; }
+.log-lvl-error { color:#ef4444; }
+.log-lvl-critical { color:#fca5a5; background:#450a0a; padding:0 3px; border-radius:3px; }
+.log-event { color:#7dd3fc; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.log-msg { color:#94a3b8; }
+.log-empty { color:#475569; font-size:0.8rem; padding:0.5rem 0; }
 </style><script>
 function toggleAbout() {
   const content = document.getElementById('about-content');
@@ -73,7 +109,7 @@ function toggleAbout() {
 <div class="header">
   <a href="index.html" class="back">← Dashboard</a>
   <div style="display:flex;align-items:center;gap:0.75rem"><span style="font-size:1.5rem">🎒</span><span style="font-size:1.1rem;font-weight:700">School</span><span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">—</span></div>
-  <div style="font-size:0.75rem;color:#475569">12 Apr 2026 21:17</div>
+  <div style="font-size:0.75rem;color:#475569">14 Apr 2026 09:24</div>
 </div>
 <div class="container" style="max-width:900px">
   
@@ -108,4 +144,84 @@ function toggleAbout() {
   
   <div class="section"><div class="section-title">🔴 Alerts & Actions</div><div class="empty-state">No alerts</div></div>
   <div class="section"><div class="section-title">📅 Upcoming</div><div class="empty-state">Nothing upcoming</div></div>
+  
+<div class="section" style="margin-top:1.5rem">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem">
+    <div class="section-title" style="margin:0">📋 Recent Log</div>
+    <button class="log-reload-btn" onclick="logReload_school()">↻ Reload</button>
+  </div>
+  <details class="log-section">
+    <summary>0 entries — click to expand</summary>
+    <div class="log-filter-bar">
+      <div class="log-filter-group">
+        <span class="log-filter-label">Level:</span>
+        <button class="log-filter-btn active" onclick="logFilterLevel_school(this,'all')">All</button>
+        <button class="log-filter-btn" onclick="logFilterLevel_school(this,'warning')">Warning+</button>
+        <button class="log-filter-btn" onclick="logFilterLevel_school(this,'error')">Error+</button>
+      </div>
+      
+    </div>
+    <div id="log-school" class="log-container"></div>
+  </details>
+</div>
+<script>
+(function() {
+  var LEVEL_ORDER = {debug:0,info:1,warning:2,error:3,critical:4};
+  var state_school = {data:[], levelMin:-1, agent:'all'};
+
+  function renderRows_school() {
+    var s = state_school;
+    var el = document.getElementById('log-school');
+    var rows = s.data.slice().reverse().filter(function(e) {
+      var lvlOk = s.levelMin < 0 || (LEVEL_ORDER[e.level||'info']||0) >= s.levelMin;
+      var agOk = s.agent === 'all' || e.agent === s.agent;
+      return lvlOk && agOk;
+    });
+    if (!rows.length) { el.innerHTML = '<div class="log-empty">No entries match the current filter.</div>'; return; }
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var e = rows[i];
+      var ts = (e.timestamp||'').slice(0,19).replace('T',' ');
+      var lvl = e.level||'info';
+      html += '<div class="log-row">'
+        + '<span class="log-ts">'+ts+'</span>'
+        + '<span class="log-agent">'+(e.agent||'')+'</span>'
+        + '<span class="log-level log-lvl-'+lvl+'">'+lvl.toUpperCase()+'</span>'
+        + '<span class="log-event">'+(e.event||'')+'</span>'
+        + '<span class="log-msg">'+(e.message||'')+'</span>'
+        + '</div>';
+    }
+    el.innerHTML = html;
+  }
+
+  function setActive(btn) {
+    var group = btn.parentElement;
+    group.querySelectorAll('.log-filter-btn').forEach(function(b){b.classList.remove('active');});
+    btn.classList.add('active');
+  }
+
+  window.logFilterLevel_school = function(btn, level) {
+    setActive(btn);
+    var map = {all:-1, warning:2, error:3};
+    state_school.levelMin = map[level] !== undefined ? map[level] : -1;
+    renderRows_school();
+  };
+
+  window.logFilterAgent_school = function(btn, agent) {
+    setActive(btn);
+    state_school.agent = agent;
+    renderRows_school();
+  };
+
+  window.logReload_school = function() {
+    fetch('/data/logs/school.json?t='+Date.now())
+      .then(function(r){return r.json();})
+      .then(function(d){ state_school.data = d; renderRows_school(); })
+      .catch(function(){});
+  };
+
+  state_school.data = [];
+  renderRows_school();
+})();
+</script>
 </div></body></html>

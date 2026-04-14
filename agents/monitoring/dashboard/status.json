@@ -1,16 +1,16 @@
 {
   "agent": "monitoring",
-  "updated_at": "2026-04-12T21:28:07.640712",
+  "updated_at": "2026-04-14T09:22:26.260945",
   "health": "ok",
   "summary": "All systems healthy. Gateway \u2713 Dashboard \u2713 Bus \u2713 Disk \u2713 Agents \u2713 Scheduler \u2713",
   "checks": {
     "gateway": {
       "ok": true,
-      "detail": "RPC probe OK"
+      "detail": "RPC probe OK \u2014 gateway healthy"
     },
     "web_server": {
       "ok": true,
-      "detail": "Dashboard reachable on :8080"
+      "detail": "Dashboard reachable at http://100.67.100.125:8080/"
     },
     "bus": {
       "ok": true,
@@ -18,7 +18,7 @@
     },
     "disk": {
       "ok": true,
-      "detail": "11% used (11G of total, 86G free). Healthy."
+      "detail": "8% used (7.5G of total, 89G free). Healthy."
     },
     "heartbeats": {
       "ok": true,
@@ -26,7 +26,7 @@
     },
     "cron": {
       "ok": true,
-      "detail": "Scheduler daemon running (PID 414) \u2014 dashboard 15m, watch 5m, infra 1hr"
+      "detail": "Scheduler daemon running (PID 4830) \u2014 dashboard 15m, watch 5m, infra 1hr"
     }
   },
   "alerts": [],

@@ -10,12 +10,16 @@ Intelligence standard (mandatory for all agents):
 - Always answer: "What does this mean for me? Is it risky? What should I do?"
 """
 
-import json, os, subprocess, urllib.request
+import json, os, subprocess, sys, urllib.request
 from datetime import datetime
+
+sys.path.insert(0, "/home/node/.openclaw/workspace/scripts")
+from agent_logger import AgentLogger
 
 WORKSPACE    = "/home/node/.openclaw/workspace"
 STATUS_PATH  = f"{WORKSPACE}/agents/infrastructure/dashboard/status.json"
 ROADMAP_PATH = f"{WORKSPACE}/docs/ROADMAP.md"
+log = AgentLogger("infrastructure")
 
 def run(cmd):
     try:
@@ -199,12 +203,14 @@ def build_alert(priority, title, lines, action_required=False, due_at=None):
     }
 
 def main():
+    log.info("run_start", "Beginning environment check")
     now = datetime.now().isoformat()
     alerts, health = [], "ok"
 
     # 1. OpenClaw version
     current, latest, notes, date, prerelease = check_openclaw_version()
     if latest and current and latest != current and not prerelease:
+        log.warning("version_check", f"Update available: {current} → {latest} (released {date})")
         findings, irr, risk, risk_note = analyse_release(notes)
 
         body_lines = [
@@ -228,8 +234,12 @@ def main():
         ))
         health = "warning"
 
+    else:
+        log.info("version_check", f"OpenClaw {current} is up to date" if not latest else f"Running {current}, latest is {latest or 'unknown'}")
+
     # 2. Gateway
     if not check_gateway():
+        log.error("gateway_check", "RPC probe failed — gateway may be down")
         alerts.append(build_alert(1, "Gateway not responding", [
             "⚠️ RPC probe failed — gateway may be down.",
             "All agent communication and Telegram routing is affected.",
@@ -238,8 +248,12 @@ def main():
         ], action_required=True))
         health = "error"
 
+    else:
+        log.info("gateway_check", "Gateway RPC probe OK")
+
     # 3. Web server
     if not check_web_server():
+        log.error("webserver_check", "Dashboard not reachable at http://100.67.100.125:8080/")
         alerts.append(build_alert(1, "Dashboard web server not reachable", [
             "⚠️ http://100.67.100.125:8080/ is not responding.",
             "The dashboard is inaccessible from Tailscale devices.",
@@ -248,10 +262,17 @@ def main():
         ], action_required=True))
         if health != "error": health = "warning"
 
+    else:
+        log.info("webserver_check", "Dashboard reachable at http://100.67.100.125:8080/")
+
     # 4. Disk
     disk = check_disk()
     if disk and disk > 80:
         critical = disk > 90
+        if critical:
+            log.error("disk_check", f"Disk critical: {disk}% used")
+        else:
+            log.warning("disk_check", f"Disk high: {disk}% used")
         alerts.append(build_alert(1 if critical else 2,
             f"Disk usage: {disk}% {'— Critical' if critical else '— Getting high'}",
             [
@@ -262,14 +283,20 @@ def main():
             ], action_required=critical))
         if health == "ok": health = "warning"
 
+    else:
+        log.info("disk_check", f"Disk healthy: {disk}%" if disk else "Disk stats unavailable")
+
     # 5. Bus
     if not check_bus():
+        log.critical("bus_check", "data/bus.db not found — agent communication is broken")
         alerts.append(build_alert(1, "SQLite message bus missing", [
             "🔴 data/bus.db not found — this is critical.",
             "Agent communication is broken without the message bus.",
             "→ Re-run Milestone 1 setup immediately."
         ], action_required=True))
         health = "error"
+    else:
+        log.info("bus_check", "SQLite message bus present and accessible")
 
     # Summary — always name the actual issue, never use vague counts
     n_action = len([a for a in alerts if a.get("action_required")])
@@ -297,6 +324,7 @@ def main():
     with open(STATUS_PATH, "w") as f:
         json.dump(status, f, indent=2)
 
+    log.info("run_complete", f"health={health}, alerts={len(alerts)}")
     print(f"✅ Infra env check — health: {health}, alerts: {len(alerts)}")
 
 if __name__ == "__main__":

@@ -13,3 +13,7 @@
 {"type": "alert_fired", "title": "System problem: Cron", "logged_at": "2026-04-12T18:07:49.955798"}
 {"type": "failure", "component": "heartbeats", "detail": "Stale agent(s): dashboard: last update 2.1h ago \u2014 may be stale", "logged_at": "2026-04-12T19:40:45.004608"}
 {"type": "alert_fired", "title": "System problem: Heartbeats", "logged_at": "2026-04-12T19:40:45.004732"}
+{"type": "failure", "component": "gateway", "detail": "RPC probe failed \u2014 gateway may be down", "logged_at": "2026-04-14T09:12:20.197608"}
+{"type": "alert_fired", "title": "System problem: Gateway", "logged_at": "2026-04-14T09:12:20.197728"}
+{"type": "failure", "component": "gateway", "detail": "RPC probe failed \u2014 gateway may be down", "logged_at": "2026-04-14T09:12:22.707294"}
+{"type": "alert_fired", "title": "System problem: Gateway", "logged_at": "2026-04-14T09:12:22.707455"}

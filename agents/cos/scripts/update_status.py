@@ -12,11 +12,15 @@ My page shows MY perspective:
 NOT a copy of the roadmap. NOT Infra's job. MY view.
 """
 
-import json, os, subprocess
+import json, os, subprocess, sys
 from datetime import datetime
+
+sys.path.insert(0, "/home/node/.openclaw/workspace/scripts")
+from agent_logger import AgentLogger
 
 WORKSPACE   = "/home/node/.openclaw/workspace"
 STATUS_PATH = f"{WORKSPACE}/agents/cos/dashboard/status.json"
+log = AgentLogger("cos")
 
 def run(cmd):
     try:
@@ -61,9 +65,12 @@ def get_infra_alerts():
         return [], "unknown"
 
 def main():
+    log.info("run_start", "Beginning CoS status update")
     now = datetime.now().isoformat()
     pending_msgs, total_msgs = get_bus_stats()
+    log.debug("bus_stats", f"{pending_msgs} pending, {total_msgs} total messages on bus")
     active_agents = get_active_agents()
+    log.info("active_agents", f"{len(active_agents)}/18 agents active")
     infra_alerts, infra_health = get_infra_alerts()
     okr_done = os.path.exists(f"{WORKSPACE}/agents/cos/data/okrs.json")
 
@@ -87,6 +94,7 @@ def main():
 
     # ── What I'm watching from Infra ─────────────────────────────────────
     if infra_health == "warning" and infra_alerts:
+        log.warning("infra_alert_relayed", f"Relaying {len(infra_alerts)} Infra alert(s) — health: {infra_health}")
         for a in infra_alerts:
             title = a.get('title','')
             first_line = a.get('body','').split('\n')[0] if a.get('body') else ''
@@ -167,6 +175,7 @@ def main():
     with open(STATUS_PATH, "w") as f:
         json.dump(status, f, indent=2)
 
+    log.info("run_complete", f"Status updated — health: {health}, alerts: {len(alerts)}, active: {n_active}/{n_total}")
     print(f"✅ CoS status updated — health: {health}, active agents: {n_active}/{n_total}")
 
 if __name__ == "__main__":
