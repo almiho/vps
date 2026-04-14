@@ -1,0 +1,895 @@
+ Check this out.
+0:00
+(software chiming)
+0:01
+I just got a message on Telegram from my AI assistant,
+0:04
+and every morning, it sends me a quick brief like this.
+0:07
+It tells me what's on my calendar
+0:09
+and anything important that needs my attention,
+0:11
+all without me having to ask first.
+0:13
+And that right there is what makes this so special.
+0:16
+Most AI assistants you see online are really just chat bots,
+0:20
+they only do something when you open a tab and start typing.
+0:23
+This AI assistant that I created
+0:25
+can run on its own on a schedule and message me first
+0:29
+because it's always online
+0:31
+and it's connected to the tools I use every day,
+0:33
+like Google Workspace, Slack, and Telegram.
+0:36
+My name's Caleb, and in the next 15 minutes,
+0:38
+I'm gonna take you from zero to your first AI assistant
+0:41
+set up to work just like mine.
+0:43
+You don't need to code, you don't need to be technical,
+0:46
+you just need to follow the right steps.
+0:48
+And that's why we're gonna build this together,
+0:50
+step by step.
+0:51
+And by the end, you'll have a real assistant,
+0:53
+one that reaches out to you first, remembers what matters,
+0:56
+and helps you take action on important tasks.
+What Are AI Assistants?
+0:59
+So what actually is an AI assistant?
+1:01
+Because, right now, that phrase gets slapped on everything.
+1:04
+Some people call ChatGPT or Claude an assistant,
+1:07
+but those are really just chat apps.
+1:09
+They're great at answering questions,
+1:11
+brainstorming, or writing,
+1:13
+but they don't do anything unless you open them
+1:15
+and type a prompt first.
+1:16
+And then on the other side, you've got automations,
+1:19
+automations can be useful,
+1:21
+but they're basically just,
+1:22
+"If this event happens, then do this."
+1:25
+There's no real understanding, no memory,
+1:27
+and no flexibility.
+1:29
+And once you start stacking more complex tasks,
+1:31
+automations can get pretty confusing very fast.
+1:34
+When you think about having an assistant,
+1:36
+you don't want it to feel like AI,
+1:38
+you want it to feel like a real human assistant.
+1:41
+So that means your assistant should be able to do
+1:43
+three core things.
+1:44
+First, it needs a brain and memory.
+1:47
+The brain comes from an AI model
+1:48
+through an API like OpenAI, Anthropic, or Gemini.
+1:52
+That's the part that can understand what you mean
+1:54
+and make decisions.
+1:56
+And the memory is what lets it remember what you tell it,
+1:58
+like your preferences, your routine, what you're working on,
+2:01
+and what matters to you,
+2:03
+so that way you're not starting from scratch
+2:05
+every single time.
+2:06
+Second, it should always be running, 24/7.
+2:09
+That would be awful for a real human assistant,
+2:12
+but for AI, we can actually make that work,
+2:14
+and later in this video,
+2:15
+I'll show you exactly how to set it up so it stays online.
+2:18
+And third, it needs tools.
+2:20
+Tools are what let it do more than just talk to you.
+2:23
+Once it has access to tools you already use,
+2:25
+like Telegram, Slack, or Google Workspace,
+2:28
+it can actually take action,
+2:29
+it can run on a schedule,
+2:30
+watch for certain things,
+2:32
+and message you when something needs attention,
+2:33
+without you prompting it first.
+2:35
+So that's what we mean by AI assistant in this video,
+2:38
+it's not a chat bot you talk to,
+2:40
+it's not a simple automation,
+2:42
+we're creating a real assistant that remembers,
+2:45
+stays online, and helps you handle tasks
+2:48
+even when you're not thinking about it.
+2:50
+And that's exactly what we're building,
+2:52
+and we're gonna build it with something called OpenClaw.
+What’s OpenClaw?
+2:54
+If you've never heard of OpenClaw before, here's what it is.
+2:58
+OpenClaw is a tool
+2:59
+that lets you create your own AI assistant
+3:01
+and keep it running in one place.
+3:03
+You connect it to an AI model for the brain,
+3:05
+and you connect it to the tools you use,
+3:07
+and then you can set it up to run tasks on a schedule.
+3:09
+That's how you get an AI assistant
+3:11
+that can actually show up first,
+3:12
+instead of just sitting in a chat app, waiting for you.
+3:14
+And the reason OpenClaw is worth using
+3:17
+is because it makes all of that surprisingly easy.
+3:20
+OpenClaw is one of the first tools
+3:22
+that makes setting up a real AI assistant
+3:24
+possible for beginners.
+3:25
+So that means OpenClaw hits all of the marks
+3:28
+we talked about earlier
+3:29
+for what qualifies as a real AI assistant.
+3:32
+And the nice part is
+3:33
+you can manage all of this from one dashboard,
+3:36
+which makes setting things up
+3:37
+and staying organised way easier.
+Security
+3:39
+Now, OpenClaw is an incredibly powerful tool,
+3:42
+which means we do need to talk about security for a minute.
+3:45
+If you don't treat security seriously with this,
+3:47
+someone with bad intentions
+3:48
+can easily mess with your assistant,
+3:50
+access things you connected,
+3:52
+and in the worst case, cost you a lot of money and stress.
+3:55
+So first, let's talk about tokens.
+3:57
+In a few minutes,
+3:58
+you're gonna learn how to connect things
+3:59
+like your Gateway token and API key for your AI model,
+4:03
+and tokens for connecting tools like Telegram.
+4:05
+You wanna treat your tokens basically like passwords.
+4:08
+If someone gets access to them,
+4:10
+they could potentially access your OpenClaw setup,
+4:12
+impersonate your assistant, connect to your integrations,
+4:15
+and run things you didn't approve.
+4:16
+So we're gonna be careful with these tokens
+4:18
+and save them somewhere safe.
+4:20
+The second thing to be careful of are skills.
+4:22
+Skills are what give your assistant
+4:24
+the ability to do things like connect to services,
+4:26
+run tasks, or pull information.
+4:28
+The most common place to get these skills
+4:30
+is from a website called ClawHub, or GitHub.
+4:33
+But because OpenClaw is still new and growing,
+4:36
+there are people out there uploading malicious skills
+4:38
+designed to steal info, grab your tokens,
+4:41
+or do shady stuff in the background.
+4:43
+So just make sure you only instal skills you trust,
+4:46
+and always check what a skill is doing
+4:48
+before you connect it to anything important.
+How to Install OpenClaw
+4:50
+Third, you need to be careful
+4:51
+about where you instal OpenClaw.
+4:53
+You can run OpenClaw on your personal computer,
+4:56
+but I don't recommend it.
+4:58
+If you instal an always-on assistant
+4:59
+on the same machine you use every day
+5:01
+with your personal accounts, files, and logins,
+5:04
+you're increasing your security risk in a big way.
+5:07
+That's why I recommend using something called a VPS.
+5:10
+A VPS is basically a separate computer in the cloud
+5:12
+that you rent,
+5:13
+and it keeps OpenClaw isolated from your personal device.
+5:16
+It also has a second benefit,
+5:18
+a VPS lets your assistant run 24/7,
+5:21
+which is kind of the whole point.
+5:22
+And that's why, in this video, we're gonna be using a VPS.
+5:25
+And for beginners,
+5:26
+the easiest way to set up an OpenClaw VPS is with Hostinger.
+5:30
+That's because they have a one-click OpenClaw template
+5:33
+that deploys everything automatically
+5:34
+and gets you set up fast.
+5:36
+So go to the link you see on screen right now
+5:38
+or click the first link in the video description,
+5:41
+that's gonna take you to the correct page
+5:42
+for setting this up. (mouse clicking)
+5:43
+It's also gonna save you an extra 10% off any VPS plan.
+OpenClaw VPS Setup
+5:48
+And once you go to that link,
+5:49
+you'll be brought to this page right here.
+5:51
+Start by choosing your VPS plan.
+5:53
+By default, this will be set to KVM 2.
+5:55
+However, if you wanna start small,
+5:56
+you can also set this to KVM 1
+5:59
+and upgrade your plan later on if you need more resources.
+6:01
+Once you choose your plan, go down and click on Deploy.
+6:06
+On this page here, start by choosing your billing period.
+6:09
+By default, this will be set to 24 months,
+6:11
+and that's gonna maximise your savings.
+6:13
+However, you can also switch this
+6:14
+from 12 months and 1-month plans as well.
+6:17
+I wouldn't recommend choosing the one-month plan,
+6:18
+because it ends up being way more expensive later on,
+6:21
+so to stay in the middle and still get plenty of savings,
+6:24
+I'm gonna go with the 12-month plan.
+6:25
+Choosing that plan will also still get us access
+6:28
+to the extra discount.
+6:29
+Scrolling down,
+6:30
+you'll see this option here that says, "Ready to use AI."
+6:33
+I'd recommend turning this off.
+6:35
+We're gonna add our own API keys later on in the video.
+6:38
+You'll also see an option for daily auto-backups.
+6:40
+This is a great option if you want to add it,
+6:42
+but I'm gonna teach you how to create manual snapshots
+6:44
+within your Hostinger dashboard,
+6:45
+so that way you can manually back up your VPS.
+6:48
+Lastly, choose your server location.
+6:50
+Just choose the option that's closest to you.
+6:52
+Once you're done here, scroll back up to the top
+6:54
+and click on Continue.
+6:56
+From there, you'll create an account with Hostinger
+6:58
+and go through the payment process.
+7:00
+Once you're done with payment,
+7:01
+you should land on the configuration page
+7:03
+for your OpenClaw deployment.
+7:05
+On this screen,
+7:06
+you'll see a field that says OPENCLAW_GATEWAY_TOKEN.
+7:09
+Go ahead and copy that.
+7:10
+Make sure you keep this safe and don't share it with anyone,
+7:13
+treat it like a password.
+7:14
+If someone has your gateway token,
+7:16
+they can access your OpenClaw dashboard,
+7:18
+which would not be good,
+7:19
+so copy it and store it somewhere safe.
+Connect API Keys & Deploy
+7:22
+Next, we need to give OpenClaw a brain.
+7:24
+This is where your AI model comes in, through an API key,
+7:27
+like OpenAI, Anthropic, or Gemini.
+7:29
+On the same Hostinger page,
+7:31
+you should see a field where you can paste in your API key.
+7:33
+If you already have an API key, paste it in here.
+7:36
+If you don't, you need to go to the AI model provider site,
+7:39
+create a key,
+7:40
+and add credits or billing so it can actually run.
+7:42
+I'm gonna be using Anthropic for my OpenClaw assistant.
+7:45
+I'll also leave links in the description
+7:47
+for the other API key dashboards,
+7:49
+just in case you're not sure where to go to create this.
+7:52
+One quick thing to understand here
+7:54
+is that using an API costs money,
+7:56
+because every request you send to the AI model
+7:58
+is billed based on usage.
+8:00
+So, with your model's billing settings,
+8:01
+make sure you set a spend limit.
+8:03
+You don't wanna accidentally leave this unlimited
+8:05
+and end up with a huge surprise bill,
+8:08
+so set a limit you're comfortable with, save it,
+8:10
+and then come back to Hostinger.
+8:11
+All right, now that your API key is pasted in
+8:14
+and you've got your spend limit set,
+8:15
+the last step on this page is to deploy.
+8:18
+Go ahead and click on Deploy,
+8:19
+and Hostinger is gonna deploy OpenClaw automatically,
+8:22
+using the template.
+8:23
+This can take a few minutes to complete,
+8:25
+so I'm gonna skip ahead once it's finished.
+Access OpenClaw Dashboard
+8:27
+Awesome, as you can see,
+8:28
+our OpenClaw container is now running.
+8:31
+What you're looking at here is Hostinger's Docker Manager.
+8:34
+In simple terms,
+8:35
+this is the control panel for anything you run using Docker.
+8:38
+Right now, we're using it for OpenClaw,
+8:40
+but later on, you can also deploy other apps the same way.
+8:43
+If you ever need to manage your OpenClaw setup
+8:46
+or find your tokens again, click Manage.
+8:49
+Then scroll down to the Environment tab and expand it.
+8:52
+This is where you can view
+8:53
+your OpenClaw gateway token again,
+8:55
+along with any API keys and other settings.
+8:58
+If you ever need to add
+8:59
+or update environment variables in the future,
+9:01
+this is where you'll do it.
+9:02
+Next, to open your OpenClaw dashboard,
+9:05
+scroll back up the page and click on this purple link here.
+9:09
+Paste in your OpenClaw gateway token,
+9:11
+then click Login.
+9:14
+Once you're in, you'll land on the OpenClaw dashboard.
+9:16
+On the left, click into Overview,
+9:18
+and make sure your status shows it's connected.
+9:20
+If it doesn't, paste in your gateway token here
+9:23
+and click Connect.
+Connect Telegram
+9:24
+Now let's connect OpenClaw to Telegram
+9:27
+so instead of using the dashboard,
+9:29
+you can message your assistant straight from your phone.
+9:31
+First, find the OpenClaw chat window on the left-hand side,
+9:35
+then type in, "Let's set up Telegram."
+9:37
+OpenClaw is then gonna respond
+9:39
+with the exact next steps you need to follow.
+9:41
+It says here we need to start a conversation
+9:42
+with BotFather on Telegram.
+9:44
+I'm gonna do this part using the Telegram desktop app,
+9:47
+but once we're done,
+9:48
+you'll also be able to message your assistant
+9:50
+from the mobile app as well.
+9:51
+So let's open Telegram and search for @BotFather.
+9:56
+BotFather is what lets you create and manage your own bots,
+9:59
+which is super important for setting this up with OpenClaw.
+10:02
+Start a chat with BotFather,
+10:03
+then click the newbot command.
+10:06
+It'll ask you for a bot name and username,
+10:08
+pick whatever you want here.
+10:09
+Once it's created, BotFather is gonna give you a bot token.
+10:13
+Go ahead and copy that bot token.
+10:14
+And just like the gateway token, treat this like a password,
+10:17
+don't share it, don't post it anywhere,
+10:19
+and store it somewhere safe.
+10:21
+Now jump back over to OpenClaw,
+10:23
+paste in that bot token here, and send it.
+10:27
+Next, we need to pair your Telegram account
+10:29
+with your OpenClaw setup,
+10:31
+so head back to Telegram
+10:32
+and click the link from BotFather to open your new bot,
+10:35
+then click START.
+10:36
+Your bot should send you a message
+10:38
+with your Telegram user ID and a pairing code.
+10:41
+Go ahead and copy both of those lines
+10:42
+and go back to OpenClaw.
+10:44
+Paste that information into the chat here
+10:46
+and send it.
+10:49
+Okay, now at this point,
+10:50
+everything should be configured properly.
+10:52
+Let's go ahead and test it to make sure it's working.
+10:54
+Send a message to your bot in Telegram
+10:56
+and see if it responds.
+10:58
+If everything is connected the right way,
+10:59
+you should see your assistant reply back in Telegram.
+11:02
+And once you see that response,
+11:03
+that means you're officially connected.
+Install Skills
+11:05
+Next, let's learn how to instal skills.
+11:07
+Skills are what turn OpenClaw
+11:09
+from something that can just chat
+11:11
+into something that can actually do tasks using real tools.
+11:14
+And the nice part is,
+11:15
+you don't have to figure out how to instal skills
+11:17
+all on your own,
+11:18
+because OpenClaw can actually help you instal skills
+11:21
+and troubleshoot them.
+11:22
+So, I'm gonna do this through Telegram.
+11:24
+First, I'm gonna type, "What skills can I instal?"
+11:27
+OpenClaw will usually point you towards the Skills Library.
+11:30
+It can also tell you what it recommends
+11:32
+based on what you're trying to do.
+11:33
+In our case, we're building a daily brief
+11:35
+that can read from Google Workspace,
+11:37
+like your calendar and your emails,
+11:39
+so the main skill we want is the Google Workspace skill,
+11:42
+called GOG.
+11:44
+So next I'm gonna ask,
+11:45
+"Can you help me instal the GOG skill
+11:47
+and set up Google Workspace access?"
+11:49
+From here, the assistant will walk you through the steps
+11:51
+for that specific skill.
+11:53
+And this is important to understand,
+11:54
+every skill is a little different.
+11:56
+Some are one-click instals,
+11:58
+some need environment variables, some need permissions,
+12:01
+and some require a quick authentication flow.
+12:04
+So if anything doesn't work right away, don't panic,
+12:06
+just work with the assistant
+12:08
+and follow the steps it gives you.
+12:09
+If you run into an error,
+12:10
+copy the error message into the chat
+12:12
+and ask it what to do next.
+12:14
+OpenClaw can actually rewrite parts of its own skill code
+12:17
+and help troubleshoot skill installations,
+12:19
+so you can usually fix issues pretty easily.
+12:22
+So now I'm gonna follow the instal steps from my assistant
+12:25
+and connect Google Workspace,
+12:26
+so that way the assistant can access my calendar in Gmail.
+12:30
+All right, now that I've installed
+12:31
+the Google Workspace skill
+12:32
+and given OpenClaw access to my Gmail and calendar,
+Create Jobs
+12:35
+we're gonna create a job
+12:36
+that makes this feel like a real assistant.
+12:38
+Creating jobs is what tells OpenClaw
+12:41
+to run on its own on a schedule
+12:43
+and message you first, without you having to prompt it.
+12:46
+So back in our Telegram chat with OpenClaw,
+12:48
+I'm gonna ask it to create a job for us.
+12:50
+I'm gonna type, "Help me create a daily brief job.
+12:53
+Every morning at 9:00 AM,
+12:54
+I want you to check my Google Calendar for the day,
+12:57
+scan my Gmail inbox for anything important,
+12:59
+then send me a short summary through Telegram
+13:02
+with my top priorities."
+13:03
+From here, the assistant will walk us through
+13:05
+setting everything up.
+13:06
+Once that's set up, we're gonna do one quick test
+13:09
+just so you can see what this brief
+13:11
+is gonna look like every morning.
+13:12
+So, I'm gonna ask it to run the daily brief right now.
+13:16
+And there we go,
+13:16
+my assistant has now performed the job perfectly.
+13:19
+It scanned through my Google Calendar
+13:21
+and found my team meeting for the week,
+13:23
+then it looked through my Gmail inbox
+13:25
+and found an email from John,
+13:27
+and in that email,
+13:28
+it says he can't make the team meeting this week.
+13:30
+Then it provided me my list of priorities,
+13:33
+which is to review John's email and adjust the meeting time.
+13:36
+And now going forward, my assistant will perform this job
+13:39
+every morning at 9:00 AM, all on its own.
+13:41
+And now, using this exact same method
+13:43
+that I just showed you,
+13:44
+you can instal skills and create jobs,
+13:47
+and solve all sorts of problems within your day-to-day life.
+Final Security Checklist
+13:50
+Okay, now that we've created our first job,
+13:52
+let's run through a quick, final security checklist.
+13:55
+These are a few extra steps you can do right now
+13:57
+to make your setup safer
+13:58
+and make sure you're prepared if anything ever goes wrong.
+14:01
+First, go to OpenClaw's official security page,
+14:04
+which I'll leave linked in the video description.
+14:06
+Copy that link, paste it into your OpenClaw chat,
+14:09
+and ask your assistant to implement and verify
+14:11
+the recommended security settings.
+14:13
+The reason you do this is so OpenClaw can secure itself
+14:16
+using the official best practises.
+14:18
+You can quickly confirm everything is set correctly.
+14:21
+Next, set approval rules for risky actions.
+14:24
+Tell OpenClaw that if it's gonna send a message
+14:26
+on your behalf,
+14:27
+it must draught it first and ask for your approval,
+14:30
+and that it should always ask before deleting files
+14:32
+or making network requests.
+14:34
+The reason you do this
+14:35
+is so it can't take destructive actions
+14:37
+without your permission.
+14:38
+Next, add cost guardrails inside of OpenClaw.
+14:42
+Set a retry limit so if a task fails a few times, it stops.
+14:46
+And set a runtime limit so tasks can't run forever.
+14:49
+The reason you do this is to prevent expensive loops
+14:51
+that can rack up API charges.
+14:53
+Also, make sure you take a manual snapshot
+14:56
+in your Hostinger dashboard
+14:57
+before you start experimenting with new skills
+15:00
+or major changes.
+15:01
+You wanna do this because if something breaks,
+15:03
+you can restore it back to a working version in minutes
+15:06
+instead of rebuilding everything from scratch.
+15:08
+And speaking of Hostinger,
+15:10
+if you ever need to manage your OpenClaw setup,
+15:12
+that's where you're gonna do it.
+15:13
+That's where you can find your VPS settings, Docker manager,
+15:17
+environment variables, backups, and security settings.
+15:20
+So if you ever need to update a token,
+15:21
+swap your AI model key, restart your OpenClaw container,
+15:25
+or roll back to a previous version,
+15:27
+you'll do it all right here, inside of Hostinger.
+Get Your OpenClaw VPS (Best Deal)
+15:29
+And also, if you're following along
+15:31
+and you haven't set up your VPS yet,
+15:33
+make sure you use the first link in the video description.
+15:35
+(mouse clicking)
+15:36
+That link takes you to the correct Hostinger page
+15:38
+for this OpenClaw VPS setup,
+15:40
+and it will give you the most affordable deal available.
+15:42
+If you run into any issues
+15:44
+or you have questions about your setup,
+15:46
+just leave a comment down below,
+15:47
+and I'll try to help you out.
+15:49
+Thanks for watching this video,
+15:50
+and I'll see you in the next one.

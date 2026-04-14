@@ -1,0 +1,39 @@
+{
+  "allowedTools": [
+    "search_gmail_messages",
+    "get_gmail_message_content",
+    "get_gmail_messages_content_batch",
+    "get_gmail_attachment_content",
+    "get_gmail_thread_content",
+    "get_gmail_threads_content_batch",
+    "list_gmail_labels",
+    "search_drive_files",
+    "get_drive_file_content",
+    "get_drive_file_download_url",
+    "list_drive_items",
+    "get_drive_file_permissions",
+    "check_drive_file_public_access",
+    "get_drive_shareable_link",
+    "list_calendars",
+    "get_events",
+    "query_freebusy"
+  ],
+  "deniedNamePatterns": [
+    "send",
+    "delete",
+    "trash",
+    "permanent-delete",
+    "update",
+    "write"
+  ],
+  "maxResultsDefault": 50,
+  "gmail": {
+    "maxResults": 50
+  },
+  "calendar": {
+    "maxDaysRange": 31
+  },
+  "drive": {
+    "allowedFolderIds": []
+  }
+}
