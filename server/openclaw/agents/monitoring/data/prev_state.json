@@ -1,0 +1,9 @@
+{
+  "gateway": true,
+  "web_server": true,
+  "bus": true,
+  "disk": true,
+  "heartbeats": true,
+  "cron": true,
+  "google_mcp": true
+}

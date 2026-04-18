@@ -1,0 +1,131 @@
+{
+  "updated_at": "2026-04-18",
+  "note": "Extracted from Steuerbescheide in Drive. 2020-2022 sind eingescannte PDFs — nur Erstattungsbeträge aus Kanzlei-Prüfbriefen lesbar.",
+  "years": [
+    {
+      "year": 2024,
+      "veranlagung": "Zusammen (Alexander + Tanja)",
+      "bescheid_datum": "13.04.2026",
+      "einkuenfte": {
+        "arbeitslohn_alexander_regulaer": 278269,
+        "arbeitslohn_alexander_section34": 485828,
+        "arbeitslohn_tanja": 70243,
+        "vermietung_alexander": -18183,
+        "vermietung_tanja": -314,
+        "kapital": 1011,
+        "summe_einkuenfte": 809211
+      },
+      "abzuege": {
+        "vorsorgeaufwendungen": 25618,
+        "kinderbetreuung": 780,
+        "riester": 2100,
+        "kinderfreibetrag": 19080,
+        "gesamt": 47578
+      },
+      "zu_versteuerndes_einkommen": 762401,
+      "festgesetzte_steuer": 305936,
+      "solidaritaetszuschlag": 16496,
+      "nachzahlung_erstattung": 24577,
+      "effektive_steuerrate": 40.1,
+      "notes": "Reguläres Gehalt Alexander: 278.269€. §34 RSUs/Aktien: 485.828€. Tanja: 70.243€ (deepeye Medical). Vermietung: -18.183€ (Alex) / -314€ (Tanja). Fietz-Hoffmann GbR zieht Vermietung stark runter (-20.803€).",
+      "drive_folder": "1osS0A1d2oTuE0vB_hoTU8eZbFcYAl29V",
+      "bescheid_file": "BS über ESt 2024 v. 13.04.2026.pdf"
+    },
+    {
+      "year": 2023,
+      "veranlagung": "Zusammen (Alexander + Tanja)",
+      "bescheid_datum": "04.09.2025",
+      "einkuenfte": {
+        "arbeitslohn_alexander_regulaer": 271199,
+        "arbeitslohn_alexander_section34": 164411,
+        "arbeitslohn_tanja": 32743,
+        "vermietung_alexander": -12505,
+        "vermietung_tanja": 1856,
+        "kapital": 698,
+        "progressionsvorbehalt_tanja": 7114,
+        "summe_einkuenfte": 453023
+      },
+      "abzuege": {
+        "vorsorgeaufwendungen": 18195,
+        "kinderbetreuung": 5308,
+        "riester": 2100,
+        "kinderfreibetrag": 17904,
+        "gesamt": 43507
+      },
+      "zu_versteuerndes_einkommen": 411392,
+      "festgesetzte_steuer": 159531,
+      "solidaritaetszuschlag": 8444,
+      "nachzahlung_erstattung": 16264,
+      "effektive_steuerrate": 38.8,
+      "notes": "Reguläres Gehalt Alexander: 271.199€. §34 RSUs/Aktien (Juniper): 164.411€. Tanja: 32.743€ (deepeye, Teilzeit). Vermietung: -12.505€ (Alex) / +1.856€ (Tanja). Meskesweide-Mietkürzung durch FA. AuPair Colleen+Suleyka absetzbar.",
+      "drive_folder": "1Wzp_X40Zw9MSIrmFoHut4HthvdyDHlKf",
+      "bescheid_file": "BS über ESt 2023 v. 04.09.2025.pdf"
+    },
+    {
+      "year": 2022,
+      "veranlagung": "Zusammen (Alexander + Tanja) — erstes Jahr Zusammenveranlagung",
+      "bescheid_datum": "16.09.2024",
+      "einkuenfte": {
+        "arbeitslohn_alexander_regulaer_basis": 174603,
+        "arbeitslohn_alexander_oti_bonus": 116402,
+        "arbeitslohn_alexander_regulaer": 291005,
+        "arbeitslohn_alexander_section34": null,
+        "arbeitslohn_tanja": null,
+        "vermietung_alexander": null,
+        "geschaetzt": true,
+        "hinweis": "Geschätzt aus Gehaltsbrief Jun 2022: Base 175k + OTI/Bonus 116k = OTE 291k. §34-Anteil unbekannt. Gesamtzahlen (Steuer 42.900€, Erstattung 44.987€) aus Bescheid korrekt."
+      },
+      "zu_versteuerndes_einkommen": null,
+      "festgesetzte_steuer": 42900,
+      "solidaritaetszuschlag": 2087,
+      "nachzahlung_erstattung": 44987,
+      "effektive_steuerrate": null,
+      "notes": "Bescheid als Scan — vollständige Besteuerungsgrundlagen nicht lesbar. Erstattung: ESt -42.900 + SolZ -2.087 = -44.987€. Erstes Jahr Zusammenveranlagung mit Tanja. Meskesweide-Mietkürzung durch FA (nicht ortsübliche Miete). eToro-Verluste + Juniper Shares in Unterlagen. Erklärung selbst nicht in Drive vorhanden — bei Abraham & Löhr anfragen falls nötig.",
+      "drive_folder": "1K38IwnU5aQ-ll4ZRTlWKBHxigXTarzqt",
+      "bescheid_file": "BS über ESt 2022 v. 16.09.2024.pdf",
+      "geschaetzt": true
+    },
+    {
+      "year": 2021,
+      "veranlagung": "Einzeln (Alexander)",
+      "bescheid_datum": "06.11.2023",
+      "einkuenfte": {
+        "arbeitslohn_regular": 396450,
+        "arbeitslohn_section34": 183873,
+        "gewerbliche_verluste": -9258,
+        "vermietung": -11706,
+        "kapital": 0,
+        "summe_einkuenfte": 555353
+      },
+      "abzuege": {
+        "vorsorgeaufwendungen": 9788,
+        "sonstige_sonderausgaben": 1716,
+        "kinderfreibetrag": 8388
+      },
+      "zu_versteuerndes_einkommen": 535461,
+      "festgesetzte_steuer": 226159,
+      "solidaritaetszuschlag": 12286,
+      "nachzahlung_erstattung": 14290,
+      "effektive_steuerrate": 42.2,
+      "notes": "Einzelveranlagung. Großer §34-Anteil (RSUs/Aktien ~178k). Vermietung: Bärwaldstr +3.368, Greulichstr +4.369, Fietz-Hoffmann -19.443. Erklärungsgemäße Veranlagung.",
+      "drive_folder": "1vP0Zw9noCoJau0p7XPAwg09BUxWTTs7d",
+      "bescheid_file": "2023-09-26 - ESt Hoffmann, Alexander 2021 - unterschrieben.pdf"
+    },
+    {
+      "year": 2020,
+      "veranlagung": "Einzeln (Alexander)",
+      "bescheid_datum": "01.02.2022",
+      "einkuenfte": {
+        "summe_einkuenfte": null
+      },
+      "zu_versteuerndes_einkommen": null,
+      "festgesetzte_steuer": null,
+      "solidaritaetszuschlag": 631,
+      "nachzahlung_erstattung": 12644,
+      "effektive_steuerrate": null,
+      "notes": "Bescheid als Scan. Erstattung: ESt -12.013 + SolZ -631 = -12.644€. Erklärungsgemäße Veranlagung.",
+      "drive_folder": "1VhgdYGtx_X3F69BJ37vkvvLsHgJccnm1",
+      "bescheid_file": "BS über ESt 2020 v. 01.02.2022.pdf"
+    }
+  ]
+}

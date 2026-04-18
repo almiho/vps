@@ -1,0 +1,7 @@
+{
+  "user_google_email": "almiho@gmail.com",
+  "max_results": 50,
+  "query": "is:unread",
+  "wrapper_url": "http://127.0.0.1:8091/mcp",
+  "passive_mode": true
+}

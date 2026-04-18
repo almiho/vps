@@ -1,0 +1,266 @@
+{
+  "fetched_at": "2026-04-18T21:33:26.127491+00:00",
+  "entities": {
+    "sensor.gps_position": {
+      "state": "Active",
+      "unit": "",
+      "friendly_name": "GPS Position",
+      "latitude": 52.383994,
+      "longitude": 5.636117,
+      "gps_accuracy": 5
+    },
+    "sensor.geschwindigkeit_uber_grund": {
+      "state": "0.0",
+      "unit": "km/h",
+      "friendly_name": "Geschwindigkeit \u00fcber Grund"
+    },
+    "sensor.tiefe": {
+      "state": "1.5",
+      "unit": "m",
+      "friendly_name": "Tiefe"
+    },
+    "sensor.mar_y_sol_speed": {
+      "state": "0.0",
+      "unit": "m/s",
+      "friendly_name": "Mar y Sol speed"
+    },
+    "device_tracker.mar_y_sol": {
+      "state": "home",
+      "unit": "",
+      "friendly_name": "Mar y Sol",
+      "latitude": 52.383994,
+      "longitude": 5.636117,
+      "gps_accuracy": 5
+    },
+    "sensor.port_engine_hours": {
+      "state": "1595.81",
+      "unit": "h",
+      "friendly_name": "Port Engine Hours"
+    },
+    "sensor.starboard_engine_hours": {
+      "state": "1588.76",
+      "unit": "h",
+      "friendly_name": "Starboard Engine Hours"
+    },
+    "sensor.port_engine_voltage": {
+      "state": "24.3",
+      "unit": "V",
+      "friendly_name": "Port Engine Voltage"
+    },
+    "sensor.starboard_engine_voltage": {
+      "state": "23.8",
+      "unit": "V",
+      "friendly_name": "Starboard Engine Voltage"
+    },
+    "sensor.port_engine_fuel_rate": {
+      "state": "0",
+      "unit": "l/h",
+      "friendly_name": "Port Engine Fuel Rate"
+    },
+    "sensor.starboard_engine_fuel_rate": {
+      "state": "0",
+      "unit": "l/h",
+      "friendly_name": "Starboard Engine Fuel Rate"
+    },
+    "sensor.port_engine_boost": {
+      "state": "105000",
+      "unit": "kPa",
+      "friendly_name": "Port Engine Boost"
+    },
+    "sensor.starboard_engine_boost": {
+      "state": "106900",
+      "unit": "kPa",
+      "friendly_name": "Starboard Engine Boost"
+    },
+    "sensor.service_ladung": {
+      "state": "100",
+      "unit": "%",
+      "friendly_name": "Service Ladung"
+    },
+    "sensor.service_spannung": {
+      "state": "26.5",
+      "unit": "V",
+      "friendly_name": "Service Spannung"
+    },
+    "sensor.service_leistung": {
+      "state": "0",
+      "unit": "W",
+      "friendly_name": "Service Leistung"
+    },
+    "sensor.bugstrahl_ladung": {
+      "state": "100",
+      "unit": "%",
+      "friendly_name": "Bugstrahl Ladung"
+    },
+    "sensor.bugstrahl_spannung": {
+      "state": "25.2",
+      "unit": "V",
+      "friendly_name": "Bugstrahl Spannung"
+    },
+    "sensor.heckstrahl_ladung": {
+      "state": "100",
+      "unit": "%",
+      "friendly_name": "Heckstrahl Ladung"
+    },
+    "sensor.heckstrahl_spannung": {
+      "state": "25.5",
+      "unit": "V",
+      "friendly_name": "Heckstrahl Spannung"
+    },
+    "sensor.starter_bb_ladung": {
+      "state": "100",
+      "unit": "%",
+      "friendly_name": "Starter BB Ladung"
+    },
+    "sensor.starter_bb_spannung": {
+      "state": "25.9",
+      "unit": "V",
+      "friendly_name": "Starter BB Spannung"
+    },
+    "sensor.starter_stb_ladung": {
+      "state": "100",
+      "unit": "%",
+      "friendly_name": "Starter STB Ladung"
+    },
+    "sensor.starter_stb_spannung": {
+      "state": "25.8",
+      "unit": "V",
+      "friendly_name": "Starter STB Spannung"
+    },
+    "sensor.landstrom_aktuell": {
+      "state": "175.0",
+      "unit": "W",
+      "friendly_name": "Landstrom aktuell"
+    },
+    "sensor.quattro_status": {
+      "state": "Lagerung",
+      "unit": "",
+      "friendly_name": "Quattro - Status"
+    },
+    "sensor.quattro_ac_eingang": {
+      "state": "Landstrom",
+      "unit": "",
+      "friendly_name": "Quattro AC-Eingang"
+    },
+    "sensor.wechselstromlasten": {
+      "state": "119",
+      "unit": "W",
+      "friendly_name": "Wechselstromlasten"
+    },
+    "sensor.generatorstrom_aktuell": {
+      "state": "0",
+      "unit": "W",
+      "friendly_name": "Generatorstrom aktuell"
+    },
+    "sensor.ac_input_power": {
+      "state": "193",
+      "unit": "W",
+      "friendly_name": "Quattro AC Input Power"
+    },
+    "sensor.diesel_bb": {
+      "state": "unknown",
+      "unit": "%",
+      "friendly_name": "Diesel BB"
+    },
+    "sensor.diesel_stb": {
+      "state": "0",
+      "unit": "%",
+      "friendly_name": "Diesel STB"
+    },
+    "sensor.frischwasser": {
+      "state": "85",
+      "unit": "%",
+      "friendly_name": "Frischwasser"
+    },
+    "sensor.schwarzwasser": {
+      "state": "33",
+      "unit": "%",
+      "friendly_name": "Schwarzwasser"
+    },
+    "sensor.wassertemperatur": {
+      "state": "14.9",
+      "unit": "\u00b0C",
+      "friendly_name": "Wassertemperatur"
+    },
+    "sensor.h5074_ceee_temperature": {
+      "state": "11.08",
+      "unit": "\u00b0C",
+      "friendly_name": "H5074 CEEE Temperature"
+    },
+    "sensor.h5074_ceee_humidity": {
+      "state": "73.12",
+      "unit": "%",
+      "friendly_name": "H5074 CEEE Humidity"
+    },
+    "binary_sensor.elektro_verteilung_rauchmelder_smoke": {
+      "state": "off",
+      "unit": "",
+      "friendly_name": "Elektro-Verteilung Rauchmelder shellyplussmoke-d48afc441a9c smoke"
+    },
+    "sensor.bilge_toilettenpumpe_wassersensor_temperature": {
+      "state": "unavailable",
+      "unit": "\u00b0C",
+      "friendly_name": "Bilge Toilettenpumpe Wassersensor temperature"
+    },
+    "input_number.maschine_bb_letzter_olwechsel": {
+      "state": "1553.0",
+      "unit": "h",
+      "friendly_name": "Maschine BB - letzter \u00d6lwechsel"
+    },
+    "input_number.maschine_stb_letzter_olwechsel": {
+      "state": "1546.0",
+      "unit": "h",
+      "friendly_name": "Maschine STB - letzter \u00d6lwechsel"
+    },
+    "input_number.intervall_olwechsel": {
+      "state": "509.0",
+      "unit": "h",
+      "friendly_name": "Intervall - \u00d6lwechsel"
+    },
+    "input_number.maschine_bb_letzter_impellerwechsel": {
+      "state": "1553.0",
+      "unit": "h",
+      "friendly_name": "Maschine BB - letzter Impellerwechsel"
+    },
+    "input_number.maschine_stb_letzter_impellerwechsel": {
+      "state": "1546.0",
+      "unit": "h",
+      "friendly_name": "Maschine STB - letzter Impellerwechsel"
+    },
+    "input_number.intervall_impellerwechsel": {
+      "state": "100.0",
+      "unit": "",
+      "friendly_name": "Intervall - Impellerwechsel"
+    },
+    "input_number.maschine_bb_letzter_luftfilterwechsel": {
+      "state": "1553.0",
+      "unit": "h",
+      "friendly_name": "Maschine BB - letzter Luftfilterwechsel"
+    },
+    "input_number.maschine_stb_letzter_luftfilterwechsel": {
+      "state": "1546.0",
+      "unit": "h",
+      "friendly_name": "Maschine STB - letzter Luftfilterwechsel"
+    },
+    "input_number.intervall_luftfilter": {
+      "state": "400.0",
+      "unit": "",
+      "friendly_name": "Intervall - Luftfilter"
+    },
+    "input_number.maschine_bb_letzter_getriebeolwechsel": {
+      "state": "1553.0",
+      "unit": "h",
+      "friendly_name": "Maschine BB - letzter Getriebe\u00f6lwechsel"
+    },
+    "input_number.maschine_stb_letzter_getriebeolwechsel": {
+      "state": "1546.0",
+      "unit": "h",
+      "friendly_name": "Maschine STB - letzter Getriebe\u00f6lwechsel"
+    },
+    "input_number.intervall_getriebeolwechsel": {
+      "state": "800.0",
+      "unit": "",
+      "friendly_name": "Intervall - Getriebe\u00f6lwechsel"
+    }
+  }
+}

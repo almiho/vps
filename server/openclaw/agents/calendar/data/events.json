@@ -1,0 +1,232 @@
+{
+  "generated_at": "2026-04-17T23:00:15.058716+00:00",
+  "week_start": "2026-04-13",
+  "week_end": "2026-04-19",
+  "globalconnect_connected": false,
+  "calendars": [
+    {
+      "id": "primary",
+      "name": "Alex",
+      "color": "#4285f4"
+    },
+    {
+      "id": "osdq55i3o0k7lbrvrtp2fje45k@group.calendar.google.com",
+      "name": "SKW11a",
+      "color": "#33b679"
+    },
+    {
+      "id": "3rkjkal9lst6pberqfv1726a98@group.calendar.google.com",
+      "name": "Lukas & Jonas",
+      "color": "#f6bf26"
+    },
+    {
+      "id": "c8758d661f01b7ebff1fc5da0f7a69ca7f9e49b6c489de8f9ec08bf64f5cdfe3@group.calendar.google.com",
+      "name": "Ferien",
+      "color": "#e67c73"
+    },
+    {
+      "id": "tanja.berthues@gmail.com",
+      "name": "Tanja",
+      "color": "#a142f4"
+    },
+    {
+      "id": "gtohs295saeu45e8qfo3rcauestltdgl@import.calendar.google.com",
+      "name": "TripIt",
+      "color": "#039be5"
+    }
+  ],
+  "events": [
+    {
+      "id": "311rr70a74341dp2asfs8fecnh_20260413T123000Z",
+      "calendar_id": "primary",
+      "calendar_name": "Alex",
+      "calendar_color": "#4285f4",
+      "title": "Kids abholen",
+      "start": "2026-04-13T14:30:00+02:00",
+      "end": "2026-04-13T15:30:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=MzExcnI3MGE3NDM0MWRwMmFzZnM4ZmVjbmhfMjAyNjA0MTNUMTIzMDAwWiBhbG1paG9AbQ",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "311rr70a74341dp2asfs8fecnh_20260413T123000Z",
+      "calendar_id": "tanja.berthues@gmail.com",
+      "calendar_name": "Tanja",
+      "calendar_color": "#a142f4",
+      "title": "Kids abholen",
+      "start": "2026-04-13T14:30:00+02:00",
+      "end": "2026-04-13T15:30:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=MzExcnI3MGE3NDM0MWRwMmFzZnM4ZmVjbmhfMjAyNjA0MTNUMTIzMDAwWiB0YW5qYS5iZXJ0aHVlc0Bt",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "088iakus3lj7hdloonuftvc9ld_20260414T131500Z",
+      "calendar_id": "primary",
+      "calendar_name": "Alex",
+      "calendar_color": "#4285f4",
+      "title": "CIS ASA - Code Quest Lukas&Jonas",
+      "start": "2026-04-14T15:15:00+02:00",
+      "end": "2026-04-14T16:15:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=MDg4aWFrdXMzbGo3aGRsb29udWZ0dmM5bGRfMjAyNjA0MTRUMTMxNTAwWiBhbG1paG9AbQ",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "088iakus3lj7hdloonuftvc9ld_20260414T131500Z",
+      "calendar_id": "tanja.berthues@gmail.com",
+      "calendar_name": "Tanja",
+      "calendar_color": "#a142f4",
+      "title": "CIS ASA - Code Quest Lukas&Jonas",
+      "start": "2026-04-14T15:15:00+02:00",
+      "end": "2026-04-14T16:15:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=MDg4aWFrdXMzbGo3aGRsb29udWZ0dmM5bGRfMjAyNjA0MTRUMTMxNTAwWiB0YW5qYS5iZXJ0aHVlc0Bt",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "0mkelafgk1o5vn2h79pv271raq_20260414T134500Z",
+      "calendar_id": "primary",
+      "calendar_name": "Alex",
+      "calendar_color": "#4285f4",
+      "title": "TB - Kids abholen",
+      "start": "2026-04-14T15:45:00+02:00",
+      "end": "2026-04-14T16:45:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=MG1rZWxhZmdrMW81dm4yaDc5cHYyNzFyYXFfMjAyNjA0MTRUMTM0NTAwWiBhbG1paG9AbQ",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "0mkelafgk1o5vn2h79pv271raq_20260414T134500Z",
+      "calendar_id": "tanja.berthues@gmail.com",
+      "calendar_name": "Tanja",
+      "calendar_color": "#a142f4",
+      "title": "TB - Kids abholen",
+      "start": "2026-04-14T15:45:00+02:00",
+      "end": "2026-04-14T16:45:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=MG1rZWxhZmdrMW81dm4yaDc5cHYyNzFyYXFfMjAyNjA0MTRUMTM0NTAwWiB0YW5qYS5iZXJ0aHVlc0Bt",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "08hn8mp8qq84g8a4tpfc1t5pi5_20260415T133000Z",
+      "calendar_id": "primary",
+      "calendar_name": "Alex",
+      "calendar_color": "#4285f4",
+      "title": "Kids abholen",
+      "start": "2026-04-15T14:30:00+02:00",
+      "end": "2026-04-15T15:30:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=MDhobjhtcDhxcTg0ZzhhNHRwZmMxdDVwaTVfMjAyNjA0MTVUMTMzMDAwWiBhbG1paG9AbQ",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "08hn8mp8qq84g8a4tpfc1t5pi5_20260415T133000Z",
+      "calendar_id": "tanja.berthues@gmail.com",
+      "calendar_name": "Tanja",
+      "calendar_color": "#a142f4",
+      "title": "Kids abholen",
+      "start": "2026-04-15T14:30:00+02:00",
+      "end": "2026-04-15T15:30:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=MDhobjhtcDhxcTg0ZzhhNHRwZmMxdDVwaTVfMjAyNjA0MTVUMTMzMDAwWiB0YW5qYS5iZXJ0aHVlc0Bt",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "3qinhinuvn7o10aqn75vs0qbu7_20260415T130000Z",
+      "calendar_id": "primary",
+      "calendar_name": "Alex",
+      "calendar_color": "#4285f4",
+      "title": "(f\u00e4llt aus) Mother-Tongue-Class",
+      "start": "2026-04-15T15:00:00+02:00",
+      "end": "2026-04-15T16:00:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=M3FpbmhpbnV2bjdvMTBhcW43NXZzMHFidTdfMjAyNjA0MTVUMTMwMDAwWiBhbG1paG9AbQ",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "3qinhinuvn7o10aqn75vs0qbu7_20260415T130000Z",
+      "calendar_id": "tanja.berthues@gmail.com",
+      "calendar_name": "Tanja",
+      "calendar_color": "#a142f4",
+      "title": "(f\u00e4llt aus) Mother-Tongue-Class",
+      "start": "2026-04-15T15:00:00+02:00",
+      "end": "2026-04-15T16:00:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=M3FpbmhpbnV2bjdvMTBhcW43NXZzMHFidTdfMjAyNjA0MTVUMTMwMDAwWiB0YW5qYS5iZXJ0aHVlc0Bt",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "clgjior460s64bb2chh32b9kc4qj0b9o6oom8bb1cdj36cb56gpmce1mcg_20260416T063000Z",
+      "calendar_id": "tanja.berthues@gmail.com",
+      "calendar_name": "Tanja",
+      "calendar_color": "#a142f4",
+      "title": "ZUMBA at CIS",
+      "start": "2026-04-16T08:30:00+02:00",
+      "end": "2026-04-16T09:30:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=Y2xnamlvcjQ2MHM2NGJiMmNoaDMyYjlrYzRxajBiOW82b29tOGJiMWNkajM2Y2I1NmdwbWNlMW1jZ18yMDI2MDQxNlQwNjMwMDBaIHRhbmphLmJlcnRodWVzQG0",
+      "organizer": ""
+    },
+    {
+      "id": "0kgdbj8ahqs7rd84vl9r2c29o2_20260416T131500Z",
+      "calendar_id": "primary",
+      "calendar_name": "Alex",
+      "calendar_color": "#4285f4",
+      "title": "CIS ASA - Parcour Lukas&Jonas",
+      "start": "2026-04-16T15:15:00+02:00",
+      "end": "2026-04-16T16:15:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=MGtnZGJqOGFocXM3cmQ4NHZsOXIyYzI5bzJfMjAyNjA0MTZUMTMxNTAwWiBhbG1paG9AbQ",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "0kgdbj8ahqs7rd84vl9r2c29o2_20260416T131500Z",
+      "calendar_id": "tanja.berthues@gmail.com",
+      "calendar_name": "Tanja",
+      "calendar_color": "#a142f4",
+      "title": "CIS ASA - Parcour Lukas&Jonas",
+      "start": "2026-04-16T15:15:00+02:00",
+      "end": "2026-04-16T16:15:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=MGtnZGJqOGFocXM3cmQ4NHZsOXIyYzI5bzJfMjAyNjA0MTZUMTMxNTAwWiB0YW5qYS5iZXJ0aHVlc0Bt",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "3e5rnu5gffeeh8ennciq3g5tu6_20260416T134500Z",
+      "calendar_id": "tanja.berthues@gmail.com",
+      "calendar_name": "Tanja",
+      "calendar_color": "#a142f4",
+      "title": "TB - Kids abholen",
+      "start": "2026-04-16T15:45:00+02:00",
+      "end": "2026-04-16T16:45:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=M2U1cm51NWdmZmVlaDhlbm5jaXEzZzV0dTZfMjAyNjA0MTZUMTM0NTAwWiB0YW5qYS5iZXJ0aHVlc0Bt",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "4v9vledhqrv4oi6n6j4edjqqlj_20260417T123000Z",
+      "calendar_id": "primary",
+      "calendar_name": "Alex",
+      "calendar_color": "#4285f4",
+      "title": "TB - Kids abholen",
+      "start": "2026-04-17T14:45:00+02:00",
+      "end": "2026-04-17T15:30:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=NHY5dmxlZGhxcnY0b2k2bjZqNGVkanFxbGpfMjAyNjA0MTdUMTIzMDAwWiBhbG1paG9AbQ",
+      "organizer": "tanja.berthues@gmail.com"
+    },
+    {
+      "id": "4v9vledhqrv4oi6n6j4edjqqlj_20260417T123000Z",
+      "calendar_id": "tanja.berthues@gmail.com",
+      "calendar_name": "Tanja",
+      "calendar_color": "#a142f4",
+      "title": "TB - Kids abholen",
+      "start": "2026-04-17T14:45:00+02:00",
+      "end": "2026-04-17T15:30:00+02:00",
+      "all_day": false,
+      "link": "https://www.google.com/calendar/event?eid=NHY5dmxlZGhxcnY0b2k2bjZqNGVkanFxbGpfMjAyNjA0MTdUMTIzMDAwWiB0YW5qYS5iZXJ0aHVlc0Bt",
+      "organizer": "tanja.berthues@gmail.com"
+    }
+  ]
+}

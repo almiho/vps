@@ -1,0 +1,612 @@
+0:00
+Yo, this openclaw era we're living in
+0:02
+right now is absolutely bonkers,
+0:05
+bananas, insane. It's blowing my mind
+0:08
+every single day when I push the limits.
+0:10
+I try new things. I see what it can do.
+0:12
+It's so fun. It's super duper fun. It's
+0:15
+like when AI first came out and we're
+0:16
+like all mind-b blown. We're like, "Holy
+0:17
+[ __ ] we can do this." Now it's like a
+0:20
+new era because we've got chat GPT with
+0:23
+more buttons. Now it can take over our
+0:25
+whole computer and do tasks that people
+0:27
+pay thousands of dollars for, right? So,
+0:29
+it's just it's insane. I want to say
+0:32
+thank you guys uh for all the love on
+0:34
+the last video. I did not expect it to
+0:36
+pop off like it did. I just showed you a
+0:37
+couple use cases that I'm using it for
+0:40
+and uh yeah, got a lot of love. So,
+0:43
+thank you guys for uh liking and
+0:44
+subscribing and uh I'm a new channel, so
+0:47
+I'm just going to keep making content,
+0:49
+showing you guys cool stuff I learn, and
+0:51
+I'm going to keep tinkering and doing
+0:53
+all that. But uh I got a comment on the
+0:55
+last video
+0:57
+uh from Mark Stevenson 9280 and he said,
+1:02
+"What would be helpful is a full video
+1:05
+showing prompts used to flush out your
+1:07
+mission control. It's one of the better
+1:09
+ones I've seen. Every content creator
+1:11
+has virtually the same thing, but they
+1:12
+all just keep gatekeeping and it's like
+1:15
+some holy grail edge they can't possibly
+1:17
+share." Well, guess what? Mark Stevenson
+1:20
+9280 or 9280. I don't know how you how
+1:23
+you usually go by, but I'm not gonna
+1:26
+gatekeep. I'm gonna give this [ __ ] to
+1:28
+you guys for free today. So, if you
+1:30
+watch this whole video, you going to get
+1:32
+it. I'm not going to gateep it. I'm not
+1:33
+going to charge you a million dollars
+1:34
+for it because I want you guys to
+1:39
+maximize Open Claw and then come back
+1:41
+and uh tell me what you learned. You
+1:43
+know, we're collaborating. We're
+1:44
+masterminding. We're tossing ideas
+1:45
+around. We're all helping each other,
+1:48
+you know. uh win-win scenario, right?
+1:51
+So, uh I am going to show you first my
+1:54
+mission control, what I have so far. By
+1:57
+no means is it 100% complete and how I
+2:00
+want it. It's going to get 10 times
+2:01
+better. But, uh I'm going to give you
+2:04
+the rundown and then I am also going to
+2:06
+give you uh the prompts to create it
+2:09
+yourself and make it even better than
+2:10
+this and make it more custom to you in
+2:13
+your goals in your life. So, stick
+2:15
+around. I'm going to show you how to do
+2:16
+that. But let me do a quick rundown for
+2:18
+you, those of you brand new here, what
+2:20
+the mission control is. I basically told
+2:23
+Max, which is my open claw, to spin up a
+2:25
+mission control dashboard that has all
+2:27
+my important [ __ ] my meetings, my
+2:30
+business, my projects, my YouTube, my
+2:33
+everything I'm working on and make it
+2:35
+easy for me to manage. And I also wanted
+2:38
+them to gify it. So that's why it says
+2:39
+boss battle. So, when I hit uh 10
+2:42
+clients, it's going to do it's going to
+2:44
+check off 10 clients, do a cool
+2:45
+animation and boost my revenue and that
+2:47
+kind of thing. Uh, and I still have more
+2:49
+APIs to connect to make it fully
+2:51
+streamlined and automated, but the
+2:53
+skeletons there, and that's what I'm
+2:55
+going to give you guys today. And we got
+2:57
+a search bar up here and time and all
+2:59
+that. But, uh, this is like the the main
+3:01
+dashboard. Uh, and
+3:05
+you get you get a good idea of what that
+3:07
+looks like. Command center. These are
+3:08
+all my agents run around for me. Me, the
+3:11
+CEO, the founders, Mr. Zack at
+3:14
+Effortless AI. And I have Atlas. I can
+3:17
+change the model I want to use for them
+3:19
+because I have all the different API uh
+3:21
+for the different uh models. Uh and then
+3:24
+I have a few different uh agents here
+3:27
+about like what 12 agents for different
+3:29
+tasks, right? Uh operations, project
+3:32
+manager, content lead, uh research.
+3:35
+Scout's an awesome researcher. Love
+3:37
+Scout. I use Gemini 2.5 Pro for him to
+3:39
+research. I can create content and reels
+3:42
+and all sorts of cool stuff. And then
+3:44
+specifically for my new company I'm
+3:45
+launching, AI Twinbrain. I uh asked my
+3:49
+Claudebot to create a CTO, CFO, COO,
+3:52
+CPO, CMO, and me as a CEO. And then when
+3:56
+I pose a question, like a new board
+3:57
+question, then they all collaborate,
+4:01
+they talk it out, and then they come
+4:02
+back to me with one answer. And then
+4:04
+it's going to basically show all their
+4:07
+answers here in the exact notes. So
+4:11
+that's super cool. Uh projects, I can go
+4:13
+to all my projects here. It create
+4:16
+created a canban board. Canban where I
+4:19
+can drag and drop and just have a more
+4:21
+visual idea of what I need to get done.
+4:24
+Revenue manages all the revenue. And I
+4:27
+need I need to work even make these
+4:29
+better, but it's it's really helpful so
+4:31
+far. uh timeline so I can like visually
+4:33
+see like all right, my goal is 30K by
+4:36
+July 6th. I I got work to do, right? Uh
+4:39
+and this gives me a nice like visual of
+4:41
+where I'm at uh with my progress and
+4:43
+what I need to hit at certain dates uh
+4:46
+in different phases. Intel, love the
+4:48
+Intel report. I get a voice message from
+4:51
+Max every morning for the most up-to-ate
+4:53
+AI news, but he also puts it in here and
+4:56
+just uh lists out all the important
+4:58
+stuff again that's relevant to me and my
+5:00
+goals.
+5:01
+That's helped me so much stay on top of
+5:03
+everything. And then meetings. I have
+5:05
+Fireflies. It pulls in through an API on
+5:07
+Fireflies all my meetings. And uh this
+5:10
+is fun. I can uh I have all my meetings
+5:13
+here. I can check them off. I can uh I
+5:16
+can also look at some action steps from
+5:18
+the meetings and view the details from
+5:20
+the meetings. Uh so that's really fun
+5:23
+and that's helpful. And then also just
+5:25
+has more context, right? Oh, even to
+5:27
+tells me the total hours, how many
+5:28
+meetings I did. Very cool. Uh YouTube,
+5:31
+this is new. I just built this. I
+5:33
+watched another YouTuber and he has
+5:35
+something like this. So, uh I'm at 107
+5:38
+subs and and increasing. So, I wanted it
+5:41
+to like gify my YouTube growth because
+5:45
+my my big goal is getting that silver
+5:47
+play button at 100K. That'd be so cool.
+5:50
+Uh so, I want to do that. And then I
+5:52
+need to plug in uh a YouTube API or
+5:55
+something, but I'm going to get trending
+5:57
+videos that are related to what I can
+5:58
+make content on. So, I'm going to be
+6:00
+doing that. And then I just built this
+6:02
+too, a little mini CRM,
+6:04
+uh, and then a pipeline for new ideas.
+6:06
+And this is the video I'm making right
+6:08
+now, a video on how to make mission
+6:09
+control. So, here we go. I'm going to
+6:12
+give you guys the sauce. Put sauce in
+6:14
+the comments if you're ready for the
+6:16
+sauce. And uh I read the comments and I
+6:20
+try to respond and I love new video
+6:22
+content ideas. So if you want me to you
+6:24
+want to see me build, create, make a
+6:26
+video on something, tell me because I I
+6:28
+just did that uh for uh Mr. Mark Steven
+6:32
+9280 and I will do more if you guys
+6:35
+comment and let me know. Um anyway,
+6:37
+mission control again. It's going to get
+6:39
+10 times better, but I'm going to give
+6:40
+you the blueprint right now. And guys, I
+6:44
+spent hours because I had to go back and
+6:46
+look at all my my prompts. I was giving
+6:48
+it. I had to organize them all. I had to
+6:50
+go rebuild a website, program it, uh,
+6:54
+piece it together, visualize it, make it
+6:55
+so you guys could easily see where to
+6:57
+go, what what the different prompts do.
+6:59
+And I spent hours in sweat equity doing
+7:02
+this for you guys.
+7:05
+I'm just kidding. I uh, Max did the
+7:07
+whole thing. I just talked to him and
+7:09
+uh, he blew my mind. He he uh he posted
+7:12
+it, put it on Verscell, built an NN
+7:15
+automation.
+7:16
+Uh I'll show you guys what he did. So
+7:18
+then, you know, it can collect some
+7:20
+emails so I can uh send you guys some uh
+7:22
+more newsletters and stuff in the
+7:24
+future. I don't have anything to send
+7:25
+you now, but in the future backs
+7:26
+everything, but it's still really cool
+7:30
+and I was impressed. I think you will be
+7:32
+too. So what is mission control? Uh so
+7:35
+this is going to live on your dashboard
+7:36
+in an HTML file. So, if you look at my
+7:39
+dashboard, my mission controls right
+7:40
+here. I just click it, double click,
+7:42
+boom, it opens up, right? So, you guys
+7:45
+will have that same thing. Um, you'll be
+7:49
+able to do the same thing. And then it's
+7:50
+like it runs a server already on your
+7:53
+computer. So, then it's up, it stays up
+7:55
+to date. And, uh, this will explain all
+7:58
+that. Uh, and you can, and you can,
+8:00
+it'll work. Yeah. Opens instantly. Works
+8:02
+offline. Zero loading screens, local
+8:05
+storage. You don't have to pay any extra
+8:07
+money for any databases or anything like
+8:09
+that. You can if you want, but you don't
+8:11
+have to. So, basically, step one, copy
+8:12
+the prompt. Step two, fill the uh blank
+8:14
+brackets and then paste. So, just give
+8:16
+this to your open claw and he'll start
+8:18
+building it. So, yeah, read through
+8:20
+this. Take the take a little time to
+8:21
+read through it. One thing I would say
+8:23
+is uh give your give your uh a clawbot
+8:27
+some skills around coding. Like maybe
+8:29
+have them use cloud code if you can. uh
+8:31
+use a a strong model like um Opus or uh
+8:35
+you know Codeex and then I'll give him
+8:38
+some skills around uh coding. So if I go
+8:41
+to my skills, he's got like a bunch of
+8:45
+skills
+8:47
+uh you know design, mobile design, uh uh
+8:52
+UI, UX, Tailwind, TypeScript, Verscell.
+8:56
+So he's got skills so he can actually
+8:59
+code it better, right? So I would say
+9:02
+train up your CloudBot a little bit and
+9:04
+then give them these prompts. But these
+9:06
+are the different variables, everything
+9:08
+in purple where you'll put your personal
+9:09
+information in. Uh but you come down
+9:12
+here uh and this is the complete prompt.
+9:16
+It gives you everything very uh very
+9:20
+well laid out and and spelled out for
+9:22
+you. You just click click to copy. I'd
+9:24
+probably paste it in a notepad first and
+9:27
+then you can replace uh your name, your
+9:30
+business role and stuff. Make it
+9:31
+personalized to you. But there's three
+9:33
+pieces to it. So there is, sorry, I'm
+9:38
+like going really fast here. The
+9:39
+foundational prompt, the different
+9:41
+modules like I had at the top. So I have
+9:43
+separate prompts for each module
+9:46
+YouTube, you know, see I have different
+9:47
+prompts for different modules. And then
+9:50
+uh the engine here.
+9:53
+So it's it's a live dashboard, Node.js,
+9:55
+that kind of thing. And again, you just
+9:57
+click the copy. Made it as easy as you
+9:58
+can for you guys. You just got to change
+10:00
+this. And then every time you want to
+10:02
+connect a new software to it, connecting
+10:04
+to your dashboard, your server, it'll
+10:06
+know how after you give him this prompt.
+10:08
+And you can just give him the API keys,
+10:10
+it'll do every he'll do all the work and
+10:12
+connect it up. So then it's connected to
+10:14
+your Fireflies, connected to your NADN
+10:16
+if you want, if you have an API key
+10:17
+there, you know, connected to whatever
+10:19
+has an API key. and then he can go and
+10:22
+do uh and you can just control them from
+10:24
+like what? Telegram, WhatsApp, whatever
+10:26
+app you're using. So, uh there it is
+10:30
+guys. I'm going to give you this. It's
+10:32
+going to be in the description below.
+10:34
+Mission controls.cell.app.
+10:38
+You'll get this whole thing for free. I
+10:40
+had a buddy over, my buddy Orlando, and
+10:42
+he's like, "Dude, you're not going to
+10:43
+charge him for this?" I'm like, "No,
+10:44
+dude. Like, I'm just going to give it to
+10:47
+him. I'm trying to give value where I
+10:49
+can. you you asked for it. Here it is.
+10:52
+Uh maybe in the future if I spend a [ __ ]
+10:54
+ton of time on something I might have
+10:56
+to, you know, ask for some dollars, but
+10:57
+right now it's free. So enjoy it. All I
+11:00
+ask is that you subscribe. If you want
+11:02
+to share this link, you can share it up
+11:04
+and then people can see my uh YouTube as
+11:08
+well. That's all I ask. But this is all
+11:10
+here. Easy structured out for you guys.
+11:12
+Step by step, three major prompts. And
+11:16
+uh there you have it. you'll have your
+11:17
+own mission control very soon. Um, so uh
+11:22
+stoked to see what you guys come up
+11:24
+with, what your mission control looks
+11:25
+like. It's uh super duper fun. I love
+11:28
+gamifying life. I want to continue to
+11:31
+modify this so it's uh super gamified,
+11:33
+super fun, and uh we could all level up
+11:36
+together. So with that, like, comment,
+11:39
+subscribe, let me know the next video
+11:41
+piece content you want me to make. I
+11:43
+have a ton of fun doing this. Open Claw
+11:44
+is insane. Uh, it's the revolution. It's
+11:47
+the future. It's what we should all be
+11:49
+focusing on right now. Uh, appreciate
+11:51
+you guys. Till the next video.

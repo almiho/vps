@@ -1,0 +1,33 @@
+{"type": "failure", "component": "heartbeats", "detail": "Stale agent(s): dashboard: status file missing or unreadable", "logged_at": "2026-04-12T17:39:14.641407"}
+{"type": "failure", "component": "cron", "detail": "Could not read cron job list", "logged_at": "2026-04-12T17:39:25.465213"}
+{"type": "failure", "component": "heartbeats", "detail": "Stale agent(s): dashboard: status file missing or unreadable", "logged_at": "2026-04-12T17:39:55.083372"}
+{"type": "failure", "component": "cron", "detail": "Could not read cron job list", "logged_at": "2026-04-12T17:39:55.084787"}
+{"type": "failure", "component": "cron", "detail": "No scheduled cron jobs found. Dashboard regen and infra checks may have stopped.", "logged_at": "2026-04-12T17:54:29.491029"}
+{"type": "failure", "component": "cron", "detail": "Scheduler daemon not running \u2014 dashboard and health checks have stopped.\n\u2192 Restart: python3 /home/node/.openclaw/workspace/scripts/scheduler.py", "logged_at": "2026-04-12T17:58:01.095684"}
+{"type": "failure", "component": "cron", "detail": "Scheduler daemon not running \u2014 dashboard and health checks have stopped.\n\u2192 Restart: python3 /home/node/.openclaw/workspace/scripts/scheduler.py", "logged_at": "2026-04-12T18:01:01.658647"}
+{"type": "failure", "component": "cron", "detail": "Scheduler daemon not running \u2014 dashboard and health checks have stopped.\n\u2192 Restart: python3 /home/node/.openclaw/workspace/scripts/scheduler.py", "logged_at": "2026-04-12T18:04:46.872793"}
+{"type": "alert_fired", "title": "System problem: Cron", "logged_at": "2026-04-12T18:04:46.872900"}
+{"type": "failure", "component": "gateway", "detail": "RPC probe failed \u2014 gateway may be down", "logged_at": "2026-04-12T18:05:11.074136"}
+{"type": "alert_fired", "title": "System problem: Gateway", "logged_at": "2026-04-12T18:05:11.074252"}
+{"type": "failure", "component": "cron", "detail": "Scheduler daemon not running \u2014 dashboard and health checks have stopped.\n\u2192 Restart: python3 /home/node/.openclaw/workspace/scripts/scheduler.py", "logged_at": "2026-04-12T18:07:49.955674"}
+{"type": "alert_fired", "title": "System problem: Cron", "logged_at": "2026-04-12T18:07:49.955798"}
+{"type": "failure", "component": "heartbeats", "detail": "Stale agent(s): dashboard: last update 2.1h ago \u2014 may be stale", "logged_at": "2026-04-12T19:40:45.004608"}
+{"type": "alert_fired", "title": "System problem: Heartbeats", "logged_at": "2026-04-12T19:40:45.004732"}
+{"type": "failure", "component": "gateway", "detail": "RPC probe failed \u2014 gateway may be down", "logged_at": "2026-04-14T09:12:20.197608"}
+{"type": "alert_fired", "title": "System problem: Gateway", "logged_at": "2026-04-14T09:12:20.197728"}
+{"type": "failure", "component": "gateway", "detail": "RPC probe failed \u2014 gateway may be down", "logged_at": "2026-04-14T09:12:22.707294"}
+{"type": "alert_fired", "title": "System problem: Gateway", "logged_at": "2026-04-14T09:12:22.707455"}
+{"type": "failure", "component": "cron", "detail": "Scheduler daemon not running \u2014 dashboard and health checks have stopped.\n\u2192 Restart: python3 /home/node/.openclaw/workspace/scripts/scheduler.py", "logged_at": "2026-04-15T23:07:14.695036"}
+{"type": "alert_fired", "title": "System problem: Cron", "logged_at": "2026-04-15T23:07:14.695633"}
+{"type": "failure", "component": "google_mcp", "detail": "Google MCP server unreachable on port 8000: HTTP Error 404: Not Found. Gmail, Calendar, and Drive access are down. Assessment: server process crashed or was never started. \u2192 Check workspace-mcp process and restart if needed.", "logged_at": "2026-04-15T23:07:14.697303"}
+{"type": "alert_fired", "title": "System problem: Google Mcp", "logged_at": "2026-04-15T23:07:14.697875"}
+{"type": "failure", "component": "gateway", "detail": "RPC probe failed, but 7 openclaw process(es) running and web server reachable. Assessment: likely a transient connectivity blip, not a full outage. Will self-resolve \u2014 if it persists next cycle, escalate. \u2192 If it recurs: openclaw gateway restart", "logged_at": "2026-04-17T02:00:16.726127"}
+{"type": "alert_fired", "title": "System problem: Gateway", "logged_at": "2026-04-17T02:00:16.732351"}
+{"type": "failure", "component": "gateway", "detail": "RPC probe failed, but 7 openclaw process(es) running and web server reachable. Assessment: likely a transient connectivity blip, not a full outage. Will self-resolve \u2014 if it persists next cycle, escalate. \u2192 If it recurs: openclaw gateway restart", "logged_at": "2026-04-18T16:08:16.055017"}
+{"type": "alert_fired", "title": "System problem: Gateway", "logged_at": "2026-04-18T16:08:16.055964"}
+{"type": "failure", "component": "heartbeats", "detail": "Stale agent(s): infrastructure: last update 17.1h ago \u2014 may be stale", "logged_at": "2026-04-18T16:08:16.058083"}
+{"type": "alert_fired", "title": "System problem: Heartbeats", "logged_at": "2026-04-18T16:08:16.058564"}
+{"type": "failure", "component": "gateway", "detail": "RPC probe failed, but 7 openclaw process(es) running and web server reachable. Assessment: likely a transient connectivity blip, not a full outage. Will self-resolve \u2014 if it persists next cycle, escalate. \u2192 If it recurs: openclaw gateway restart", "logged_at": "2026-04-18T16:29:10.907423"}
+{"type": "alert_fired", "title": "System problem: Gateway", "logged_at": "2026-04-18T16:29:10.908025"}
+{"type": "failure", "component": "gateway", "detail": "RPC probe failed, but 7 openclaw process(es) running and web server reachable. Assessment: likely a transient connectivity blip, not a full outage. Will self-resolve \u2014 if it persists next cycle, escalate. \u2192 If it recurs: openclaw gateway restart", "logged_at": "2026-04-18T17:00:10.651683"}
+{"type": "alert_fired", "title": "System problem: Gateway", "logged_at": "2026-04-18T17:00:10.652564"}

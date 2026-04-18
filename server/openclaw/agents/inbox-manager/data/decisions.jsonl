@@ -1,0 +1,3 @@
+{"timestamp": "2026-04-18T16:09:18", "message_id": "22e89d87-1e27-401f-ad58-a1794f053140", "source_id": "test_1", "subject": "Ihre Kontoauszug ist bereit", "domain": "finance", "confidence": "high", "scores": {"finance": 4}, "action": "tagged"}
+{"timestamp": "2026-04-18T16:09:18", "message_id": "d2a1f6aa-e05c-4344-b671-eee512419d1c", "source_id": "test_2", "subject": "Elternabend n\u00e4chste Woche", "domain": "school", "confidence": "high", "scores": {"school": 2, "life-in-denmark": 1}, "action": "tagged"}
+{"timestamp": "2026-04-18T16:09:18", "message_id": "8baa8f81-95f2-4f9b-a436-9207e7a4aa71", "source_id": "test_3", "subject": "Hey", "domain": null, "confidence": "none", "scores": {}, "action": "needs_review", "reason": "no keyword match"}

@@ -1,0 +1,29 @@
+{
+  "agent": "cos",
+  "updated_at": "2026-04-18T23:34:00.565455",
+  "health": "ok",
+  "summary": "Running. 9/18 agents active. Milestones 0\u20132 complete. All good.",
+  "alerts": [],
+  "upcoming": [
+    {
+      "priority": 1,
+      "title": "Next build: School Agent \u2014 German tracking, school calendar, registration status",
+      "due_at": null
+    },
+    {
+      "priority": 2,
+      "title": "Then: Tax Agent \u2014 cross-border deadlines approaching",
+      "due_at": null
+    },
+    {
+      "priority": 3,
+      "title": "Then: Travel Agent \u2014 summer boat trip, booking discipline (\u226530 days ahead)",
+      "due_at": null
+    },
+    {
+      "priority": 4,
+      "title": "Later: Comms Collector, Finance Agent, Health Agent, Friendships tracker",
+      "due_at": null
+    }
+  ]
+}

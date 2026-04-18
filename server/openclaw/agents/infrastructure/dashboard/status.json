@@ -1,0 +1,29 @@
+{
+  "agent": "infrastructure",
+  "updated_at": "2026-04-18T23:10:08.267926",
+  "health": "ok",
+  "summary": "All systems healthy. Milestones 0\u20132 complete.",
+  "alerts": [],
+  "upcoming": [
+    {
+      "priority": 1,
+      "title": "Milestone 4: Comms Collector",
+      "due_at": null
+    },
+    {
+      "priority": 2,
+      "title": "Milestone 5: Chief of Staff \u2014 GTD Layer",
+      "due_at": null
+    },
+    {
+      "priority": 3,
+      "title": "Milestone 6: School Agent",
+      "due_at": null
+    },
+    {
+      "priority": 4,
+      "title": "Milestone 7+: Remaining Domain Agents",
+      "due_at": null
+    }
+  ]
+}

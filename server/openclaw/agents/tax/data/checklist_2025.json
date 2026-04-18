@@ -1,0 +1,213 @@
+{
+  "year": 2025,
+  "updated_at": "2026-04-18",
+  "items": [
+    {
+      "id": "lohnsteuerbescheinigung",
+      "label": "Lohnsteuerbescheinigung Arbeitgeber",
+      "category": "Einkommen",
+      "required": true,
+      "found": false,
+      "drive_link": null,
+      "notes": "Noch nicht gefunden — Juniper/GlobalConnect-Ordner vorhanden aber kein explizites Lohnsteuerbescheinigung-Dokument sichtbar"
+    },
+    {
+      "id": "rentenbescheinigung",
+      "label": "Rentenbescheinigung / Vorsorgeaufwendungen",
+      "category": "Einkommen",
+      "required": false,
+      "found": false,
+      "drive_link": null,
+      "notes": ""
+    },
+    {
+      "id": "kapitalertrage",
+      "label": "Jahressteuerbescheinigung Bank (Kapitalerträge)",
+      "category": "Kapital",
+      "required": true,
+      "found": true,
+      "drive_link": "https://drive.google.com/file/d/1s3T22fjIo67VzGNBWJPJaSAoC5Lo6FBQ/view?usp=drivesdk",
+      "notes": "Jahressteuerbescheinigung_2025_20260323_1e39e.pdf (Steuer 2025/Banken); zweite Bescheinigung ebenfalls vorhanden (Person 6001398602)"
+    },
+    {
+      "id": "vermietung_einnahmen",
+      "label": "Mieteinnahmen Übersicht (alle Objekte)",
+      "category": "Vermietung",
+      "required": true,
+      "found": false,
+      "drive_link": null,
+      "notes": "Objekte bekannt: SKW11a, GLS62, BWS52, Meskesweide — Übersicht/Aufstellung noch nicht als Dokument gefunden"
+    },
+    {
+      "id": "vermietung_kosten",
+      "label": "Werbungskosten Vermietung (Reparaturen, Verwaltung, Zinsen)",
+      "category": "Vermietung",
+      "required": true,
+      "found": true,
+      "drive_link": "https://drive.google.com/file/d/1npU0ciav9CwIxFN98MsV8OnLYoOzb3lV/view?usp=drivesdk",
+      "notes": "2× Darlehenskontoauszüge 2025 (DE45 + DE72, Steuer 2025/); zahlreiche Handwerkerrechnungen in Immobilien-Ordner"
+    },
+    {
+      "id": "grundsteuer_baerwald",
+      "label": "Grundsteuerbescheid Bärwaldstraße 52, Berlin",
+      "category": "Vermietung",
+      "required": true,
+      "found": false,
+      "drive_link": null,
+      "notes": ""
+    },
+    {
+      "id": "grundsteuer_greulich",
+      "label": "Grundsteuerbescheid Greulichstraße 62, Berlin (Bruchteilsgemeinschaft)",
+      "category": "Vermietung",
+      "required": true,
+      "found": false,
+      "drive_link": null,
+      "notes": ""
+    },
+    {
+      "id": "grundsteuer_meskesweide",
+      "label": "Grundsteuerbescheid Meskesweide (Objekt mit Mietkürzungsproblem)",
+      "category": "Vermietung",
+      "required": true,
+      "found": false,
+      "drive_link": null,
+      "notes": ""
+    },
+    {
+      "id": "grundsteuer_skw11a",
+      "label": "Grundsteuerbescheid Sakrower Kirchweg 11a, Berlin",
+      "category": "Vermietung",
+      "required": true,
+      "found": false,
+      "drive_link": null,
+      "notes": ""
+    },
+    {
+      "id": "heizkosten_skw11a",
+      "label": "Heizkostenabrechnung SKW11a",
+      "category": "Vermietung",
+      "required": true,
+      "found": false,
+      "drive_link": null,
+      "notes": "War in Vorjahren immer Teil der Unterlagen"
+    },
+    {
+      "id": "schuldzinsen_gls62",
+      "label": "Schuldzinsen-Bescheinigung Greulichstraße (Commerzbank)",
+      "category": "Vermietung",
+      "required": true,
+      "found": false,
+      "drive_link": null,
+      "notes": "Jahresbescheinigung über gezahlte Schuldzinsen"
+    },
+    {
+      "id": "handwerker",
+      "label": "Handwerkerrechnungen (haushaltsnahe Dienstleistungen)",
+      "category": "Sonderausgaben",
+      "required": false,
+      "found": true,
+      "drive_link": "https://drive.google.com/drive/folders/1jA07BGfU0_0NRS1FFz-LMTJ_RIH4qtx9",
+      "notes": "Immobilien-Ordner enthält >20 Rechnungen 2025 (Scheimann Haustechnik, diverse RE_2025-*); SKW11a-Unterordner ebenfalls vorhanden"
+    },
+    {
+      "id": "aupair_kosten",
+      "label": "AuPair Kosten 2025 — Sasha-Leigh Draai (Taschengeld + Flug + KV)",
+      "category": "Sonderausgaben",
+      "required": true,
+      "found": true,
+      "drive_link": "https://drive.google.com/drive/folders/1RHTExkxTrTzJYs4H2EC7Vafa_2xp_css",
+      "notes": "Sasha-Leigh Draai, Nov 2024 - Jan 2026. Zahlungsübersicht: Au Pair Zahlungen.csv (https://drive.google.com/file/d/1w_Jg8TElgWpC3PVVPBiibHIRe8UJA4FT/view). KV-Rechnung, Vertrag, Meldebestätigung, Reisedokumente vorhanden."
+    },
+    {
+      "id": "krankenversicherung",
+      "label": "Krankenversicherungsbeiträge (Jahresbescheinigung)",
+      "category": "Vorsorge",
+      "required": true,
+      "found": false,
+      "drive_link": null,
+      "notes": "KV-Beiträge 2024 laut Bescheid: Ehemann 6.677 €, Ehefrau 10.593 €; Bescheinigung 2025 noch nicht gefunden"
+    },
+    {
+      "id": "riester_ruerup",
+      "label": "Riester/Rürup Bescheinigung",
+      "category": "Vorsorge",
+      "required": false,
+      "found": false,
+      "drive_link": null,
+      "notes": "Riester-Vertrag Ehefrau bekannt (Anbieter 0204000194, Zertif. 004842, Vertrag 4566499154)"
+    },
+    {
+      "id": "steuerbescheid_vorjahr",
+      "label": "Steuerbescheid 2024 (Vorjahr)",
+      "category": "Referenz",
+      "required": true,
+      "found": true,
+      "drive_link": "https://drive.google.com/file/d/14TIwZyXYDUmlbroRibajjcrdEU8XEn9D/view?usp=drivesdk",
+      "notes": "BS über ESt 2024 v. 13.04.2026.pdf (Steuer 2024-Ordner); zvE 762.401 €, ESt 305.936 €, Erstattung 24.577 €"
+    },
+    {
+      "id": "vorauszahlungen",
+      "label": "Vorauszahlungsbescheid / geleistete Vorauszahlungen",
+      "category": "Referenz",
+      "required": true,
+      "found": true,
+      "drive_link": null,
+      "notes": "Nicht zutreffend — keine Vorauszahlungen 2025"
+    },
+    {
+      "id": "auslandsaufenthalte",
+      "label": "Nachweise Auslandsaufenthalte / Dänemark-Bezug",
+      "category": "Sonstiges",
+      "required": false,
+      "found": true,
+      "drive_link": "https://drive.google.com/drive/folders/1vFxeZZVk2q8mjc6JQHif1rHgigrvrXVu",
+      "notes": "Copenhagen-Ordner in Job/; Wohnung Alex Kopenhagen in GlobalConnect/; TAXINV.pdf (dänische Steuer?); Hinweise auf doppelten Wohnsitz DK+DE vorhanden"
+    },
+    {
+      "id": "doppelter_haushalt",
+      "label": "Doppelte Haushaltsführung Nachweise",
+      "category": "Werbungskosten",
+      "required": false,
+      "found": true,
+      "drive_link": "https://drive.google.com/drive/folders/16QHsdOZhNhe1ngJEUjiRrIcTAM6UVM54",
+      "notes": "Wohnung Alex Kopenhagen (GlobalConnect-Ordner); Arbeitsweg-Ordner vorhanden; CPH + Berlin = doppelte Haushaltsführung prüfenswert"
+    },
+    {
+      "id": "dk_einnahmen_nachweis",
+      "label": "Nachweis Einkünfte Dänemark (ab Okt 2025)",
+      "category": "Dänemark",
+      "required": true,
+      "found": false,
+      "drive_link": null,
+      "notes": "Ab Oktober 2025 in DK gearbeitet — steuerliche Behandlung noch zu klären"
+    },
+    {
+      "id": "dk_steuernummer",
+      "label": "Dänische Steuernummer / CPR-Nummer",
+      "category": "Dänemark",
+      "required": true,
+      "found": false,
+      "drive_link": null,
+      "notes": "Benötigt für dänische Steuererklärung"
+    },
+    {
+      "id": "dk_este_koordination",
+      "label": "Koordination DE/DK Steuererklärung",
+      "category": "Dänemark",
+      "required": true,
+      "found": false,
+      "drive_link": null,
+      "notes": "Dänische EStE benötigt deutsche EStE als Beilage — daher zeitkritisch"
+    },
+    {
+      "id": "dk_dba_nachweis",
+      "label": "DBA Deutschland-Dänemark Anwendung",
+      "category": "Dänemark",
+      "required": false,
+      "found": false,
+      "drive_link": null,
+      "notes": "Doppelbesteuerungsabkommen — welches Land hat Besteuerungsrecht für welche Einkünfte?"
+    }
+  ]
+}

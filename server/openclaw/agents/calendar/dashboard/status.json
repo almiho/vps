@@ -1,0 +1,34 @@
+{
+  "agent": "calendar",
+  "updated_at": "2026-04-18T01:00:15.059270",
+  "health": "ok",
+  "summary": "16 events this week, 0 today \u00b7 showing today in Upcoming",
+  "alerts": [],
+  "upcoming": [
+    {
+      "priority": 3,
+      "title": "\ud83d\ude8c No kids pickup event found for today",
+      "due_at": null
+    },
+    {
+      "priority": 3,
+      "title": "\u26a0\ufe0f GlobalConnect calendar not connected \u2014 alehof@globalconnect.dk needs OAuth",
+      "due_at": null
+    },
+    {
+      "priority": 4,
+      "title": "\ud83d\udcc5 No key events found for today (2026-04-18)",
+      "due_at": null
+    }
+  ],
+  "checks": {
+    "google_calendar_mcp": {
+      "ok": true,
+      "detail": "Connected"
+    },
+    "globalconnect_calendar": {
+      "ok": false,
+      "detail": "Not connected \u2014 alehof@globalconnect.dk needs OAuth authorization"
+    }
+  }
+}

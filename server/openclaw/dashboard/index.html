@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="refresh" content="900"><title>AlexI Dashboard</title><style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+.header { background: #1e293b; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+.header h1 { font-size: 1.25rem; font-weight: 700; color: #f1f5f9; }
+.header-meta { font-size: 0.75rem; color: #64748b; }
+.container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+@media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+.section { background: #1e293b; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
+.section-title { font-size: 0.875rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+.item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid #334155; }
+.item:last-child { border-bottom: none; }
+.item-priority { font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.p1 { background: #7f1d1d; color: #fca5a5; }
+.p2 { background: #7c2d12; color: #fdba74; }
+.p3 { background: #713f12; color: #fde68a; }
+.p4 { background: #1e3a5f; color: #93c5fd; }
+.p5 { background: #1e293b; color: #94a3b8; border: 1px solid #334155; }
+.item-content { flex: 1; min-width: 0; }
+.item-title { font-size: 0.9rem; font-weight: 600; color: #f1f5f9; }
+.item-body { margin-top: 6px; }
+.item-body-line { font-size: 0.78rem; color: #94a3b8; line-height: 1.7; display: block; }
+.item-body-line.muted { color: #64748b; }
+.item-body-line.section-head { color: #cbd5e1; font-weight: 600; margin-top: 4px; }
+.item-meta { font-size: 0.75rem; color: #64748b; margin-top: 3px; }
+.alert-item { background: rgba(239,68,68,0.05); border-radius: 8px; padding: 0.75rem !important; margin-bottom: 0.5rem; border-bottom: none !important; }
+.action-badge { font-size: 0.7rem; background: #ef4444; color: white; padding: 2px 8px; border-radius: 12px; white-space: nowrap; flex-shrink: 0; }
+.empty-state { color: #475569; font-size: 0.875rem; padding: 1rem 0; text-align: center; }
+
+/* Cluster grouping on homepage */
+.cluster-section { margin-bottom: 1.25rem; }
+.cluster-section:last-child { margin-bottom: 0; }
+.cluster-label { font-size: 0.72rem; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; padding-left: 2px; border-bottom: 1px solid #1e293b; padding-bottom: 0.4rem; }
+.agents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem; }
+.agent-card { background: #1e293b; border-radius: 10px; padding: 1rem; display: flex; gap: 0.75rem; align-items: flex-start; text-decoration: none; color: inherit; border: 1px solid #334155; transition: border-color 0.15s; }
+.agent-card:hover { border-color: #475569; }
+.health-ok { border-left: 3px solid #22c55e; }
+.health-warning { border-left: 3px solid #f59e0b; }
+.health-error { border-left: 3px solid #ef4444; }
+.health-unknown { border-left: 3px solid #475569; }
+.agent-emoji { font-size: 1.5rem; line-height: 1; flex-shrink: 0; }
+.agent-info { flex: 1; min-width: 0; }
+.agent-name { font-size: 0.875rem; font-weight: 600; color: #f1f5f9; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.agent-summary { font-size: 0.75rem; color: #64748b; margin-top: 3px; }
+.agent-updated { font-size: 0.7rem; color: #475569; margin-top: 3px; }
+.back { color: #64748b; text-decoration: none; font-size: 0.875rem; }
+.back:hover { color: #94a3b8; }
+.status-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.status-summary { color: #cbd5e1; font-size: 0.9rem; }
+.status-updated { color: #475569; font-size: 0.75rem; }
+/* About section */
+.about-toggle { width: 100%; background: none; border: 1px solid #334155; border-radius: 8px; padding: 0.6rem 1rem; color: #64748b; font-size: 0.8rem; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.about-toggle:hover { border-color: #475569; color: #94a3b8; }
+.about-content { display: none; background: #1e293b; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
+.about-content.open { display: block; }
+.about-row { margin-bottom: 1rem; }
+.about-row:last-child { margin-bottom: 0; }
+.about-label { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
+.about-text { font-size: 0.85rem; color: #cbd5e1; line-height: 1.6; }
+.about-connects { font-size: 0.8rem; color: #94a3b8; font-style: italic; }
+.okr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.75rem; }
+@media (max-width: 768px) { .okr-grid { grid-template-columns: 1fr; } }
+.okr-card { background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 1rem; }
+.okr-card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+.okr-icon { font-size: 1.2rem; }
+.okr-title { font-size: 0.9rem; font-weight: 700; color: #c7d2fe; }
+.okr-idea { font-size: 0.78rem; color: #94a3b8; line-height: 1.5; margin-bottom: 0.75rem; font-style: italic; }
+.okr-kr-group { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.6rem; margin-bottom: 0.2rem; }
+.okr-kr-item { font-size: 0.8rem; color: #cbd5e1; line-height: 1.5; padding-left: 0.25rem; }
+/* Log section */
+details.log-section > summary { cursor:pointer; color:#64748b; font-size:0.8rem; padding:0.4rem 0; user-select:none; list-style:none; }
+details.log-section > summary::before { content:'▶ '; font-size:0.7rem; }
+details.log-section[open] > summary::before { content:'▼ '; }
+details.log-section > summary:hover { color:#94a3b8; }
+.log-reload-btn { background:none; border:1px solid #334155; border-radius:6px; color:#64748b; padding:3px 10px; font-size:0.75rem; cursor:pointer; line-height:1; }
+.log-reload-btn:hover { border-color:#475569; color:#94a3b8; }
+.log-filter-bar { display:flex; flex-wrap:wrap; gap:0.75rem; margin:0.6rem 0 0.4rem; }
+.log-filter-group { display:flex; align-items:center; gap:0.3rem; }
+.log-filter-label { font-size:0.7rem; color:#475569; text-transform:uppercase; letter-spacing:0.05em; margin-right:2px; }
+.log-filter-btn { background:none; border:1px solid #334155; border-radius:4px; color:#64748b; padding:2px 8px; font-size:0.72rem; cursor:pointer; }
+.log-filter-btn:hover { border-color:#475569; color:#94a3b8; }
+.log-filter-btn.active { background:#1e3a5f; border-color:#3b82f6; color:#93c5fd; }
+.log-container { margin-top:0.25rem; font-family:'SF Mono',Menlo,monospace; }
+.log-row { display:grid; grid-template-columns:150px 90px 68px 130px 1fr; gap:6px; padding:3px 6px; border-bottom:1px solid #0f172a; font-size:0.74rem; align-items:start; }
+.log-row:hover { background:#162032; }
+.log-ts { color:#475569; white-space:nowrap; }
+.log-agent { color:#a78bfa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.log-level { font-weight:700; }
+.log-lvl-debug { color:#475569; }
+.log-lvl-info { color:#64748b; }
+.log-lvl-warning { color:#f59e0b; }
+.log-lvl-error { color:#ef4444; }
+.log-lvl-critical { color:#fca5a5; background:#450a0a; padding:0 3px; border-radius:3px; }
+.log-event { color:#7dd3fc; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.log-msg { color:#94a3b8; }
+.log-empty { color:#475569; font-size:0.8rem; padding:0.5rem 0; }
+</style></head>
+<body>
+<div class="header"><h1>🤝 AlexI Dashboard</h1><div class="header-meta">Updated 18 Apr 2026 23:34 · Auto-refreshes every 15 min</div></div>
+<div class="container">
+  <div class="grid">
+    <div class="section"><div class="section-title">🔴 Needs Attention</div><div class="empty-state">✅ No urgent items right now</div></div>
+    <div class="section"><div class="section-title">📅 Upcoming</div><div class="item"><div class="item-priority p1">P1</div><div class="item-content"><div class="item-title">Next build: School Agent — German tracking, school calendar, registration status</div><div class="item-meta">COS</div></div></div><div class="item"><div class="item-priority p1">P1</div><div class="item-content"><div class="item-title">Milestone 4: Comms Collector</div><div class="item-meta">INFRASTRUCTURE</div></div></div><div class="item"><div class="item-priority p2">P2</div><div class="item-content"><div class="item-title">Then: Tax Agent — cross-border deadlines approaching</div><div class="item-meta">COS</div></div></div><div class="item"><div class="item-priority p2">P2</div><div class="item-content"><div class="item-title">Milestone 5: Chief of Staff — GTD Layer</div><div class="item-meta">INFRASTRUCTURE</div></div></div><div class="item"><div class="item-priority p2">P2</div><div class="item-content"><div class="item-title">Will watch Comms Collector once connected (Milestone 4) — message bus queue depth</div><div class="item-meta">MONITORING</div></div></div><div class="item"><div class="item-priority p3">P3</div><div class="item-content"><div class="item-title">Then: Travel Agent — summer boat trip, booking discipline (≥30 days ahead)</div><div class="item-meta">COS</div></div></div><div class="item"><div class="item-priority p3">P3</div><div class="item-content"><div class="item-title">Milestone 6: School Agent</div><div class="item-meta">INFRASTRUCTURE</div></div></div><div class="item"><div class="item-priority p3">P3</div><div class="item-content"><div class="item-title">Will watch School Agent pickup reminders once live (Milestone 6) — time-critical</div><div class="item-meta">MONITORING</div></div></div></div>
+  </div>
+  <div class="section"><div class="section-title">🤖 Agent Status</div><div class="cluster-section"><div class="cluster-label">System</div><div class="agents-grid"><a href="cos.html" class="agent-card health-ok" style="border-right:3px solid #1a3d6e"><div class="agent-emoji">🧠</div><div class="agent-info"><div class="agent-name">Chief of Staff <span style="background:#22c55e;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">OK</span></div><div class="agent-summary">Running. 9/18 agents active. Milestones 0–2 complete. All good.</div><div class="agent-updated">Updated: 18 Apr 23:18</div></div></a><a href="infrastructure.html" class="agent-card health-ok" style="border-right:3px solid #1a3d6e"><div class="agent-emoji">🔧</div><div class="agent-info"><div class="agent-name">Infrastructure <span style="background:#22c55e;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">OK</span></div><div class="agent-summary">All systems healthy. Milestones 0–2 complete.</div><div class="agent-updated">Updated: 18 Apr 23:10</div></div></a><a href="monitoring.html" class="agent-card health-ok" style="border-right:3px solid #1a3d6e"><div class="agent-emoji">👁️</div><div class="agent-info"><div class="agent-name">Mony <span style="background:#22c55e;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">OK</span></div><div class="agent-summary">All systems healthy. Gateway ✓ Dashboard ✓ Bus ✓ Disk ✓ Agents ✓ Scheduler ✓ Google MCP ✓</div><div class="agent-updated">Updated: 18 Apr 23:28</div></div></a><a href="dashboard.html" class="agent-card health-ok" style="border-right:3px solid #1a3d6e"><div class="agent-emoji">📊</div><div class="agent-info"><div class="agent-name">Dashboard <span style="background:#22c55e;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">OK</span></div><div class="agent-summary">Generated 19 pages. Runs every 15 minutes.</div><div class="agent-updated">Updated: 18 Apr 23:18</div></div></a></div></div><div class="cluster-section"><div class="cluster-label">Communications</div><div class="agents-grid"><a href="comms-collector.html" class="agent-card health-ok" style="border-right:3px solid #0f3d48"><div class="agent-emoji">📨</div><div class="agent-info"><div class="agent-name">Comms Collector <span style="background:#22c55e;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">OK</span></div><div class="agent-summary">Passive mode. Gmail inbox: 500+ unread.</div><div class="agent-updated">Updated: 18 Apr 23:13</div></div></a><a href="inbox-manager.html" class="agent-card health-ok" style="border-right:3px solid #0f3d48"><div class="agent-emoji">📬</div><div class="agent-info"><div class="agent-name">Inbox Manager <span style="background:#22c55e;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">OK</span></div><div class="agent-summary">Last run: 0 tagged, 0 needs review, 0 skipped.</div><div class="agent-updated">Updated: 18 Apr 23:18</div></div></a><a href="calendar.html" class="agent-card health-ok" style="border-right:3px solid #0f3d48"><div class="agent-emoji">📅</div><div class="agent-info"><div class="agent-name">Caly <span style="background:#22c55e;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">OK</span></div><div class="agent-summary">16 events this week, 0 today · showing today in Upcoming</div><div class="agent-updated">Updated: 18 Apr 01:00</div></div></a></div></div><div class="cluster-section"><div class="cluster-label">Finance & Assets</div><div class="agents-grid"><a href="finance.html" class="agent-card health-unknown" style="border-right:3px solid #3d0f6e"><div class="agent-emoji">💰</div><div class="agent-info"><div class="agent-name">Finance <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">—</span></div><div class="agent-summary">Not yet active</div><div class="agent-updated">Updated: never</div></div></a><a href="real-estate.html" class="agent-card health-unknown" style="border-right:3px solid #3d0f6e"><div class="agent-emoji">🏠</div><div class="agent-info"><div class="agent-name">Real Estate <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">—</span></div><div class="agent-summary">Not yet active</div><div class="agent-updated">Updated: never</div></div></a><a href="tax.html" class="agent-card health-ok" style="border-right:3px solid #3d0f6e"><div class="agent-emoji">📋</div><div class="agent-info"><div class="agent-name">Tax <span style="background:#22c55e;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">OK</span></div><div class="agent-summary">Steuer 2025: 7/23 Dokumente gefunden · Historische Daten: 2020–2024 erfasst · Bescheid 2024 liegt vor (Erstattung 24.577 €) · Neue Kategorie Dänemark (4 Items) hinzugefügt</div><div class="agent-updated">Updated: 18 Apr 21:50</div></div></a><a href="insurance.html" class="agent-card health-unknown" style="border-right:3px solid #3d0f6e"><div class="agent-emoji">🛡️</div><div class="agent-info"><div class="agent-name">Insurance <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">—</span></div><div class="agent-summary">Not yet active</div><div class="agent-updated">Updated: never</div></div></a></div></div><div class="cluster-section"><div class="cluster-label">Family & Life</div><div class="agents-grid"><a href="school.html" class="agent-card health-unknown" style="border-right:3px solid #3d1548"><div class="agent-emoji">🎒</div><div class="agent-info"><div class="agent-name">School <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">—</span></div><div class="agent-summary">Not yet active</div><div class="agent-updated">Updated: never</div></div></a><a href="life-in-denmark.html" class="agent-card health-unknown" style="border-right:3px solid #3d1548"><div class="agent-emoji">🇩🇰</div><div class="agent-info"><div class="agent-name">Life in Denmark <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">—</span></div><div class="agent-summary">Not yet active</div><div class="agent-updated">Updated: never</div></div></a><a href="health.html" class="agent-card health-unknown" style="border-right:3px solid #3d1548"><div class="agent-emoji">🏥</div><div class="agent-info"><div class="agent-name">Health <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">—</span></div><div class="agent-summary">Not yet active</div><div class="agent-updated">Updated: never</div></div></a><a href="friendships.html" class="agent-card health-unknown" style="border-right:3px solid #3d1548"><div class="agent-emoji">👥</div><div class="agent-info"><div class="agent-name">Friendships <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">—</span></div><div class="agent-summary">Not yet active</div><div class="agent-updated">Updated: never</div></div></a></div></div><div class="cluster-section"><div class="cluster-label">Vehicles & Movement</div><div class="agents-grid"><a href="car.html" class="agent-card health-unknown" style="border-right:3px solid #0f1a55"><div class="agent-emoji">🚗</div><div class="agent-info"><div class="agent-name">Car <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">—</span></div><div class="agent-summary">Not yet active</div><div class="agent-updated">Updated: never</div></div></a><a href="boat.html" class="agent-card health-ok" style="border-right:3px solid #0f1a55"><div class="agent-emoji">⛵</div><div class="agent-info"><div class="agent-name">Boat <span style="background:#22c55e;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">OK</span></div><div class="agent-summary">Fairline Squadron 55 · Mar y Sol · Harderwijk · ~1.596h · Drive vollständig indexiert · HA Live-Daten aktiv</div><div class="agent-updated">Updated: 18 Apr 14:30</div></div></a><a href="travel.html" class="agent-card health-unknown" style="border-right:3px solid #0f1a55"><div class="agent-emoji">✈️</div><div class="agent-info"><div class="agent-name">Travel <span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">—</span></div><div class="agent-summary">Not yet active</div><div class="agent-updated">Updated: never</div></div></a></div></div></div>
+</div></body></html>

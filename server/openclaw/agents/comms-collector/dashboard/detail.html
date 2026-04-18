@@ -1,0 +1,79 @@
+<!-- Comms Collector Agent — Detail Page Content Block -->
+<!-- Assembled by Dashboard Agent into full page shell -->
+
+<section id="comms-header">
+  <h2>Comms Collector Agent</h2>
+  <p class="last-updated">Last updated: <span id="comms-updated">2026-04-18T23:13:31</span></p>
+  <p class="health-status health-ok">&#9679; OK</p>
+  <p class="summary">Passive mode. Gmail inbox: 500+ unread.</p>
+</section>
+
+<section id="comms-gmail-stats">
+  <h3>Gmail Inbox</h3>
+  <table class="stats-table">
+    <tr><th>Unread</th><td class="stats-warn">500+</td></tr>
+  </table>
+  <p class="stats-note">Last checked: 2026-04-18T23:13:31</p>
+</section>
+<section id="comms-passive-notice">
+  <h3>&#9888; Passive Mode Active</h3>
+  <p>This agent collects <strong>only when explicitly invoked</strong> by Alexander or AlexI. There is no automated collection, no cron schedule, and no background polling. This is by design — Alexander's explicit instruction on 2026-04-15.</p>
+  <p>To invoke: <code>GOOGLE_WRAPPER_TOKEN=&lt;token&gt; python3 agents/comms-collector/scripts/collect_gmail.py --run</code></p>
+</section>
+
+<section id="comms-alerts">
+  <h3>Alerts &amp; Actions</h3>
+  <p class="no-alerts">No current alerts.</p>
+</section>
+
+<section id="comms-status">
+  <h3>Current Status</h3>
+  <ul>
+    <li><strong>Mode:</strong> Passive — no automated collection</li>
+    <li><strong>Phase 1 — Gmail:</strong> Connected. Google MCP wrapper running at http://127.0.0.1:8091/mcp</li>
+    <li><strong>Phase 2 — WhatsApp:</strong> Planned (future milestone)</li>
+    <li><strong>Phase 3 — Scanned letter OCR:</strong> Planned (future milestone)</li>
+    <li><strong>Message bus:</strong> Writes to <code>data/bus.db</code>, table <code>messages</code></li>
+    <li><strong>Duplicate guard:</strong> Skips by <code>source_id</code> (Gmail thread ID)</li>
+  </ul>
+</section>
+
+<section id="comms-what-it-does">
+  <h3>What Happens When Invoked</h3>
+  <ol>
+    <li>Initialises MCP session with the Google Workspace wrapper (port 8091)</li>
+    <li>Calls <code>search_gmail_messages</code> with query <code>is:unread</code> (up to 50 results)</li>
+    <li>For each message found, fetches full content via <code>get_gmail_message_content</code></li>
+    <li>Normalises each message to the bus schema: source channel, sender, subject, body, reply context</li>
+    <li>Writes new messages to <code>data/bus.db</code> with <code>status = 'pending'</code></li>
+    <li>Skips messages already present (deduplication by thread ID)</li>
+    <li>Updates <code>agents/comms-collector/dashboard/status.json</code> with run results</li>
+  </ol>
+  <p>The Comms Collector does <strong>not</strong> process, prioritise, route, or reply to messages. That is the Chief of Staff's responsibility (Milestone 5).</p>
+</section>
+
+<section id="comms-reporting-chain">
+  <h3>Reporting Chain</h3>
+  <p>Comms Collector &rarr; AlexI &rarr; Alexander</p>
+  <p>This agent never contacts Alexander directly.</p>
+</section>
+
+<section id="comms-activity">
+  <h3>Recent Activity</h3>
+  <ul>
+    <li>2026-04-15 &mdash; Agent scaffolded. Gmail read-only via MCP wrapper. Passive mode enforced per Alexander's instruction.</li>
+    <li>2026-04-18 &mdash; Gmail inbox stats: 500+ unread.</li>
+  </ul>
+</section>
+
+<section id="comms-docs">
+  <h3>Reference Documents</h3>
+  <ul>
+    <li><a href="#">AGENT_STANDARDS.md</a> &mdash; System-wide rules</li>
+    <li><a href="#">agents/comms-collector/AGENT.md</a> &mdash; Full mission brief</li>
+    <li><a href="#">agents/comms-collector/config/gmail.json</a> &mdash; Gmail config</li>
+    <li><a href="#">agents/comms-collector/scripts/collect_gmail.py</a> &mdash; Collection script</li>
+    <li><a href="#">agents/comms-collector/scripts/gmail_stats.py</a> &mdash; Stats script (this)</li>
+    <li><a href="#">docs/ROADMAP.md</a> &mdash; Milestone plan</li>
+  </ul>
+</section>

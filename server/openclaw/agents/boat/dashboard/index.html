@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="refresh" content="900"><title>⛵ Boat Agent — Mar y Sol</title><style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+.header { background: #1e293b; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+.header h1 { font-size: 1.25rem; font-weight: 700; color: #f1f5f9; }
+.header-meta { font-size: 0.75rem; color: #64748b; }
+.container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+@media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+@media (max-width: 900px) { .grid-3 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .grid-3 { grid-template-columns: 1fr; } }
+.section { background: #1e293b; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
+.section-title { font-size: 0.875rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
+.item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid #334155; }
+.item:last-child { border-bottom: none; }
+.item-priority { font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.p1 { background: #7f1d1d; color: #fca5a5; }
+.p2 { background: #7c2d12; color: #fdba74; }
+.p3 { background: #713f12; color: #fde68a; }
+.p4 { background: #1e3a5f; color: #93c5fd; }
+.p5 { background: #1e293b; color: #94a3b8; border: 1px solid #334155; }
+.item-content { flex: 1; min-width: 0; }
+.item-title { font-size: 0.9rem; font-weight: 600; color: #f1f5f9; }
+.item-sub { font-size: 0.78rem; color: #94a3b8; margin-top: 3px; }
+.item-meta { font-size: 0.75rem; color: #64748b; margin-top: 3px; }
+.tag { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 1px 6px; border-radius: 4px; margin-right: 3px; }
+.tag-ok { background: #052e16; color: #4ade80; }
+.tag-warn { background: #451a03; color: #fb923c; }
+.tag-info { background: #0c1a40; color: #93c5fd; }
+.tag-pending { background: #1e293b; color: #94a3b8; border: 1px solid #334155; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+.stat-card { background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 1rem; }
+.stat-label { font-size: 0.7rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
+.stat-value { font-size: 1.25rem; font-weight: 700; color: #f1f5f9; }
+.stat-sub { font-size: 0.72rem; color: #475569; margin-top: 2px; }
+.doc-row { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #1e3a5f; }
+.doc-row:last-child { border-bottom: none; }
+.doc-name { font-size: 0.82rem; color: #cbd5e1; }
+.doc-date { font-size: 0.72rem; color: #475569; }
+.doc-link { font-size: 0.72rem; color: #3b82f6; text-decoration: none; }
+.doc-link:hover { color: #60a5fa; }
+.folder-block { margin-bottom: 1.25rem; }
+.folder-block:last-child { margin-bottom: 0; }
+.folder-name { font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; padding-bottom: 0.3rem; border-bottom: 1px solid #1e293b; }
+.folder-files { list-style: none; }
+.folder-files li { font-size: 0.8rem; color: #94a3b8; padding: 2px 0; }
+.folder-files li::before { content: "📄 "; font-size: 0.7rem; }
+.folder-files li.folder::before { content: "📁 "; }
+.folder-files li a { color: #93c5fd; text-decoration: none; }
+.folder-files li a:hover { text-decoration: underline; }
+.back { color: #64748b; text-decoration: none; font-size: 0.875rem; }
+.back:hover { color: #94a3b8; }
+.boat-hero { background: linear-gradient(135deg, #0c2340 0%, #1e293b 100%); border: 1px solid #334155; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; display: flex; gap: 1.5rem; align-items: flex-start; }
+.boat-icon { font-size: 3rem; flex-shrink: 0; }
+.boat-title { font-size: 1.5rem; font-weight: 800; color: #f1f5f9; }
+.boat-subtitle { font-size: 0.9rem; color: #7dd3fc; margin-top: 2px; }
+.boat-details { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.75rem; }
+.boat-detail-item { background: #0f172a; border-radius: 8px; padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+.boat-detail-label { color: #64748b; font-size: 0.68rem; display: block; text-transform: uppercase; letter-spacing: 0.04em; }
+.boat-detail-val { color: #e2e8f0; font-weight: 600; }
+.maint-row { display: grid; grid-template-columns: 90px 1fr 1fr 100px; gap: 0.5rem; padding: 0.5rem 0; border-bottom: 1px solid #1e293b; font-size: 0.8rem; align-items: center; }
+.maint-row:last-child { border-bottom: none; }
+.maint-date { color: #64748b; }
+.maint-system { color: #94a3b8; font-weight: 600; }
+.maint-desc { color: #cbd5e1; }
+.maint-who { color: #475569; font-size: 0.72rem; }
+.todo-item { display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.5rem 0; border-bottom: 1px solid #1e293b; }
+.todo-item:last-child { border-bottom: none; }
+.todo-checkbox { font-size: 0.8rem; flex-shrink: 0; margin-top: 1px; }
+.todo-text { font-size: 0.82rem; color: #cbd5e1; flex: 1; }
+.todo-status { font-size: 0.7rem; color: #64748b; flex-shrink: 0; }
+.empty-state { color: #475569; font-size: 0.875rem; padding: 1rem 0; text-align: center; }
+</style></head>
+<body>
+<div class="header">
+  <h1>⛵ Mar y Sol — Boat Agent</h1>
+  <div class="header-meta"><a href="../../dashboard/index.html" class="back">← AlexI Dashboard</a> &nbsp;·&nbsp; Updated 18 Apr 2026 · Auto-refreshes every 15 min</div>
+</div>
+<div class="container">
+
+  <!-- HERO -->
+  <div class="boat-hero">
+    <div class="boat-icon">⛵</div>
+    <div>
+      <div class="boat-title">Mar y Sol</div>
+      <div class="boat-subtitle">Fairline Squadron 55 · Twin Volvo Penta TAMD · ~25 Jahre alt</div>
+      <div class="boat-details">
+        <div class="boat-detail-item"><span class="boat-detail-label">Liegeplatz</span><span class="boat-detail-val">Molecaten Marina, Harderwijk 🇳🇱</span></div>
+        <div class="boat-detail-item"><span class="boat-detail-label">Motorstunden</span><span class="boat-detail-val">~1.596 h (Aug 2025)</span></div>
+        <div class="boat-detail-item"><span class="boat-detail-label">Registrierung</span><span class="boat-detail-val">SSR 29035 (Amtsgericht Hamburg)</span></div>
+        <div class="boat-detail-item"><span class="boat-detail-label">Lizenzen</span><span class="boat-detail-val">SBF-See ✓ · SRC ✓</span></div>
+        <div class="boat-detail-item"><span class="boat-detail-label">Versicherung</span><span class="boat-detail-val">Vorhanden (Police 2023)</span></div>
+        <div class="boat-detail-item"><span class="boat-detail-label">CE-Zertifikat</span><span class="boat-detail-val">✓ vorhanden</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEY STATS -->
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-label">Motorstunden</div><div class="stat-value">~1.596 h</div><div class="stat-sub">Stand Aug 2025</div></div>
+    <div class="stat-card"><div class="stat-label">Letzter Motorservice</div><div class="stat-value">Sep 2025</div><div class="stat-sub">Öl, Filter, Kraftstofffilter</div></div>
+    <div class="stat-card"><div class="stat-label">Servicebatterien</div><div class="stat-value">Mär 2025</div><div class="stat-sub">6× 230 Ah Lead Carbon GEL</div></div>
+    <div class="stat-card"><div class="stat-label">Navigation</div><div class="stat-value">Raymarine</div><div class="stat-sub">AXIOM 12 + EV-200 + Doppler</div></div>
+    <div class="stat-card"><div class="stat-label">Winterlager</div><div class="stat-value">Molecaten</div><div class="stat-sub">Invoice 2025/26 vorhanden</div></div>
+    <div class="stat-card"><div class="stat-label">MMSI / Callsign</div><div class="stat-value">Unbekannt</div><div class="stat-sub">→ In Registrierungsdoku prüfen</div></div>
+  </div>
+
+  <div class="grid">
+    <!-- OPEN TODOS -->
+    <div class="section">
+      <div class="section-title">⚠️ Offene Todos (Drive-Spreadsheet)</div>
+
+      <div class="todo-item"><div class="todo-checkbox">🔴</div><div class="todo-text">Funkgerät einbauen (VHF)</div><div class="todo-status"></div></div>
+      <div class="todo-item"><div class="todo-checkbox">🔴</div><div class="todo-text">AIS einbauen</div><div class="todo-status"></div></div>
+      <div class="todo-item"><div class="todo-checkbox">🟠</div><div class="todo-text">Neuen Bügel für Schlauchboot</div><div class="todo-status tag tag-warn">In Arbeit</div></div>
+      <div class="todo-item"><div class="todo-checkbox">🟡</div><div class="todo-text">Luftfilter tauschen</div><div class="todo-status"></div></div>
+      <div class="todo-item"><div class="todo-checkbox">🟡</div><div class="todo-text">Auspuffsensoren tauschen</div><div class="todo-status"></div></div>
+      <div class="todo-item"><div class="todo-checkbox">🟡</div><div class="todo-text">Geruchsfilter Entlüftung (am Boot)</div><div class="todo-status tag tag-info">Am Boot</div></div>
+      <div class="todo-item"><div class="todo-checkbox">🟡</div><div class="todo-text">Lichtschalter ersetzen</div><div class="todo-status"></div></div>
+      <div class="todo-item"><div class="todo-checkbox">🟡</div><div class="todo-text">Temperatur-Sensoren für Batterien</div><div class="todo-status"></div></div>
+      <div class="todo-item"><div class="todo-checkbox">🟡</div><div class="todo-text">Temperatur-Sensor für Warmwasser</div><div class="todo-status"></div></div>
+      <div class="todo-item"><div class="todo-checkbox">🟡</div><div class="todo-text">Erste-Hilfe-Kasten (prüfen)</div><div class="todo-status"></div></div>
+      <div class="todo-item"><div class="todo-checkbox">🟡</div><div class="todo-text">Trolling System justieren</div><div class="todo-status"></div></div>
+      <div class="todo-item"><div class="todo-checkbox">🔵</div><div class="todo-text">Heizluftschlauch in Sitzbank prüfen</div><div class="todo-status"></div></div>
+      <div class="todo-item"><div class="todo-checkbox">🔵</div><div class="todo-text">Wasserpumpe Toiletten prüfen/reparieren (Fehler oV)</div><div class="todo-status"></div></div>
+      <div class="todo-item"><div class="todo-checkbox">🏠</div><div class="todo-text">Home Assistant: Helfer "in Fahrt" automatisch setzen</div><div class="todo-status tag tag-info">HA</div></div>
+      <div class="todo-item"><div class="todo-checkbox">🏠</div><div class="todo-text">Home Assistant: Warmwasser Boiler aus, wenn "in Fahrt"</div><div class="todo-status tag tag-info">HA</div></div>
+      <div class="todo-item"><div class="todo-checkbox">🏠</div><div class="todo-text">Home Assistant: Automation Bug-/Heckstrahl-Ladegerät erweitern</div><div class="todo-status tag tag-info">HA</div></div>
+    </div>
+
+    <!-- MAINTENANCE -->
+    <div class="section">
+      <div class="section-title">🔧 Letzte Wartungsarbeiten</div>
+      <div class="maint-row"><div class="maint-date">Okt 2025</div><div class="maint-system">Systeme</div><div class="maint-desc">Rückschlagventil (ABT) ersetzt</div><div class="maint-who">PH Allround</div></div>
+      <div class="maint-row"><div class="maint-date">Sep 2025</div><div class="maint-system">Motor</div><div class="maint-desc">Große Motorwartung (Öl, Filter, Kraftstofffilter)</div><div class="maint-who">PH Allround</div></div>
+      <div class="maint-row"><div class="maint-date">Sep 2025</div><div class="maint-system">Elektrik</div><div class="maint-desc">2× Akkulader 24V/16A ersetzt</div><div class="maint-who">PH Allround</div></div>
+      <div class="maint-row"><div class="maint-date">Sep 2025</div><div class="maint-system">Generator</div><div class="maint-desc">Öl + Filter Service</div><div class="maint-who">PH Allround</div></div>
+      <div class="maint-row"><div class="maint-date">Sep 2025</div><div class="maint-system">Sanitär</div><div class="maint-desc">Boiler ersetzt (Vetus 75 l)</div><div class="maint-who">PH Allround</div></div>
+      <div class="maint-row"><div class="maint-date">Aug 2025</div><div class="maint-system">Motor/EDC</div><div class="maint-desc">Schaltproblem diagnostiziert (EDC, Hebel, Kabel) — Status offen</div><div class="maint-who">VP Händler</div></div>
+      <div class="maint-row"><div class="maint-date">Mär 2025</div><div class="maint-system">Elektrik</div><div class="maint-desc">Servicebatterien: 6× 230 Ah Lead Carbon GEL</div><div class="maint-who">Pasterkamp</div></div>
+      <div class="maint-row"><div class="maint-date">Jan 2024</div><div class="maint-system">Bugstrahlruder</div><div class="maint-desc">Sleipner SE210 + Tunnel neu</div><div class="maint-who">Marinetechnics</div></div>
+      <div class="maint-row"><div class="maint-date">Jan 2024</div><div class="maint-system">Navigation</div><div class="maint-desc">Raymarine AXIOM 12 MFD installiert</div><div class="maint-who">G. Kniest</div></div>
+      <div class="maint-row"><div class="maint-date">Feb 2024</div><div class="maint-system">Navigation</div><div class="maint-desc">EV-200 Autopilot + Doppler Radar</div><div class="maint-who">SVB</div></div>
+    </div>
+  </div>
+
+  <!-- OPEN ISSUES / ALERTS -->
+  <div class="section">
+    <div class="section-title">🚨 Issues &amp; Offene Fragen</div>
+    <div class="item">
+      <div class="item-priority p1">P1</div>
+      <div class="item-content">
+        <div class="item-title">EDC / Motorschaltung — Status nach Diagnose Aug 2025 unklar</div>
+        <div class="item-sub">Gashebel-Potentiometer Aug 2024 ersetzt, aber Diagnose Aug 2025 ergab noch offene Punkte. Follow-up erforderlich.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-priority p1">P1</div>
+      <div class="item-content">
+        <div class="item-title">Versicherung — nur Dokumente aus 2023 vorhanden</div>
+        <div class="item-sub">Aktueller Versicherungsschutz bestätigen. Ggf. Verlängerungsbestätigungen im Drive nachpflegen.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-priority p2">P2</div>
+      <div class="item-content">
+        <div class="item-title">MMSI / VHF Callsign nicht bekannt</div>
+        <div class="item-sub">BNetzA-Rechnung von Juni 2025 vorhanden — MMSI sollte dort oder in Registrierungsdoku stehen. SRC-Lizenz ist vorhanden.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-priority p2">P2</div>
+      <div class="item-content">
+        <div class="item-title">VHF Funkgerät &amp; AIS einbauen (noch offen)</div>
+        <div class="item-sub">Beide im ToDo-Spreadsheet als offen erfasst. Sicherheitsrelevant für Offshore-Fahrten (IJsselmeer, Nordsee).</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-priority p3">P3</div>
+      <div class="item-content">
+        <div class="item-title">Wasserpumpe Toiletten — Fehler "oV"</div>
+        <div class="item-sub">Im ToDo-Spreadsheet eingetragen, Status unklar. Prüfen &amp; ggf. reparieren.</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-priority p3">P3</div>
+      <div class="item-content">
+        <div class="item-title">Schlauchboot-Bügel — in Arbeit</div>
+        <div class="item-sub">Neuer Bügel für Beiboot noch nicht abgeschlossen.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOAT SYSTEMS OVERVIEW -->
+  <div class="section">
+    <div class="section-title">🚢 Systemübersicht</div>
+    <div class="grid" style="margin-bottom:0">
+      <div>
+        <div style="margin-bottom:0.75rem">
+          <div class="folder-name">Antrieb</div>
+          <div style="font-size:0.82rem;color:#94a3b8;line-height:1.7">
+            2× Volvo Penta TAMD (BB &amp; SB)<br>
+            Turbolader: 2022 beide neu<br>
+            Wellenabdichtung: 2021 erneuert<br>
+            Impellerpumpen: 2022 überholt<br>
+            Wärmetauscher: 2022 revidiert<br>
+            EDC-Steuerung: Potentiometer Aug 2024 neu · Diagnose Aug 2025 offen
+          </div>
+        </div>
+        <div style="margin-bottom:0.75rem">
+          <div class="folder-name">Elektrik</div>
+          <div style="font-size:0.82rem;color:#94a3b8;line-height:1.7">
+            Servicebatterien: 6× 230 Ah Lead Carbon GEL (Mär 2025)<br>
+            Akkulader: 2× 24V/16A (Sep 2025)<br>
+            Trenntrafo: Mastervolt 7kW (Sep 2024)<br>
+            Verteilerkasten-Doku: Spreadsheet vorhanden<br>
+            Ladestromverteilung: Google Drawing vorhanden
+          </div>
+        </div>
+        <div style="margin-bottom:0.75rem">
+          <div class="folder-name">Navigation</div>
+          <div style="font-size:0.82rem;color:#94a3b8;line-height:1.7">
+            Raymarine AXIOM 12 MFD (2024)<br>
+            Raymarine EV-200 Autopilot (2024)<br>
+            Doppler Radar (2024)<br>
+            Navionics / Garmin Seriennummer: Drive vorhanden<br>
+            NMEA/SeaTalk-NG Netzwerk: Spreadsheet vorhanden
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="margin-bottom:0.75rem">
+          <div class="folder-name">Sicherheit &amp; Seerecht</div>
+          <div style="font-size:0.82rem;color:#94a3b8;line-height:1.7">
+            Bugstrahlruder: Sleipner SE210 (Jan 2024)<br>
+            Heckstrahlruder: Motor-Upgrade 2021<br>
+            SBF-See: Erworben 2025<br>
+            SRC Funk-Lizenz: Erworben 2025<br>
+            VHF Funkgerät: Noch einzubauen ⚠️<br>
+            AIS: Noch einzubauen ⚠️
+          </div>
+        </div>
+        <div style="margin-bottom:0.75rem">
+          <div class="folder-name">Sanitär &amp; Komfort</div>
+          <div style="font-size:0.82rem;color:#94a3b8;line-height:1.7">
+            Boiler: Vetus 75 l (Sep 2025)<br>
+            Fäkalientank: Membranpumpe + Entlüftung vorhanden<br>
+            Durchführungen (Seeventile etc.): 2023 erneuert<br>
+            Generator: 2025 Service (Öl + Filter)<br>
+            Persenning &amp; Bimini: 2024 neu mit Edelstahlrahmen
+          </div>
+        </div>
+        <div>
+          <div class="folder-name">Liegeplatz &amp; Winter</div>
+          <div style="font-size:0.82rem;color:#94a3b8;line-height:1.7">
+            Liegeplatz: Molecaten Harderwijk (Mietvertrag 2024)<br>
+            Jahresrechnung 2025 vorhanden<br>
+            Winterlager 2025/26: Rechnung vorhanden<br>
+            CPH-Unterordner (wahrscheinlich Kopenhagen-Hafenbesuch)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRIVE STRUCTURE -->
+  <div class="section">
+    <div class="section-title">📁 Google Drive — Dokumentenstruktur</div>
+    <div class="grid" style="margin-bottom:0">
+      <div>
+        <div class="folder-block">
+          <div class="folder-name">📁 Wichtige Dokumente / Registrierung</div>
+          <ul class="folder-files">
+            <li><a href="https://drive.google.com/file/d/1uWsSRojxLbRYOoPNTjq775jqYbirDSvb/view" target="_blank">Schiffsregisterauszug (Apr 2025)</a></li>
+            <li><a href="https://drive.google.com/file/d/1sfNe0nesKuRulhN9PQK3AIgo1_loyPLh/view" target="_blank">IBS Bootsschein</a></li>
+            <li><a href="https://drive.google.com/file/d/1wK64bAGl3BlFsm9xTWoDEZVYh30LxjE2/view" target="_blank">BSH Schiffsmessbrief (Mär 2025)</a></li>
+            <li><a href="https://drive.google.com/file/d/1F7-TQPlHhfjRyy1ROlTYfwulvrq2A09B/view" target="_blank">CE-Zertifikat</a></li>
+            <li>MwSt/BTW-Bestätigung</li>
+            <li>BNetzA Funk-Rechnung (Jun 2025)</li>
+            <li>Anmeldung Seeschiffsregister</li>
+          </ul>
+        </div>
+        <div class="folder-block">
+          <div class="folder-name">📁 Elektrik</div>
+          <ul class="folder-files">
+            <li>Verteilerkasten Salon (Spreadsheet)</li>
+            <li>Ladestromverteilung (Google Drawing)</li>
+          </ul>
+        </div>
+        <div class="folder-block">
+          <div class="folder-name">📁 Doku</div>
+          <ul class="folder-files">
+            <li><a href="https://drive.google.com/file/d/1NbIxfqrHnfKMg2kFLJJ3esPy_bzqfkev/view" target="_blank">Fairline Squadron 55 — Owners Manual</a></li>
+            <li>Besenzoni Gangway — Doku (EN)</li>
+            <li>Victron Quattro Manual</li>
+            <li>NMEA/SeaTalk-NG Netzwerk (Spreadsheet)</li>
+          </ul>
+        </div>
+        <div class="folder-block">
+          <div class="folder-name">📁 Versicherung</div>
+          <ul class="folder-files">
+            <li><a href="https://drive.google.com/file/d/1fTgvHdHF2ZosY7SoV0iJ22RRBA5wt9gU/view" target="_blank">Versicherungspolice Mar y Sol</a></li>
+            <li>Anschreiben neue Versicherung (Jul 2023)</li>
+            <li>Rechnung Versicherung (Jul 2023)</li>
+          </ul>
+        </div>
+        <div class="folder-block">
+          <div class="folder-name">📁 SBF-See (Lizenz)</div>
+          <ul class="folder-files">
+            <li>Skript Motorbootfahren (Segelschule Große Freiheit)</li>
+            <li>SBF-Navigationsaufgaben</li>
+            <li>Rechnung Segelschule</li>
+            <li>Zahlungsbeleg Praxis-Prüfung (Mai 2025)</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="folder-block">
+          <div class="folder-name">📁 Liegeplatz, Winterlager</div>
+          <ul class="folder-files">
+            <li>Mietvertrag Liegeplatz Molecaten (Apr 2024)</li>
+            <li>Jahresrechnung Liegeplatz 2025</li>
+            <li>Winterlager 2023/24, 2024/25, 2025/26</li>
+            <li class="folder">CPH (Unterordner — wahrsch. Kopenhagen)</li>
+            <li class="folder">2025 Hafeneinweihung (Unterordner)</li>
+          </ul>
+        </div>
+        <div class="folder-block">
+          <div class="folder-name">📁 Wartung, Reparaturen, Ausstattung</div>
+          <ul class="folder-files">
+            <li><a href="https://docs.google.com/spreadsheets/d/1OhcMefCLx-wmTDsyL_k04hVvoFWxNGlnYfhbVVShtjo/edit" target="_blank">Wartungs-Log (Spreadsheet, 40+ Einträge)</a></li>
+            <li>Volvo Penta TAMD Wartungsplan (PDF)</li>
+            <li class="folder">Rechnungen (Unterordner)</li>
+            <li class="folder">Yacht Device Motor Gateway YDES-1708</li>
+            <li>Squadron 55 ToDos/Issues (Spreadsheet)</li>
+            <li>Geräte Einkaufsliste</li>
+          </ul>
+        </div>
+        <div class="folder-block">
+          <div class="folder-name">📁 SRC (Funk-Lizenz)</div>
+          <ul class="folder-files">
+            <li>Sprechfunktafel SRC</li>
+            <li>Scan Zertifikat (0130_001.pdf)</li>
+          </ul>
+        </div>
+        <div class="folder-block">
+          <div class="folder-name">📁 Schlauchboot (Beiboot)</div>
+          <ul class="folder-files">
+            <li>Rechnung (Factuur21141_1.pdf, Aug 2024)</li>
+          </ul>
+        </div>
+        <div class="folder-block">
+          <div class="folder-name">📁 Bootsurlaub</div>
+          <ul class="folder-files">
+            <li class="folder">Sommer 2025 → Bootstour 2025 (Spreadsheet)</li>
+          </ul>
+        </div>
+        <div class="folder-block">
+          <div class="folder-name">📊 Toplevel-Dateien</div>
+          <ul class="folder-files">
+            <li><a href="https://docs.google.com/spreadsheets/d/1W2p2AlFLY86BoKiOvsZVODGS7DhQcKWggkGOutsWJ9g/edit" target="_blank">ToDo (Spreadsheet)</a></li>
+            <li><a href="https://docs.google.com/spreadsheets/d/1cO1ybAgPjjHpTHSmOuucYu3t8dBv1tvPKxXcYpaiXL8/edit" target="_blank">Rechnungen (Spreadsheet)</a></li>
+            <li>Navionics/Garmin Seriennummer (PDF)</li>
+            <li>Sommerurlaub 2024 (Google Maps)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRIVE LINKS -->
+  <div class="section">
+    <div class="section-title">🔗 Quicklinks</div>
+    <div style="display:flex;flex-wrap:wrap;gap:0.75rem">
+      <a href="https://drive.google.com/drive/folders/1tsaw3-Mb4veGwsGtSFDU4fSL0icrBhsR" target="_blank" style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:0.5rem 1rem;color:#93c5fd;text-decoration:none;font-size:0.82rem">📁 Drive: Fairline Squadron 55</a>
+      <a href="https://docs.google.com/spreadsheets/d/1W2p2AlFLY86BoKiOvsZVODGS7DhQcKWggkGOutsWJ9g/edit" target="_blank" style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:0.5rem 1rem;color:#93c5fd;text-decoration:none;font-size:0.82rem">📋 ToDo-Spreadsheet</a>
+      <a href="https://docs.google.com/spreadsheets/d/1OhcMefCLx-wmTDsyL_k04hVvoFWxNGlnYfhbVVShtjo/edit" target="_blank" style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:0.5rem 1rem;color:#93c5fd;text-decoration:none;font-size:0.82rem">🔧 Wartungslog</a>
+      <a href="https://docs.google.com/spreadsheets/d/1cO1ybAgPjjHpTHSmOuucYu3t8dBv1tvPKxXcYpaiXL8/edit" target="_blank" style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:0.5rem 1rem;color:#93c5fd;text-decoration:none;font-size:0.82rem">🧾 Rechnungen</a>
+      <a href="https://drive.google.com/file/d/1NbIxfqrHnfKMg2kFLJJ3esPy_bzqfkev/view" target="_blank" style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:0.5rem 1rem;color:#93c5fd;text-decoration:none;font-size:0.82rem">📘 Owners Manual</a>
+      <a href="https://drive.google.com/file/d/1sfNe0nesKuRulhN9PQK3AIgo1_loyPLh/view" target="_blank" style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:0.5rem 1rem;color:#93c5fd;text-decoration:none;font-size:0.82rem">📄 IBS Bootsschein</a>
+    </div>
+  </div>
+
+</div>
+</body></html>

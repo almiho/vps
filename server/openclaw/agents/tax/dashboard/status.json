@@ -1,0 +1,61 @@
+{
+  "agent": "tax",
+  "updated_at": "2026-04-18T21:50:00",
+  "health": "ok",
+  "summary": "Steuer 2025: 7/23 Dokumente gefunden · Historische Daten: 2020–2024 erfasst · Bescheid 2024 liegt vor (Erstattung 24.577 €) · Neue Kategorie Dänemark (4 Items) hinzugefügt",
+  "checklist": {
+    "year": 2025,
+    "total": 23,
+    "found": 7,
+    "missing_required": [
+      "lohnsteuerbescheinigung",
+      "vermietung_einnahmen",
+      "grundsteuer_baerwald",
+      "grundsteuer_greulich",
+      "grundsteuer_meskesweide",
+      "grundsteuer_skw11a",
+      "heizkosten_skw11a",
+      "schuldzinsen_gls62",
+      "krankenversicherung",
+      "dk_einnahmen_nachweis",
+      "dk_steuernummer",
+      "dk_este_koordination"
+    ],
+    "last_scan": "2026-04-18"
+  },
+  "history": {
+    "years_covered": [2020, 2021, 2022, 2023, 2024],
+    "full_data_years": [2023, 2024],
+    "scan_only_years": [2020, 2021, 2022],
+    "note": "2020-2022: Bescheid-PDFs sind Scans, nur Erstattungsbeträge aus EaM-Briefen lesbar"
+  },
+  "alerts": [
+    {
+      "type": "warning",
+      "title": "Lohnsteuerbescheinigung 2025 fehlt",
+      "detail": "Kein Lohnsteuerbescheinigung-Dokument in Steuer-2025-Ordner gefunden"
+    },
+    {
+      "type": "warning",
+      "title": "Dänemark-Unterlagen fehlen komplett",
+      "detail": "Ab Oktober 2025 in DK gearbeitet — CPR-Nummer, Einkommensnachweis und DE/DK-Koordination noch ausstehend"
+    },
+    {
+      "type": "info",
+      "title": "Bescheid 2024 erhalten",
+      "detail": "Steuerbescheid 2024 vom 13.04.2026 liegt vor. Erstattung: 24.577 €"
+    }
+  ],
+  "upcoming": [
+    {
+      "title": "Steuererklärung 2025 vorbereiten",
+      "due": "2026-10-31",
+      "note": "Fehlende Pflichtdokumente sammeln: Lohnsteuerbescheinigung, KV-Bescheinigung, Grundsteuerbescheide, Dänemark-Unterlagen"
+    },
+    {
+      "title": "Dänische Steuererklärung koordinieren",
+      "due": "2027-05-01",
+      "note": "Dänische EStE benötigt deutsche EStE als Beilage — zeitkritisch, DBA DE/DK prüfen"
+    }
+  ]
+}
