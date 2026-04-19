@@ -611,9 +611,12 @@ async function loadResponsibilities() {
     const isWeekday = dow >= 1 && dow <= 5;
     const hhmm = now.toTimeString().slice(0,5);
 
-    // Helper: format date as YYYY-MM-DD
+    // Helper: format date as YYYY-MM-DD in local time (not UTC)
     function isoDate(dt) {
-      return dt.toISOString().slice(0,10);
+      const y = dt.getFullYear();
+      const m = String(dt.getMonth() + 1).padStart(2, '0');
+      const d = String(dt.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
     }
 
     // Helper: next weekday date
@@ -634,9 +637,12 @@ async function loadResponsibilities() {
     if (!isWeekday || hhmm >= todayPickupTime) {
       // After pickup or weekend → show next weekday
       targetDate = nextWeekday(now);
-      const targetDow = targetDate.getDay();
-      // Check if target is Monday (after weekend/Friday)
-      dayLabel = (targetDow === 1 && (!isWeekday || dow === 5)) ? 'Monday' : 'Tomorrow';
+      const tDow = targetDate.getDay();
+      if (tDow === 1) {
+        dayLabel = 'Monday';
+      } else {
+        dayLabel = 'Tomorrow';
+      }
     } else {
       dayLabel = 'Today';
     }
