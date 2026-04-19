@@ -1,12 +1,12 @@
 {
   "agent": "monitoring",
-  "updated_at": "2026-04-19T22:42:34.841154",
+  "updated_at": "2026-04-19T22:48:00.656916",
   "health": "ok",
   "summary": "All systems healthy. Gateway \u2713 Dashboard \u2713 Bus \u2713 Disk \u2713 Agents \u2713 Scheduler \u2713 Google MCP \u2713",
   "checks": {
     "gateway": {
       "ok": true,
-      "detail": "Container mode: 5 processes running, web server up. RPC probe N/A in this environment."
+      "detail": "Container mode: 7 processes running, web server up. RPC probe N/A in this environment."
     },
     "web_server": {
       "ok": true,
@@ -34,7 +34,7 @@
     },
     "git_uncommitted": {
       "ok": true,
-      "detail": "30 uncommitted changes, last commit 0.5h ago \u2014 within threshold"
+      "detail": "37 uncommitted changes, last commit 0.6h ago \u2014 within threshold"
     }
   },
   "alerts": [],

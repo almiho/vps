@@ -310,6 +310,24 @@ def decode_base64url(data: str) -> str:
         return data
 
 
+ALEXI_LABEL_ID = "Label_3379905650781172604"
+
+
+def apply_alexi_label(wrapper_url: str, token: str, session_id: str, message_id: str, email: str) -> bool:
+    """Apply the 'AlexI' Gmail label to a message to mark it as picked up."""
+    try:
+        call_tool(wrapper_url, token, session_id, "modify_gmail_message_labels", {
+            "user_google_email": email,
+            "message_id": message_id,
+            "add_label_ids": [ALEXI_LABEL_ID],
+        })
+        log(f"Applied AlexI label to message {message_id}")
+        return True
+    except Exception as e:
+        log(f"WARNING: Could not apply AlexI label to {message_id}: {e}")
+        return False
+
+
 def write_to_bus(db_path: Path, record: dict) -> bool:
     """Write a normalised message to bus.db. Returns True if inserted, False if skipped (duplicate)."""
     conn = sqlite3.connect(str(db_path))
@@ -410,6 +428,8 @@ def main():
             was_inserted = write_to_bus(BUS_DB_PATH, record)
             if was_inserted:
                 inserted += 1
+                # Mark as picked up in Gmail with AlexI label
+                apply_alexi_label(wrapper_url, token, session_id, msg_id, email)
             else:
                 skipped += 1
         except Exception as e:
