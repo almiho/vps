@@ -52,3 +52,5 @@
 {"type": "alert_fired", "title": "System problem: Web Server", "logged_at": "2026-04-19T10:18:33.504527"}
 {"type": "failure", "component": "heartbeats", "detail": "Stale agent(s): infrastructure: last update 5.5h ago \u2014 may be stale", "logged_at": "2026-04-19T20:43:23.010005"}
 {"type": "alert_fired", "title": "System problem: Heartbeats", "logged_at": "2026-04-19T20:43:23.010605"}
+{"type": "failure", "component": "google_token", "detail": "Google OAuth token file missing \u2014 Gmail, Calendar, Drive will fail. Re-authenticate via: openclaw google auth", "logged_at": "2026-04-19T22:35:29.635516"}
+{"type": "alert_fired", "title": "System problem: Google Token", "logged_at": "2026-04-19T22:35:29.635894"}
