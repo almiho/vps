@@ -1,6 +1,6 @@
 {
   "agent": "inbox-manager",
-  "updated_at": "2026-04-19T23:01:30",
+  "updated_at": "2026-04-19T23:09:12",
   "health": "warning",
   "summary": "Last run: 0 tagged, 0 needs review, 0 skipped.",
   "pending_reviews": 1,
@@ -19,45 +19,9 @@
     "last_run_tagged": 0,
     "last_run_needs_review": 0,
     "last_run_skipped": 0,
-    "last_run_at": "2026-04-19T23:01:30"
+    "last_run_at": "2026-04-19T23:09:12"
   },
   "recent_decisions": [
-    {
-      "timestamp": "2026-04-18T16:09:18",
-      "message_id": "22e89d87-1e27-401f-ad58-a1794f053140",
-      "source_id": "test_1",
-      "subject": "Ihre Kontoauszug ist bereit",
-      "domain": "finance",
-      "confidence": "high",
-      "scores": {
-        "finance": 4
-      },
-      "action": "tagged"
-    },
-    {
-      "timestamp": "2026-04-18T16:09:18",
-      "message_id": "d2a1f6aa-e05c-4344-b671-eee512419d1c",
-      "source_id": "test_2",
-      "subject": "Elternabend n\u00e4chste Woche",
-      "domain": "school",
-      "confidence": "high",
-      "scores": {
-        "school": 2,
-        "life-in-denmark": 1
-      },
-      "action": "tagged"
-    },
-    {
-      "timestamp": "2026-04-18T16:09:18",
-      "message_id": "8baa8f81-95f2-4f9b-a436-9207e7a4aa71",
-      "source_id": "test_3",
-      "subject": "Hey",
-      "domain": null,
-      "confidence": "none",
-      "scores": {},
-      "action": "needs_review",
-      "reason": "no keyword match"
-    },
     {
       "timestamp": "2026-04-19T10:16:46",
       "message_id": "c3d2e41c-2a3b-40f0-88ea-28af172ed1b4",
@@ -73,32 +37,6 @@
       },
       "action": "needs_review",
       "proposed_tag": "real-estate"
-    },
-    {
-      "timestamp": "2026-04-19T10:18:33",
-      "message_id": "88cab736-49fd-4e01-aa78-2074f2b3b5c1",
-      "source_id": "review_c3d2e41c-2a3b-40f0-88ea-28af172ed1b4",
-      "subject": "Inbox Review: Post von immocation",
-      "domain": null,
-      "confidence": "none",
-      "confidence_score": 0,
-      "reason": "no keyword match",
-      "scores": {},
-      "action": "needs_review",
-      "proposed_tag": null
-    },
-    {
-      "timestamp": "2026-04-19T10:23:24",
-      "message_id": "139b24c2-1724-4465-a336-e4c3e8bf2fd6",
-      "source_id": "review_88cab736-49fd-4e01-aa78-2074f2b3b5c1",
-      "subject": "Inbox Review: Inbox Review: Post von immocation",
-      "domain": null,
-      "confidence": "none",
-      "confidence_score": 0,
-      "reason": "no keyword match",
-      "scores": {},
-      "action": "needs_review",
-      "proposed_tag": null
     },
     {
       "timestamp": "2026-04-19T22:58:31",
