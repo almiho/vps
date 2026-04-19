@@ -349,7 +349,7 @@
 <div class="grid-2" id="children-section">
   <!-- Lukas -->
   <div class="child-card">
-    <div class="child-name">👦 Lukas Hoffmann</div>
+    <div class="child-name">👦 Lukas Berthues</div>
     <div class="child-dob">Born 10.12.2016 · Age 9</div>
     <div class="child-schools">
       <span class="school-badge school-cis">CIS Copenhagen</span>
@@ -359,7 +359,7 @@
   </div>
   <!-- Jonas -->
   <div class="child-card" style="border-left-color:#d8b4fe">
-    <div class="child-name">👦 Jonas Hoffmann</div>
+    <div class="child-name">👦 Jonas Berthues</div>
     <div class="child-dob">Born 10.12.2016 · Age 9</div>
     <div class="child-schools">
       <span class="school-badge school-cis">CIS Copenhagen</span>
@@ -379,13 +379,15 @@
 <div class="grid-4">
   <div class="resp-card">
     <div class="resp-icon">🚌</div>
-    <div class="resp-label">Dropoff this week</div>
-    <div class="resp-name" id="resp-dropoff">Alexander</div>
+    <div class="resp-label" id="dropoff-label">Drop off today</div>
+    <div class="resp-name" id="resp-dropoff">—</div>
+    <div class="resp-sub" id="dropoff-time" style="font-size:0.75rem;color:#9ca3af;margin-top:2px"></div>
   </div>
   <div class="resp-card">
     <div class="resp-icon">🏠</div>
-    <div class="resp-label">Pickup this week</div>
-    <div class="resp-name" id="resp-pickup">Alexander</div>
+    <div class="resp-label" id="pickup-label">Pick up today</div>
+    <div class="resp-name" id="resp-pickup">—</div>
+    <div class="resp-sub" id="pickup-time" style="font-size:0.75rem;color:#9ca3af;margin-top:2px"></div>
   </div>
   <div class="stat-card">
     <div class="stat-label">Next Event</div>
@@ -481,7 +483,7 @@
 
 <!-- ══════════════════════════════════════ Footer -->
 <div style="text-align:center;font-size:0.72rem;color:#334155;margin-top:2rem;padding-bottom:1.5rem">
-  🎒 School Agent · Lukas &amp; Jonas Hoffmann · CIS Copenhagen + Deutsche Fernschule
+  🎒 School Agent · Lukas &amp; Jonas Berthues · CIS Copenhagen + Deutsche Fernschule
 </div>
 
 <style>
@@ -602,8 +604,36 @@ async function loadResponsibilities() {
     const r = await fetch(RESPONSIBILITIES_URL + '?t=' + Date.now());
     const d = await r.json();
     const w = d.current_week || {};
-    document.getElementById('resp-dropoff').textContent = w.dropoff || '—';
-    document.getElementById('resp-pickup').textContent  = w.pickup  || '—';
+
+    // Dropoff: 08:00, Pickup: 15:30 (CIS Copenhagen standard times)
+    const DROPOFF_TIME = '08:00';
+    const PICKUP_TIME  = '15:30';
+
+    const now = new Date();
+    const dow = now.getDay(); // 0=Sun, 6=Sat
+    const isWeekday = dow >= 1 && dow <= 5;
+    const hhmm = now.toTimeString().slice(0,5); // 'HH:MM'
+
+    // After pickup time → show tomorrow's info
+    const afterPickup = hhmm >= PICKUP_TIME;
+
+    // Determine target day label
+    let dayLabel;
+    if (!isWeekday || (isWeekday && afterPickup && dow === 5)) {
+      // Weekend or Friday after pickup → next Monday
+      dayLabel = 'Monday';
+    } else if (afterPickup) {
+      dayLabel = 'Tomorrow';
+    } else {
+      dayLabel = 'Today';
+    }
+
+    document.getElementById('dropoff-label').textContent = `Drop off ${dayLabel}`;
+    document.getElementById('pickup-label').textContent  = `Pick up ${dayLabel}`;
+    document.getElementById('resp-dropoff').textContent  = w.dropoff || '—';
+    document.getElementById('resp-pickup').textContent   = w.pickup  || '—';
+    document.getElementById('dropoff-time').textContent  = DROPOFF_TIME;
+    document.getElementById('pickup-time').textContent   = PICKUP_TIME;
   } catch(e) {}
 }
 

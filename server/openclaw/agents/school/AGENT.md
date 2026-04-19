@@ -13,8 +13,8 @@
 
 | Name | Born | Schools |
 |------|------|---------|
-| **Lukas Hoffmann** | 10.12.2016 | CIS Copenhagen (primary) + Deutsche Fernschule (supplement) |
-| **Jonas Hoffmann** | 10.12.2016 | CIS Copenhagen (primary) + Deutsche Fernschule (supplement) |
+| **Lukas Berthues** | 10.12.2016 | CIS Copenhagen (primary) + Deutsche Fernschule (supplement) |
+| **Jonas Berthues** | 10.12.2016 | CIS Copenhagen (primary) + Deutsche Fernschule (supplement) |
 
 Both are twins, attending the same schools in the same class year.
 

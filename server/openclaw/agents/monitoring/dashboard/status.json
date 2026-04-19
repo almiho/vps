@@ -1,6 +1,6 @@
 {
   "agent": "monitoring",
-  "updated_at": "2026-04-19T22:16:44.588340",
+  "updated_at": "2026-04-19T22:27:04.470658",
   "health": "ok",
   "summary": "All systems healthy. Gateway \u2713 Dashboard \u2713 Bus \u2713 Disk \u2713 Agents \u2713 Scheduler \u2713 Google MCP \u2713",
   "checks": {
@@ -34,7 +34,7 @@
     },
     "git_uncommitted": {
       "ok": true,
-      "detail": "21 uncommitted changes, last commit 0.0h ago \u2014 within threshold"
+      "detail": "24 uncommitted changes, last commit 0.2h ago \u2014 within threshold"
     }
   },
   "alerts": [],
