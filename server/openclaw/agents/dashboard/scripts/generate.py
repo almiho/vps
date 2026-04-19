@@ -494,8 +494,13 @@ def render_alert_item(a, show_agent=False):
         action = f"<div class='action-badge' style='background:{badge_color}'>{'Action needed' if p == 1 else 'Needs attention'}</div>"
     else:
         action = ""
+    agent_id = a.get('agent', '')
+    link_href = f"{agent_id}.html" if agent_id else ""
+    link_open = f'<a href="{link_href}" style="text-decoration:none;color:inherit;display:contents">' if link_href else ""
+    link_close = "</a>" if link_href else ""
     return f"""
-    <div class="item alert-item">
+    <div class="item alert-item" style="cursor:{'pointer' if link_href else 'default'}">
+        {link_open}
         <div class="item-priority p{p}">P{p}</div>
         <div class="item-content">
             <div class="item-title">{a['title']}</div>
@@ -503,6 +508,7 @@ def render_alert_item(a, show_agent=False):
             {render_body(a.get('body',''))}
         </div>
         {action}
+        {link_close}
     </div>"""
 
 def render_okr_section():
