@@ -1,8 +1,8 @@
 {
   "agent": "monitoring",
-  "updated_at": "2026-04-19T22:11:34.302705",
-  "health": "warn",
-  "summary": "Warning: Git Uncommitted \u2014 Problem detected \u2014 alert sent",
+  "updated_at": "2026-04-19T22:16:44.588340",
+  "health": "ok",
+  "summary": "All systems healthy. Gateway \u2713 Dashboard \u2713 Bus \u2713 Disk \u2713 Agents \u2713 Scheduler \u2713 Google MCP \u2713",
   "checks": {
     "gateway": {
       "ok": true,
@@ -33,19 +33,11 @@
       "detail": "Google Workspace MCP healthy \u2014 Gmail, Calendar, Drive sessions available."
     },
     "git_uncommitted": {
-      "ok": false,
-      "detail": "56 uncommitted change(s) in workspace. Run: cd /home/node/.openclaw/workspace && git add -A && git commit -m 'auto-save' && bash scripts/push.sh"
+      "ok": true,
+      "detail": "21 uncommitted changes, last commit 0.0h ago \u2014 within threshold"
     }
   },
-  "alerts": [
-    {
-      "priority": 1,
-      "title": "Git Uncommitted \u2014 Problem detected",
-      "body": "56 uncommitted change(s) in workspace. Run: cd /home/node/.openclaw/workspace && git add -A && git commit -m 'auto-save' && bash scripts/push.sh",
-      "action_required": true,
-      "due_at": null
-    }
-  ],
+  "alerts": [],
   "upcoming": [
     {
       "priority": 2,

@@ -1,7 +1,7 @@
 {
   "agent": "inbox-manager",
-  "updated_at": "2026-04-19T22:00:14",
-  "health": "warn",
+  "updated_at": "2026-04-19T22:17:54",
+  "health": "warning",
   "summary": "Last run: 0 tagged, 0 needs review, 0 skipped.",
   "pending_reviews": 1,
   "alerts": [
@@ -19,7 +19,7 @@
     "last_run_tagged": 0,
     "last_run_needs_review": 0,
     "last_run_skipped": 0,
-    "last_run_at": "2026-04-19T22:00:14"
+    "last_run_at": "2026-04-19T22:17:54"
   },
   "recent_decisions": [
     {

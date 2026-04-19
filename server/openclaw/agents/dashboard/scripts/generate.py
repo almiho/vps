@@ -489,7 +489,11 @@ def render_body(body_text):
 def render_alert_item(a, show_agent=False):
     p = a.get('priority', 3)
     agent_label = f'<span class="item-meta">{a.get("agent","").upper()}</span>' if show_agent else ""
-    action = "<div class='action-badge'>Action needed</div>" if a.get('action_required') else ""
+    if a.get('action_required'):
+        badge_color = "#ef4444" if p == 1 else "#f59e0b"
+        action = f"<div class='action-badge' style='background:{badge_color}'>{'Action needed' if p == 1 else 'Needs attention'}</div>"
+    else:
+        action = ""
     return f"""
     <div class="item alert-item">
         <div class="item-priority p{p}">P{p}</div>

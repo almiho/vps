@@ -410,14 +410,9 @@ def write_status(tagged: int, needs_review: int, skipped: int, error: str | None
 
     health = "ok" if not error else "error"
     if review_queue and not error:
-        # Check oldest pending item — escalate to error after 4 hours
-        from datetime import datetime as _dt
-        oldest_str = min((r.get('created_at','') for r in review_queue), default='')
-        try:
-            oldest_age_h = (_dt.now() - _dt.fromisoformat(oldest_str)).total_seconds() / 3600
-        except Exception:
-            oldest_age_h = 0
-        health = "error" if oldest_age_h > 4 else "warning"
+        # Pending reviews are always 'warning', never 'error' — routing decisions
+        # are a CoS task, not a system failure. Only script errors escalate to error.
+        health = "warning"
 
     recent_decisions = load_recent_decisions(20)
     pending_count = len(review_queue)
