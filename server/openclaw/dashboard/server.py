@@ -22,6 +22,28 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     def log_message(self, *a): pass
 
+    def do_GET(self):
+        # Serve /agents/... paths from workspace root (outside dashboard/ dir)
+        if self.path.startswith('/agents/'):
+            file_path = WORKSPACE / self.path.lstrip('/')
+            # Strip query string
+            file_path = Path(str(file_path).split('?')[0])
+            if file_path.exists() and file_path.is_file():
+                content = file_path.read_bytes()
+                self.send_response(200)
+                if str(file_path).endswith('.json'):
+                    self.send_header('Content-Type', 'application/json')
+                else:
+                    self.send_header('Content-Type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(content)
+            else:
+                self.send_response(404)
+                self.end_headers()
+            return
+        # Default: serve from dashboard/ directory
+        super().do_GET()
+
     def do_OPTIONS(self):
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')

@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-04-19T19:44:10.168035+00:00",
+  "fetched_at": "2026-04-19T20:44:26.117424+00:00",
   "entities": {
     "person.alex": {
       "state": "not_home",
@@ -152,7 +152,7 @@
       "friendly_name": "Starter STB Spannung"
     },
     "sensor.landstrom_aktuell": {
-      "state": "159.0",
+      "state": "183.0",
       "unit": "W",
       "friendly_name": "Landstrom aktuell"
     },
@@ -167,7 +167,7 @@
       "friendly_name": "Quattro AC-Eingang"
     },
     "sensor.wechselstromlasten": {
-      "state": "86",
+      "state": "106",
       "unit": "W",
       "friendly_name": "Wechselstromlasten"
     },
@@ -177,7 +177,7 @@
       "friendly_name": "Generatorstrom aktuell"
     },
     "sensor.ac_input_power": {
-      "state": "174",
+      "state": "183",
       "unit": "W",
       "friendly_name": "Quattro AC Input Power"
     },
@@ -207,12 +207,12 @@
       "friendly_name": "Wassertemperatur"
     },
     "sensor.h5074_ceee_temperature": {
-      "state": "11.48",
+      "state": "10.36",
       "unit": "\u00b0C",
       "friendly_name": "H5074 CEEE Temperature"
     },
     "sensor.h5074_ceee_humidity": {
-      "state": "64.07",
+      "state": "67.64",
       "unit": "%",
       "friendly_name": "H5074 CEEE Humidity"
     },
@@ -288,7 +288,7 @@
     }
   },
   "live_summary": {
-    "updated_at": "19.04.2026 21:44",
+    "updated_at": "19.04.2026 22:44",
     "batteries_pct": 100,
     "diesel_pct": "offline",
     "water_pct": 85,

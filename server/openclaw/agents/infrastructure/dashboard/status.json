@@ -1,9 +1,24 @@
 {
   "agent": "infrastructure",
-  "updated_at": "2026-04-19T21:43:59.147324",
-  "health": "ok",
-  "summary": "All systems healthy. Milestones 0\u20132 complete.",
-  "alerts": [],
+  "updated_at": "2026-04-19T22:44:14.988487",
+  "health": "error",
+  "summary": "Action needed: Gateway not responding (+1 more)",
+  "alerts": [
+    {
+      "priority": 1,
+      "title": "Gateway not responding",
+      "body": "\u26a0\ufe0f RPC probe failed \u2014 gateway may be down.\nAll agent communication and Telegram routing is affected.\n\u2192 Check status: openclaw gateway status\n\u2192 If down: openclaw gateway start",
+      "due_at": null,
+      "action_required": true
+    },
+    {
+      "priority": 1,
+      "title": "Dashboard web server not reachable",
+      "body": "\u26a0\ufe0f http://100.67.100.125:8080/ is not responding.\nThe dashboard is inaccessible from Tailscale devices.\n\u2192 Restart: cd /home/node/.openclaw/workspace/dashboard\n\u2192 Run: nohup python3 -m http.server 8080 --bind 100.67.100.125 &",
+      "due_at": null,
+      "action_required": true
+    }
+  ],
   "upcoming": [
     {
       "priority": 1,
