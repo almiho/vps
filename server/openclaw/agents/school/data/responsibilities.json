@@ -1,8 +1,15 @@
 {
   "updated_at": "2026-04-19",
-  "current_week": {
-    "dropoff": "Alexander",
-    "pickup": "Alexander"
+  "dropoff": {
+    "person": "Alexander",
+    "time": "08:00"
   },
-  "note": "Who is responsible for dropoff/pickup this week"
+  "pickup_schedule": {
+    "2026-04-20": { "person": "Alexander", "time": "14:30" },
+    "2026-04-21": { "person": "Tanja", "time": "15:45" },
+    "2026-04-22": { "person": "Tanja", "time": "15:30" },
+    "2026-04-23": { "person": "Alexander", "time": "15:45" },
+    "2026-04-24": { "person": "Alexander", "time": "14:30" }
+  },
+  "note": "Pickup schedule parsed from Google Calendar 'Kids abholen' events. TB- prefix = Tanja, no prefix = Alexander."
 }

@@ -603,38 +603,54 @@ async function loadResponsibilities() {
   try {
     const r = await fetch(RESPONSIBILITIES_URL + '?t=' + Date.now());
     const d = await r.json();
-    const w = d.current_week || {};
-
-    // Dropoff: 08:00, Pickup: 15:30 (CIS Copenhagen standard times)
-    const DROPOFF_TIME = '08:00';
-    const PICKUP_TIME  = '15:30';
+    const schedule = d.pickup_schedule || {};
+    const dropoffInfo = d.dropoff || {};
 
     const now = new Date();
     const dow = now.getDay(); // 0=Sun, 6=Sat
     const isWeekday = dow >= 1 && dow <= 5;
-    const hhmm = now.toTimeString().slice(0,5); // 'HH:MM'
+    const hhmm = now.toTimeString().slice(0,5);
 
-    // After pickup time → show tomorrow's info
-    const afterPickup = hhmm >= PICKUP_TIME;
+    // Helper: format date as YYYY-MM-DD
+    function isoDate(dt) {
+      return dt.toISOString().slice(0,10);
+    }
 
-    // Determine target day label
+    // Helper: next weekday date
+    function nextWeekday(dt) {
+      const d = new Date(dt);
+      do { d.setDate(d.getDate() + 1); } while (d.getDay() === 0 || d.getDay() === 6);
+      return d;
+    }
+
+    // Determine target date: today if weekday and before pickup, else next weekday
+    let targetDate = new Date(now);
     let dayLabel;
-    if (!isWeekday || (isWeekday && afterPickup && dow === 5)) {
-      // Weekend or Friday after pickup → next Monday
-      dayLabel = 'Monday';
-    } else if (afterPickup) {
-      dayLabel = 'Tomorrow';
+
+    const todayKey = isoDate(now);
+    const todayPickup = schedule[todayKey];
+    const todayPickupTime = todayPickup ? todayPickup.time : '15:30';
+
+    if (!isWeekday || hhmm >= todayPickupTime) {
+      // After pickup or weekend → show next weekday
+      targetDate = nextWeekday(now);
+      const targetDow = targetDate.getDay();
+      // Check if target is Monday (after weekend/Friday)
+      dayLabel = (targetDow === 1 && (!isWeekday || dow === 5)) ? 'Monday' : 'Tomorrow';
     } else {
       dayLabel = 'Today';
     }
 
+    const targetKey = isoDate(targetDate);
+    const pickup = schedule[targetKey] || {};
+
     document.getElementById('dropoff-label').textContent = `Drop off ${dayLabel}`;
     document.getElementById('pickup-label').textContent  = `Pick up ${dayLabel}`;
-    document.getElementById('resp-dropoff').textContent  = w.dropoff || '—';
-    document.getElementById('resp-pickup').textContent   = w.pickup  || '—';
-    document.getElementById('dropoff-time').textContent  = DROPOFF_TIME;
-    document.getElementById('pickup-time').textContent   = PICKUP_TIME;
-  } catch(e) {}
+    document.getElementById('resp-dropoff').textContent  = dropoffInfo.person || '—';
+    document.getElementById('resp-pickup').textContent   = pickup.person || '—';
+    document.getElementById('dropoff-time').textContent  = dropoffInfo.time || '08:00';
+    document.getElementById('pickup-time').textContent   = pickup.time || '—';
+  } catch(e) { console.error('loadResponsibilities error', e); }
 }
 
 // ── Load Events ──

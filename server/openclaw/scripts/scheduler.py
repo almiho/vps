@@ -54,6 +54,7 @@ SCRIPTS = {
     "gmail_stats":  (30 * 60, f"{WORKSPACE}/agents/comms-collector/scripts/gmail_stats.py",         "Gmail inbox stats"),
     "boat_status":  (60 * 60, f"{WORKSPACE}/scripts/fetch_boat_status.py",                            "Boat HA status fetch"),
     "inbox_manager": (15 * 60, f"{WORKSPACE}/agents/inbox-manager/scripts/route_messages.py",         "Inbox message routing"),
+    "school_pickup":  (24 * 60 * 60, f"{WORKSPACE}/agents/school/scripts/fetch_pickup_schedule.py",   "School pickup schedule fetch"),
 }
 
 def webserver_alive():
