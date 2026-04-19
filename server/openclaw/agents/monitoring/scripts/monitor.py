@@ -312,6 +312,42 @@ def check_google_mcp():
 
 # ── Main ──────────────────────────────────────────────────────────────────
 
+def check_git_uncommitted():
+    """Warn if workspace has uncommitted changes older than 2 hours."""
+    import subprocess as _sp, time as _time
+    try:
+        result = _sp.run(
+            ["git", "-C", WORKSPACE, "status", "--porcelain"],
+            capture_output=True, text=True, timeout=10
+        )
+        lines = [l for l in result.stdout.strip().splitlines() if l.strip()]
+        if not lines:
+            return {"name": "git_uncommitted", "ok": True, "detail": "Workspace clean — no uncommitted changes"}
+        # Check age of oldest modified file
+        stat_result = _sp.run(
+            ["git", "-C", WORKSPACE, "diff", "--name-only", "HEAD"],
+            capture_output=True, text=True, timeout=10
+        )
+        count = len(lines)
+        detail = (
+            f"{count} uncommitted change(s) in workspace. "
+            f"Run: cd {WORKSPACE} && git add -A && git commit -m 'auto-save' && bash scripts/push.sh"
+        )
+        # Only alert if >2h since last commit
+        log_result = _sp.run(
+            ["git", "-C", WORKSPACE, "log", "-1", "--format=%ct"],
+            capture_output=True, text=True, timeout=10
+        )
+        last_commit_ts = int(log_result.stdout.strip()) if log_result.stdout.strip().isdigit() else 0
+        age_h = (_time.time() - last_commit_ts) / 3600
+        if age_h > 2:
+            return {"name": "git_uncommitted", "ok": False, "detail": detail}
+        else:
+            return {"name": "git_uncommitted", "ok": True, "detail": f"{count} uncommitted changes, last commit {age_h:.1f}h ago — within threshold"}
+    except Exception as e:
+        return {"name": "git_uncommitted", "ok": True, "detail": f"Git check skipped: {e}"}
+
+
 def main():
     log.info("run_start", "Beginning health checks")
     now = datetime.now().isoformat()
@@ -324,6 +360,7 @@ def main():
         check_agent_heartbeats(),
         check_cron_jobs(),
         check_google_mcp(),
+        check_git_uncommitted(),
     ]
 
     alerts = []
@@ -365,10 +402,43 @@ def main():
             log.info(f"check_{c['name']}", c["detail"])
 
     # Send Telegram for NEW failures only (avoid spam on repeat runs)
+    # Night silence: 23:00-07:00 — only wake Alexander for truly critical issues
+    hour = datetime.now().hour
+    is_night = hour >= 23 or hour < 7
+
+    # Self-healing: attempt to restart web server before alerting
     for failure in new_failures:
+        if failure["name"] == "web_server":
+            log.info("self_heal", "Web server down — attempting self-restart")
+            try:
+                import subprocess as _sp, time as _t, urllib.request as _ur
+                # Kill all competing processes on the port
+                _sp.run(["pkill", "-f", "server.py"], capture_output=True)
+                _sp.run(["pkill", "-f", "http.server 8080"], capture_output=True)
+                _t.sleep(2)
+                _sp.Popen(["python3", f"{WORKSPACE}/dashboard/server.py"])
+                _t.sleep(3)
+                with _ur.urlopen("http://100.67.100.125:8080/", timeout=3) as r:
+                    if r.status == 200:
+                        log.info("self_heal", "Web server restarted successfully — no alert needed")
+                        failure["self_healed"] = True
+            except Exception as e:
+                log.error("self_heal", f"Self-restart failed: {e}")
+
+    for failure in new_failures:
+        if failure.get("self_healed"):
+            continue  # Fixed itself — no need to bother Alexander
+
         name = failure["name"].replace("_", " ").title()
         detail = failure["detail"]
         log_alert({"type": "failure", "component": failure["name"], "detail": detail})
+
+        # Night silence: only alert for truly critical issues (gateway fully down, bus corrupt)
+        critical = failure["name"] in ("bus", "disk")
+        if is_night and not critical:
+            log.info("alert_suppressed", f"Night silence: suppressing alert for {name} until morning")
+            continue
+
         log.error("alert_sent", f"Telegram alert fired: {name} — {detail[:80]}")
         send_telegram_alert(
             f"System problem: {name}",

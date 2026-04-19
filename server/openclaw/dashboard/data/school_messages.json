@@ -1,0 +1,20 @@
+{
+  "updated_at": "2026-04-19",
+  "messages": [
+    {
+      "id": "example_001",
+      "date": "2026-04-19",
+      "from": "Beispiel Lehrer",
+      "subject": "Ausflug nächste Woche",
+      "child": "unknown",
+      "topic": "Ausflug",
+      "status": "pending_review",
+      "confidence": 72,
+      "proposal": "Als Ausflug für beide Kinder am 25.04. eintragen",
+      "reason": "Unklar ob beide Kinder oder nur eine Klasse betroffen",
+      "options": ["Für Lukas", "Für Jonas", "Für beide", "Archivieren"],
+      "original_snippet": "Liebe Eltern, nächste Woche findet der Ausflug statt..."
+    }
+  ],
+  "note": "Last 20 processed school messages with status"
+}

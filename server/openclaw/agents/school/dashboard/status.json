@@ -1,0 +1,17 @@
+{
+  "agent": "school",
+  "updated_at": "2026-04-19T09:00:00",
+  "health": "ok",
+  "summary": "Lukas & Jonas · CIS Copenhagen · 1 Entscheidung ausstehend",
+  "pending_reviews": 1,
+  "alerts": [
+    {
+      "priority": 2,
+      "title": "1 Nachricht wartet auf Entscheidung",
+      "body": "School Agent ist unsicher bei 1 Nachricht — Bestätigung erforderlich",
+      "due_at": null,
+      "action_required": true
+    }
+  ],
+  "upcoming": []
+}

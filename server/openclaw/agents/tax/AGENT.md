@@ -37,7 +37,7 @@ Im Root-Ordner liegen kritische Dokumente:
 - **Pfändungs- und Einziehungsverfügungen** (Februar & März 2025) — Finanzamt Spandau
 - **Vollmacht Steuerberater** (Januar 2025) — vorhanden
 
-**Status:** Offenbar bestehen offene Steuerschulden. Pfändungsverfügungen vom Finanzamt Spandau sind ein ernstes Signal. Bei jeder Interaktion prüfen ob dieser Status sich verändert hat.
+**Status:** ✅ ERLEDIGT (bestätigt von Alexander, 2026-04-19) — Pfändung und sämtliche anderen Forderungen vom Finanzamt Spandau sind vollständig bezahlt und abgeschlossen. Kein offener Status mehr.
 
 ## Dateistruktur
 

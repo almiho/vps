@@ -402,41 +402,49 @@
   <!-- Hero Card -->
   <div class="hero-card">
     <div class="hero-name">Mar y Sol</div>
-    <div class="hero-type">Fairline Squadron 55 · 2× Volvo Penta TAMD 122P-B (449 kW) · Bj. 2000</div>
+    <div class="hero-type">Fairline Squadron 55 · Rufzeichen: DHMT · MMSI: 211109750</div>
     <div class="hero-meta">
-      <div class="hero-meta-item">Liegeplatz: <span>Molecaten Marina, Harderwijk 🇳🇱</span></div>
-      <div class="hero-meta-item">SSR: <span>29035</span></div>
-      <div class="hero-meta-item">Rufzeichen: <span>DHMT</span></div>
-      <div class="hero-meta-item">MMSI: <span>211109750</span></div>
-      <div class="hero-meta-item">Länge: <span>17,05 m</span></div>
-      <div class="hero-meta-item">CIN: <span>GB-FLN09297B000</span></div>
+      <div class="hero-meta-item">Aktueller Standort: <span>Molecaten Marina, Harderwijk 🇳🇱</span></div>
     </div>
-    <div class="hero-badges">
-      <span class="badge green">✓ SBF-See</span>
-      <span class="badge green">✓ SRC</span>
-      <span class="badge green">✓ IBS 118196-A</span>
-      <span class="badge">20 t</span>
-    </div>
+    <div style="font-size:0.68rem;color:#475569;margin-top:0.75rem" id="live-updated">Live-Daten: nicht verfügbar</div>
+    <script>
+    fetch('data/boat_status.json').then(r=>r.json()).then(d=>{
+      const live = d.live_summary || d.live || {};
+      function applyTag(id, val, label) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (val === null || val === undefined || val === 'offline') { el.style.background='#1e293b'; el.style.color='#64748b'; el.textContent=label; return; }
+        const pct = typeof val === 'number' ? val : null;
+        if (pct !== null) {
+          const warn = id==='tag-blackwater' ? pct > 80 : pct < 20;
+          el.style.background = warn ? '#451a03' : '#052e16';
+          el.style.color = warn ? '#fb923c' : '#4ade80';
+          el.textContent = label + ' ' + pct + '%'; // show percentage
+        } else {
+          const on = val===true||val==='an';
+          el.style.background = on ? '#052e16' : '#1e293b';
+          el.style.color = on ? '#4ade80' : '#94a3b8';
+          el.textContent = on ? label + ' AN' : label + ' AUS';
+        }
+      }
+      applyTag('tag-batteries', live.batteries_pct, '🔋 Batterien');
+      applyTag('tag-diesel', live.diesel_pct, '⛽ Diesel');
+      applyTag('tag-water', live.water_pct, '💧 Wasser');
+      applyTag('tag-blackwater', live.blackwater_pct, '🚽 Schwarzwasser');
+      applyTag('tag-shorepower', live.shorepower, '🔌 Landstrom');
+      if (live.updated_at) document.getElementById('live-updated').textContent='Live-Daten: '+live.updated_at;
+    }).catch(()=>{});
+    </script>
   </div>
 
-  <!-- Key Stats -->
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-value">~1.596 h</div>
-      <div class="stat-label">Motorstunden</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">Sep 2025</div>
-      <div class="stat-label">Letzter Service</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">Mär 2025</div>
-      <div class="stat-label">Servicebatterien</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value">AXIOM 12</div>
-      <div class="stat-label">Navigation</div>
-    </div>
+  <!-- Quick Stats (dynamic) -->
+  <div class="stats-grid" id="quick-stats">
+    <div class="stat-card"><div class="stat-value" id="qs-power">…</div><div class="stat-label">Stromquelle</div></div>
+    <div class="stat-card"><div class="stat-value" id="qs-quattro">…</div><div class="stat-label">Quattro</div></div>
+    <div class="stat-card"><div class="stat-value" id="qs-batteries">…</div><div class="stat-label">Batterien</div></div>
+    <div class="stat-card"><div class="stat-value" id="qs-diesel">…</div><div class="stat-label">Diesel</div></div>
+    <div class="stat-card"><div class="stat-value" id="qs-water">…</div><div class="stat-label">Wasser</div></div>
+    <div class="stat-card"><div class="stat-value" id="qs-blackwater">…</div><div class="stat-label">Schwarzwasser</div></div>
   </div>
 
   <!-- Live Data Section -->
@@ -459,24 +467,8 @@
     <div class="section-title">📋 Offene Todos</div>
     <ul class="todo-list">
       <li class="todo-item">
-        <span class="todo-priority prio-p1">P1</span>
-        <span>VHF/AIS-Anlage einbauen – Standort, Antenne, Stromversorgung klären</span>
-      </li>
-      <li class="todo-item">
-        <span class="todo-priority prio-p1">P1</span>
-        <span>EDC-Status klären – elektronische Schiffsdokumentation prüfen</span>
-      </li>
-      <li class="todo-item">
         <span class="todo-priority prio-p2">P2</span>
-        <span>Versicherungsschutz prüfen – Deckungssummen und Bedingungen verifizieren</span>
-      </li>
-      <li class="todo-item">
-        <span class="todo-priority prio-p2">P2</span>
-        <span>MMSI erfassen – Maritime Mobile Service Identity registrieren</span>
-      </li>
-      <li class="todo-item">
-        <span class="todo-priority prio-p3">P3</span>
-        <span>Schwarzwasserpumpe Toiletten – Funktion beider Toiletten prüfen</span>
+        <span>GFK-Arbeiten an alten Hydraulik-Anschlüssen (Schlauchboot-Bügel)</span>
       </li>
     </ul>
   </div>
@@ -617,7 +609,8 @@
       document.getElementById('live-content').style.display = 'none';
 
       try {
-        const entities = await loadBoatStatus();
+        const boatData = await fetch(BOAT_STATUS_URL + '?t=' + Date.now()).then(r=>r.json());
+        const entities = boatData.entities || {};
         const get = (id) => makeEntity(entities[id]);
 
         // Boot-Status
@@ -687,6 +680,20 @@
           </div>`;
         }
 
+        // Offline card — grey, no warning
+        function offlineCard(label) {
+          return `<div class="live-card">
+            <div class="live-card-label">${label}</div>
+            <div class="live-card-value" style="color:#475569">—</div>
+            <div style="background:#1e293b;border-radius:4px;height:6px;margin:4px 0"></div>
+            <div class="live-card-sub" style="color:#475569">Sensor offline</div>
+          </div>`;
+        }
+
+        // Anwesenheit aus live_summary
+        const liveSummary = boatData.live_summary || {};
+        const dieselOffline = liveSummary.diesel_pct === 'offline';
+
         function tankCard(label, e, lowBad=true) {
           const pct = numVal(e);
           let col = '#475569';
@@ -723,6 +730,38 @@
 
         const portHours = numVal(portH);
         const stbHours = numVal(stbH);
+
+        // Fill Quick-Stats
+        const qsPow = document.getElementById('qs-power');
+        const qsQuattro = document.getElementById('qs-quattro');
+        const qsBatt = document.getElementById('qs-batteries');
+        const qsDiesel = document.getElementById('qs-diesel');
+        const qsWater = document.getElementById('qs-water');
+        const qsBW = document.getElementById('qs-blackwater');
+        const liveSumm = boatData.live_summary || {};
+
+        if (qsPow) {
+          const ls = numVal(landstrom);
+          if (ls !== null && ls > 0.5) { qsPow.textContent = '🔌 Landstrom'; qsPow.style.color = '#22c55e'; }
+          else {
+            const gen = numVal(get('sensor.generatorstrom_aktuell'));
+            if (gen !== null && gen > 0.5) { qsPow.textContent = '⚙️ Generator'; qsPow.style.color = '#f59e0b'; }
+            else { qsPow.textContent = '🔋 Batterie'; qsPow.style.color = '#94a3b8'; }
+          }
+        }
+        if (qsQuattro) qsQuattro.textContent = quattro.state && quattro.state !== 'unavailable' ? quattro.state : '—';
+
+        function fillPct(el, val, invertWarn) {
+          if (!el) return;
+          if (val === null || val === undefined || val === 'offline') { el.textContent = '—'; el.style.color = '#475569'; return; }
+          el.textContent = val + '%';
+          const warn = invertWarn ? val > 80 : val < 20;
+          el.style.color = warn ? '#ef4444' : val < 40 ? '#f59e0b' : '#22c55e';
+        }
+        fillPct(qsBatt, liveSumm.batteries_pct, false);
+        fillPct(qsDiesel, liveSumm.diesel_pct, false);
+        fillPct(qsWater, liveSumm.water_pct, false);
+        fillPct(qsBW, liveSumm.blackwater_pct, true);
 
         document.getElementById('live-content').innerHTML = `
           <!-- Karte -->
@@ -793,8 +832,8 @@
           <!-- Tanks -->
           <div class="live-section-title">🛢️ Tanks</div>
           <div class="live-cards">
-            ${tankCard('Diesel BB', dieselBb, true)}
-            ${tankCard('Diesel STB', dieselStb, true)}
+            ${dieselOffline ? offlineCard('Diesel BB') : tankCard('Diesel BB', dieselBb, true)}
+            ${dieselOffline ? offlineCard('Diesel STB') : tankCard('Diesel STB', dieselStb, true)}
             ${tankCard('Frischwasser', fresh, true)}
             ${tankCard('Schwarzwasser', black, false)}
           </div>

@@ -1,16 +1,25 @@
 {
   "agent": "inbox-manager",
-  "updated_at": "2026-04-18T23:34:10",
-  "health": "ok",
+  "updated_at": "2026-04-19T22:00:14",
+  "health": "warn",
   "summary": "Last run: 0 tagged, 0 needs review, 0 skipped.",
-  "alerts": [],
+  "pending_reviews": 1,
+  "alerts": [
+    {
+      "priority": 2,
+      "title": "1 message(s) need routing review",
+      "body": "Cannot determine domain automatically. CoS must classify.",
+      "due_at": null,
+      "action_required": true
+    }
+  ],
   "upcoming": [],
   "stats": {
     "total_tagged_alltime": 0,
     "last_run_tagged": 0,
     "last_run_needs_review": 0,
     "last_run_skipped": 0,
-    "last_run_at": "2026-04-18T23:34:10"
+    "last_run_at": "2026-04-19T22:00:14"
   },
   "recent_decisions": [
     {
@@ -48,7 +57,57 @@
       "scores": {},
       "action": "needs_review",
       "reason": "no keyword match"
+    },
+    {
+      "timestamp": "2026-04-19T10:16:46",
+      "message_id": "c3d2e41c-2a3b-40f0-88ea-28af172ed1b4",
+      "source_id": "19da42549e1d8b06",
+      "subject": "Post von immocation",
+      "domain": null,
+      "confidence": "none",
+      "confidence_score": 30,
+      "reason": "ambiguous: tie between real-estate and finance",
+      "scores": {
+        "real-estate": 1,
+        "finance": 1
+      },
+      "action": "needs_review",
+      "proposed_tag": "real-estate"
+    },
+    {
+      "timestamp": "2026-04-19T10:18:33",
+      "message_id": "88cab736-49fd-4e01-aa78-2074f2b3b5c1",
+      "source_id": "review_c3d2e41c-2a3b-40f0-88ea-28af172ed1b4",
+      "subject": "Inbox Review: Post von immocation",
+      "domain": null,
+      "confidence": "none",
+      "confidence_score": 0,
+      "reason": "no keyword match",
+      "scores": {},
+      "action": "needs_review",
+      "proposed_tag": null
+    },
+    {
+      "timestamp": "2026-04-19T10:23:24",
+      "message_id": "139b24c2-1724-4465-a336-e4c3e8bf2fd6",
+      "source_id": "review_88cab736-49fd-4e01-aa78-2074f2b3b5c1",
+      "subject": "Inbox Review: Inbox Review: Post von immocation",
+      "domain": null,
+      "confidence": "none",
+      "confidence_score": 0,
+      "reason": "no keyword match",
+      "scores": {},
+      "action": "needs_review",
+      "proposed_tag": null
     }
   ],
-  "needs_review_queue": []
+  "needs_review_queue": [
+    {
+      "id": "52a220eb-98f1-4c7a-82ae-392c57de0406",
+      "source_id": "review_52a220eb",
+      "subject": "Inbox Review: Post von immocation",
+      "body": "{\"original_subject\": \"Post von immocation\", \"original_from\": \"post@immocation.de\", \"snippet\": \"Immobilien Newsletter...\", \"proposed_tag\": \"real-estate\", \"confidence\": 30, \"reason\": \"Agent real-estate noch nicht aktiv\", \"routing_options\": [\"real-estate\", \"finance\", \"cos\", \"tax\"]}",
+      "created_at": "2026-04-19T10:26:42"
+    }
+  ]
 }

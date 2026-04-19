@@ -1,8 +1,8 @@
 {
   "agent": "monitoring",
-  "updated_at": "2026-04-18T23:34:00.631448",
-  "health": "ok",
-  "summary": "All systems healthy. Gateway \u2713 Dashboard \u2713 Bus \u2713 Disk \u2713 Agents \u2713 Scheduler \u2713 Google MCP \u2713",
+  "updated_at": "2026-04-19T22:11:34.302705",
+  "health": "warn",
+  "summary": "Warning: Git Uncommitted \u2014 Problem detected \u2014 alert sent",
   "checks": {
     "gateway": {
       "ok": true,
@@ -14,11 +14,11 @@
     },
     "bus": {
       "ok": true,
-      "detail": "Healthy. No pending messages."
+      "detail": "Healthy. 1 pending message(s) queued."
     },
     "disk": {
       "ok": true,
-      "detail": "13% used (12G of total, 84G free). Healthy."
+      "detail": "12% used (12G of total, 85G free). Healthy."
     },
     "heartbeats": {
       "ok": true,
@@ -26,14 +26,26 @@
     },
     "cron": {
       "ok": true,
-      "detail": "Scheduler daemon running (PID 30731) \u2014 dashboard 15m, watch 5m, infra 1hr"
+      "detail": "Scheduler daemon running (PID 339) \u2014 dashboard 15m, watch 5m, infra 1hr"
     },
     "google_mcp": {
       "ok": true,
       "detail": "Google Workspace MCP healthy \u2014 Gmail, Calendar, Drive sessions available."
+    },
+    "git_uncommitted": {
+      "ok": false,
+      "detail": "56 uncommitted change(s) in workspace. Run: cd /home/node/.openclaw/workspace && git add -A && git commit -m 'auto-save' && bash scripts/push.sh"
     }
   },
-  "alerts": [],
+  "alerts": [
+    {
+      "priority": 1,
+      "title": "Git Uncommitted \u2014 Problem detected",
+      "body": "56 uncommitted change(s) in workspace. Run: cd /home/node/.openclaw/workspace && git add -A && git commit -m 'auto-save' && bash scripts/push.sh",
+      "action_required": true,
+      "due_at": null
+    }
+  ],
   "upcoming": [
     {
       "priority": 2,

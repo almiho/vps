@@ -1,227 +1,846 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>School — AlexI</title><style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
-.header { background: #1e293b; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
-.header h1 { font-size: 1.25rem; font-weight: 700; color: #f1f5f9; }
-.header-meta { font-size: 0.75rem; color: #64748b; }
-.container { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
-@media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
-.section { background: #1e293b; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
-.section-title { font-size: 0.875rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; }
-.item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; border-bottom: 1px solid #334155; }
-.item:last-child { border-bottom: none; }
-.item-priority { font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
-.p1 { background: #7f1d1d; color: #fca5a5; }
-.p2 { background: #7c2d12; color: #fdba74; }
-.p3 { background: #713f12; color: #fde68a; }
-.p4 { background: #1e3a5f; color: #93c5fd; }
-.p5 { background: #1e293b; color: #94a3b8; border: 1px solid #334155; }
-.item-content { flex: 1; min-width: 0; }
-.item-title { font-size: 0.9rem; font-weight: 600; color: #f1f5f9; }
-.item-body { margin-top: 6px; }
-.item-body-line { font-size: 0.78rem; color: #94a3b8; line-height: 1.7; display: block; }
-.item-body-line.muted { color: #64748b; }
-.item-body-line.section-head { color: #cbd5e1; font-weight: 600; margin-top: 4px; }
-.item-meta { font-size: 0.75rem; color: #64748b; margin-top: 3px; }
-.alert-item { background: rgba(239,68,68,0.05); border-radius: 8px; padding: 0.75rem !important; margin-bottom: 0.5rem; border-bottom: none !important; }
-.action-badge { font-size: 0.7rem; background: #ef4444; color: white; padding: 2px 8px; border-radius: 12px; white-space: nowrap; flex-shrink: 0; }
-.empty-state { color: #475569; font-size: 0.875rem; padding: 1rem 0; text-align: center; }
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎒 School — AlexI</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Cluster grouping on homepage */
-.cluster-section { margin-bottom: 1.25rem; }
-.cluster-section:last-child { margin-bottom: 0; }
-.cluster-label { font-size: 0.72rem; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; padding-left: 2px; border-bottom: 1px solid #1e293b; padding-bottom: 0.4rem; }
-.agents-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem; }
-.agent-card { background: #1e293b; border-radius: 10px; padding: 1rem; display: flex; gap: 0.75rem; align-items: flex-start; text-decoration: none; color: inherit; border: 1px solid #334155; transition: border-color 0.15s; }
-.agent-card:hover { border-color: #475569; }
-.health-ok { border-left: 3px solid #22c55e; }
-.health-warning { border-left: 3px solid #f59e0b; }
-.health-error { border-left: 3px solid #ef4444; }
-.health-unknown { border-left: 3px solid #475569; }
-.agent-emoji { font-size: 1.5rem; line-height: 1; flex-shrink: 0; }
-.agent-info { flex: 1; min-width: 0; }
-.agent-name { font-size: 0.875rem; font-weight: 600; color: #f1f5f9; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-.agent-summary { font-size: 0.75rem; color: #64748b; margin-top: 3px; }
-.agent-updated { font-size: 0.7rem; color: #475569; margin-top: 3px; }
-.back { color: #64748b; text-decoration: none; font-size: 0.875rem; }
-.back:hover { color: #94a3b8; }
-.status-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
-.status-summary { color: #cbd5e1; font-size: 0.9rem; }
-.status-updated { color: #475569; font-size: 0.75rem; }
-/* About section */
-.about-toggle { width: 100%; background: none; border: 1px solid #334155; border-radius: 8px; padding: 0.6rem 1rem; color: #64748b; font-size: 0.8rem; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-.about-toggle:hover { border-color: #475569; color: #94a3b8; }
-.about-content { display: none; background: #1e293b; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; }
-.about-content.open { display: block; }
-.about-row { margin-bottom: 1rem; }
-.about-row:last-child { margin-bottom: 0; }
-.about-label { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
-.about-text { font-size: 0.85rem; color: #cbd5e1; line-height: 1.6; }
-.about-connects { font-size: 0.8rem; color: #94a3b8; font-style: italic; }
-.okr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.75rem; }
-@media (max-width: 768px) { .okr-grid { grid-template-columns: 1fr; } }
-.okr-card { background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 1rem; }
-.okr-card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
-.okr-icon { font-size: 1.2rem; }
-.okr-title { font-size: 0.9rem; font-weight: 700; color: #c7d2fe; }
-.okr-idea { font-size: 0.78rem; color: #94a3b8; line-height: 1.5; margin-bottom: 0.75rem; font-style: italic; }
-.okr-kr-group { font-size: 0.72rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.6rem; margin-bottom: 0.2rem; }
-.okr-kr-item { font-size: 0.8rem; color: #cbd5e1; line-height: 1.5; padding-left: 0.25rem; }
-/* Log section */
-details.log-section > summary { cursor:pointer; color:#64748b; font-size:0.8rem; padding:0.4rem 0; user-select:none; list-style:none; }
-details.log-section > summary::before { content:'▶ '; font-size:0.7rem; }
-details.log-section[open] > summary::before { content:'▼ '; }
-details.log-section > summary:hover { color:#94a3b8; }
-.log-reload-btn { background:none; border:1px solid #334155; border-radius:6px; color:#64748b; padding:3px 10px; font-size:0.75rem; cursor:pointer; line-height:1; }
-.log-reload-btn:hover { border-color:#475569; color:#94a3b8; }
-.log-filter-bar { display:flex; flex-wrap:wrap; gap:0.75rem; margin:0.6rem 0 0.4rem; }
-.log-filter-group { display:flex; align-items:center; gap:0.3rem; }
-.log-filter-label { font-size:0.7rem; color:#475569; text-transform:uppercase; letter-spacing:0.05em; margin-right:2px; }
-.log-filter-btn { background:none; border:1px solid #334155; border-radius:4px; color:#64748b; padding:2px 8px; font-size:0.72rem; cursor:pointer; }
-.log-filter-btn:hover { border-color:#475569; color:#94a3b8; }
-.log-filter-btn.active { background:#1e3a5f; border-color:#3b82f6; color:#93c5fd; }
-.log-container { margin-top:0.25rem; font-family:'SF Mono',Menlo,monospace; }
-.log-row { display:grid; grid-template-columns:150px 90px 68px 130px 1fr; gap:6px; padding:3px 6px; border-bottom:1px solid #0f172a; font-size:0.74rem; align-items:start; }
-.log-row:hover { background:#162032; }
-.log-ts { color:#475569; white-space:nowrap; }
-.log-agent { color:#a78bfa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.log-level { font-weight:700; }
-.log-lvl-debug { color:#475569; }
-.log-lvl-info { color:#64748b; }
-.log-lvl-warning { color:#f59e0b; }
-.log-lvl-error { color:#ef4444; }
-.log-lvl-critical { color:#fca5a5; background:#450a0a; padding:0 3px; border-radius:3px; }
-.log-event { color:#7dd3fc; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.log-msg { color:#94a3b8; }
-.log-empty { color:#475569; font-size:0.8rem; padding:0.5rem 0; }
-</style><script>
-function toggleAbout() {
-  const content = document.getElementById('about-content');
-  const arrow = document.getElementById('about-arrow');
-  content.classList.toggle('open');
-  arrow.textContent = content.classList.contains('open') ? '▲' : '▼';
-}
-</script></head>
-<body>
-<div class="header">
-  <a href="index.html" class="back">← Dashboard</a>
-  <div style="display:flex;align-items:center;gap:0.75rem"><span style="font-size:1.5rem">🎒</span><span style="font-size:1.1rem;font-weight:700">School</span><span style="background:#94a3b8;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">—</span></div>
-  <div style="font-size:0.75rem;color:#475569">18 Apr 2026 23:34</div>
-</div>
-<div class="container" style="max-width:900px">
-  
-<button class="about-toggle" onclick="toggleAbout()">
-  ℹ️ About this agent &nbsp;<span id="about-arrow">▼</span>
-</button>
-<div class="about-content" id="about-content">
-  <div class="about-row">
-    <div class="about-label">Mission</div>
-    <div class="about-text">Education coordinator for the twins across two school systems.</div>
-  </div>
-  <div class="about-row">
-    <div class="about-label">Role in the system</div>
-    <div class="about-text">Tracks CIS Copenhagen and Fernschule schedules, monitors day-specific changes, fires dynamic pickup reminders, tracks academic progress and teacher communications.</div>
-  </div>
-  <div class="about-row">
-    <div class="about-label">Why it matters</div>
-    <div class="about-text">Pickup reminders are safety-critical. Two school systems with different schedules, deadlines, and communication channels is genuinely complex to track manually.</div>
-  </div>
-  <div class="about-row">
-    <div class="about-label">Connects to</div>
-    <div class="about-connects">Reads from Comms Collector (school emails/announcements). Feeds schedule data to Calendar and Travel Agent. Reports to CoS.</div>
-  </div>
-  <div class="about-row">
-    <div class="about-label">Does NOT overlap with</div>
-    <div class="about-connects">School tracks education and schedules. Health Agent handles vaccinations and medical forms separately.</div>
-  </div>
-</div>
-  <div class="section"><div class="section-title">Status</div>
-    <div class="status-row"><div class="status-summary">Not yet active</div><div class="status-updated">Last updated: never</div></div>
-  </div>
-  
-  <div class="section"><div class="section-title">🔴 Alerts & Actions</div><div class="empty-state">No alerts</div></div>
-  <div class="section"><div class="section-title">📅 Upcoming</div><div class="empty-state">Nothing upcoming</div></div>
-  
-<div class="section" style="margin-top:1.5rem">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem">
-    <div class="section-title" style="margin:0">📋 Recent Log</div>
-    <button class="log-reload-btn" onclick="logReload_school()">↻ Reload</button>
-  </div>
-  <details class="log-section">
-    <summary>0 entries — click to expand</summary>
-    <div class="log-filter-bar">
-      <div class="log-filter-group">
-        <span class="log-filter-label">Level:</span>
-        <button class="log-filter-btn active" onclick="logFilterLevel_school(this,'all')">All</button>
-        <button class="log-filter-btn" onclick="logFilterLevel_school(this,'warning')">Warning+</button>
-        <button class="log-filter-btn" onclick="logFilterLevel_school(this,'error')">Error+</button>
-      </div>
-      
-    </div>
-    <div id="log-school" class="log-container"></div>
-  </details>
-</div>
-<script>
-(function() {
-  var LEVEL_ORDER = {debug:0,info:1,warning:2,error:3,critical:4};
-  var state_school = {data:[], levelMin:-1, agent:'all'};
-
-  function renderRows_school() {
-    var s = state_school;
-    var el = document.getElementById('log-school');
-    var rows = s.data.slice().reverse().filter(function(e) {
-      var lvlOk = s.levelMin < 0 || (LEVEL_ORDER[e.level||'info']||0) >= s.levelMin;
-      var agOk = s.agent === 'all' || e.agent === s.agent;
-      return lvlOk && agOk;
-    });
-    if (!rows.length) { el.innerHTML = '<div class="log-empty">No entries match the current filter.</div>'; return; }
-    var html = '';
-    for (var i = 0; i < rows.length; i++) {
-      var e = rows[i];
-      var ts = (e.timestamp||'').slice(0,19).replace('T',' ');
-      var lvl = e.level||'info';
-      html += '<div class="log-row">'
-        + '<span class="log-ts">'+ts+'</span>'
-        + '<span class="log-agent">'+(e.agent||'')+'</span>'
-        + '<span class="log-level log-lvl-'+lvl+'">'+lvl.toUpperCase()+'</span>'
-        + '<span class="log-event">'+(e.event||'')+'</span>'
-        + '<span class="log-msg">'+(e.message||'')+'</span>'
-        + '</div>';
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 1rem;
     }
-    el.innerHTML = html;
+
+    /* ── Header ── */
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #1e293b;
+    }
+    .back-link {
+      color: #64748b;
+      text-decoration: none;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .back-link:hover { color: #94a3b8; }
+    .page-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      flex: 1;
+    }
+    .page-subtitle { font-size: 0.8rem; color: #64748b; }
+
+    /* ── Layout ── */
+    .section {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .section-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1rem;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 900px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .grid-4 { grid-template-columns: 1fr; } }
+
+    /* ── Child Cards ── */
+    .child-card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1.25rem;
+      border-left: 4px solid #fcd34d;
+    }
+    .child-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .child-dob {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-bottom: 0.75rem;
+    }
+    .child-schools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.75rem;
+    }
+    .school-badge {
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+    .school-cis { background: #1e3a5f; color: #93c5fd; }
+    .school-fern { background: #1c2d1a; color: #86efac; }
+    .child-last-activity {
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+    .child-last-activity .label { color: #64748b; margin-right: 0.25rem; }
+    .no-activity { color: #475569; font-size: 0.78rem; font-style: italic; }
+
+    /* ── Stat Cards ── */
+    .stat-card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      border: 1px solid #334155;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+    }
+    .stat-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+    .stat-sub {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-top: 0.2rem;
+    }
+
+    /* ── Responsibility Badge ── */
+    .resp-card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      border: 1px solid #334155;
+      text-align: center;
+    }
+    .resp-icon { font-size: 1.5rem; margin-bottom: 0.35rem; }
+    .resp-label {
+      font-size: 0.7rem;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.3rem;
+    }
+    .resp-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fcd34d;
+    }
+
+    /* ── Events Table ── */
+    .events-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .events-table th {
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0 0.75rem 0.6rem 0;
+      border-bottom: 1px solid #334155;
+    }
+    .events-table td {
+      padding: 0.6rem 0.75rem 0.6rem 0;
+      border-bottom: 1px solid #1a2535;
+      vertical-align: top;
+      color: #cbd5e1;
+    }
+    .events-table tr:last-child td { border-bottom: none; }
+    .events-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .child-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+    .tag-lukas  { background: #1e3a5f; color: #93c5fd; }
+    .tag-jonas  { background: #3b0764; color: #d8b4fe; }
+    .tag-both   { background: #14532d; color: #86efac; }
+    .tag-unknown { background: #1e293b; color: #64748b; border: 1px solid #334155; }
+
+    .action-yes {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #fca5a5;
+      background: #450a0a;
+      padding: 2px 8px;
+      border-radius: 8px;
+    }
+    .action-no {
+      font-size: 0.68rem;
+      color: #475569;
+    }
+
+    .event-status {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 8px;
+    }
+    .status-upcoming  { background: #1e3a5f; color: #7dd3fc; }
+    .status-confirmed { background: #14532d; color: #86efac; }
+    .status-pending   { background: #422006; color: #fcd34d; }
+    .status-done      { background: #1e293b; color: #475569; }
+    .status-holiday   { background: #0f3d48; color: #67e8f9; }
+
+    .event-type {
+      font-size: 0.68rem;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    /* ── Messages Log ── */
+    .msg-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+    .msg-table th {
+      text-align: left;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0 0.75rem 0.6rem 0;
+      border-bottom: 1px solid #334155;
+    }
+    .msg-table td {
+      padding: 0.55rem 0.75rem 0.55rem 0;
+      border-bottom: 1px solid #1a2535;
+      vertical-align: top;
+      color: #94a3b8;
+    }
+    .msg-table tr:last-child td { border-bottom: none; }
+    .msg-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .msg-status {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+    .ms-processed { background: #14532d; color: #86efac; }
+    .ms-pending   { background: #422006; color: #fcd34d; }
+    .ms-archived  { background: #1e293b; color: #475569; border: 1px solid #2d3f56; }
+    .ms-needs_review { background: #450a0a; color: #fca5a5; }
+
+    .topic-tag {
+      font-size: 0.66rem;
+      color: #64748b;
+      background: #0f172a;
+      padding: 1px 6px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    /* ── Empty State ── */
+    .empty-state {
+      color: #475569;
+      font-size: 0.85rem;
+      padding: 2rem 0;
+      text-align: center;
+    }
+    .empty-icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
+
+    /* ── Health Banner ── */
+    .health-ok {
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.3);
+      border-left: 4px solid #22c55e;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      color: #86efac;
+    }
+
+    /* ── Docs tracker ── */
+    .doc-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #1a2535;
+    }
+    .doc-row:last-child { border-bottom: none; }
+    .doc-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .doc-name { font-size: 0.85rem; color: #cbd5e1; flex: 1; }
+    .doc-child { font-size: 0.72rem; color: #64748b; }
+    .doc-sig {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 8px;
+    }
+    .sig-pending  { background: #422006; color: #fcd34d; }
+    .sig-signed   { background: #14532d; color: #86efac; }
+    .sig-returned { background: #1e3a5f; color: #93c5fd; }
+
+    /* ── Footer meta ── */
+    .meta-footer {
+      font-size: 0.72rem;
+      color: #334155;
+      text-align: right;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════ Header -->
+<div class="page-header">
+  <a href="index.html" class="back-link">← Dashboard</a>
+  <div class="page-title">🎒 School</div>
+  <div class="page-subtitle" id="updated-at">Loading…</div>
+</div>
+
+<!-- ══════════════════════════════════════ Health Banner -->
+<div class="health-ok" id="health-banner">
+  <span>✅</span>
+  <span id="health-summary">Lukas &amp; Jonas · CIS Copenhagen + Fernschule · Keine aktuellen Alerts</span>
+</div>
+
+<!-- ══════════════════════════════════════ Children + Responsibility -->
+<div class="grid-2" id="children-section">
+  <!-- Lukas -->
+  <div class="child-card">
+    <div class="child-name">👦 Lukas Hoffmann</div>
+    <div class="child-dob">Born 10.12.2016 · Age 9</div>
+    <div class="child-schools">
+      <span class="school-badge school-cis">CIS Copenhagen</span>
+      <span class="school-badge school-fern">Deutsche Fernschule</span>
+    </div>
+    <div class="no-activity" id="lukas-activity">No recent activity logged</div>
+  </div>
+  <!-- Jonas -->
+  <div class="child-card" style="border-left-color:#d8b4fe">
+    <div class="child-name">👦 Jonas Hoffmann</div>
+    <div class="child-dob">Born 10.12.2016 · Age 9</div>
+    <div class="child-schools">
+      <span class="school-badge school-cis">CIS Copenhagen</span>
+      <span class="school-badge school-fern">Deutsche Fernschule</span>
+    </div>
+    <div class="no-activity" id="jonas-activity">No recent activity logged</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ PENDING REVIEW SEKTION -->
+<div class="section" id="pending-review-section" style="border-left: 3px solid #f59e0b; display:none">
+  <div class="section-title">⏳ Entscheidungen ausstehend</div>
+  <div id="pending-review-list"></div>
+</div>
+
+<!-- ══════════════════════════════════════ Quick Stats Row -->
+<div class="grid-4">
+  <div class="resp-card">
+    <div class="resp-icon">🚌</div>
+    <div class="resp-label">Dropoff this week</div>
+    <div class="resp-name" id="resp-dropoff">Alexander</div>
+  </div>
+  <div class="resp-card">
+    <div class="resp-icon">🏠</div>
+    <div class="resp-label">Pickup this week</div>
+    <div class="resp-name" id="resp-pickup">Alexander</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Next Event</div>
+    <div class="stat-value" id="next-event-date">—</div>
+    <div class="stat-sub" id="next-event-name">No events loaded</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Open Documents</div>
+    <div class="stat-value" id="open-docs-count">0</div>
+    <div class="stat-sub" id="open-docs-sub">No pending forms</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ Upcoming Events -->
+<div class="section">
+  <div class="section-title">📅 Upcoming Events &amp; Deadlines</div>
+  <div id="events-container">
+    <table class="events-table" id="events-table" style="display:none">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Child</th>
+          <th>Event</th>
+          <th>Type</th>
+          <th>Action?</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="events-tbody"></tbody>
+    </table>
+    <div class="empty-state" id="events-empty">
+      <span class="empty-icon">📭</span>
+      No events yet — they'll appear here once messages are processed
+    </div>
+  </div>
+  <div class="meta-footer" id="events-updated"></div>
+</div>
+
+<!-- ══════════════════════════════════════ Documents Tracker -->
+<div class="section">
+  <div class="section-title">📝 Documents &amp; Consent Forms</div>
+  <div id="docs-container">
+    <div class="empty-state" id="docs-empty">
+      <span class="empty-icon">✅</span>
+      No pending documents or permission slips
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ Messages Log -->
+<div class="section">
+  <div class="section-title">💬 Message Log — Last 20</div>
+
+  <!-- Filter Bar -->
+  <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.85rem" id="filter-bar">
+    <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
+      <span style="font-size:0.7rem;color:#475569;text-transform:uppercase;letter-spacing:0.05em">Child:</span>
+      <button class="filter-btn active" data-filter-group="child" data-value="all" onclick="applyFilter(this)">All</button>
+      <button class="filter-btn" data-filter-group="child" data-value="lukas" onclick="applyFilter(this)">Lukas</button>
+      <button class="filter-btn" data-filter-group="child" data-value="jonas" onclick="applyFilter(this)">Jonas</button>
+      <button class="filter-btn" data-filter-group="child" data-value="both" onclick="applyFilter(this)">Both</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
+      <span style="font-size:0.7rem;color:#475569;text-transform:uppercase;letter-spacing:0.05em">Status:</span>
+      <button class="filter-btn active" data-filter-group="status" data-value="all" onclick="applyFilter(this)">All</button>
+      <button class="filter-btn" data-filter-group="status" data-value="pending" onclick="applyFilter(this)" style="color:#fcd34d">Pending</button>
+      <button class="filter-btn" data-filter-group="status" data-value="processed" onclick="applyFilter(this)" style="color:#86efac">Processed</button>
+      <button class="filter-btn" data-filter-group="status" data-value="archived" onclick="applyFilter(this)" style="color:#475569">Archived</button>
+    </div>
+  </div>
+
+  <div id="messages-container">
+    <table class="msg-table" id="messages-table" style="display:none">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>From</th>
+          <th>Subject</th>
+          <th>Child</th>
+          <th>Topic</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="messages-tbody"></tbody>
+    </table>
+    <div class="empty-state" id="messages-empty">
+      <span class="empty-icon">📬</span>
+      No messages yet — waiting for school communications
+    </div>
+  </div>
+  <div class="meta-footer" id="messages-updated"></div>
+</div>
+
+<!-- ══════════════════════════════════════ Footer -->
+<div style="text-align:center;font-size:0.72rem;color:#334155;margin-top:2rem;padding-bottom:1.5rem">
+  🎒 School Agent · Lukas &amp; Jonas Hoffmann · CIS Copenhagen + Deutsche Fernschule
+</div>
+
+<style>
+  .filter-btn {
+    background: none;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    color: #64748b;
+    padding: 3px 10px;
+    font-size: 0.72rem;
+    cursor: pointer;
+  }
+  .filter-btn:hover { border-color: #475569; color: #94a3b8; }
+  .filter-btn.active { background: #1e3a5f; border-color: #3b82f6; color: #93c5fd; }
+</style>
+
+<script>
+// ── Data sources (relative paths when served) ──
+const STATUS_URL        = '/agents/school/dashboard/status.json';
+const EVENTS_URL        = '/agents/school/data/events.json';
+const MESSAGES_URL      = '/agents/school/data/messages_summary.json';
+const RESPONSIBILITIES_URL = '/agents/school/data/responsibilities.json';
+const SCHOOL_MESSAGES_URL = 'data/school_messages.json';
+
+// ── State ──
+let allMessages = [];
+let filters = { child: 'all', status: 'all' };
+
+// ── Helpers ──
+function fmtDate(d) {
+  if (!d) return '—';
+  try {
+    const dt = new Date(d);
+    return dt.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  } catch(e) { return d; }
+}
+
+function childTag(child) {
+  const map = {
+    lukas:   ['tag-lukas',  '👦 Lukas'],
+    jonas:   ['tag-jonas',  '👦 Jonas'],
+    both:    ['tag-both',   '👦👦 Both'],
+  };
+  const [cls, label] = map[child] || ['tag-unknown', child || '—'];
+  return `<span class="child-tag ${cls}">${label}</span>`;
+}
+
+function statusBadge(s) {
+  const map = {
+    upcoming:  ['status-upcoming',  'Upcoming'],
+    confirmed: ['status-confirmed', 'Confirmed'],
+    pending:   ['status-pending',   'Pending'],
+    done:      ['status-done',      'Done'],
+    holiday:   ['status-holiday',   'Holiday'],
+  };
+  const [cls, label] = map[s] || ['status-upcoming', s || 'Unknown'];
+  return `<span class="event-status ${cls}">${label}</span>`;
+}
+
+function msgStatusBadge(s) {
+  const map = {
+    processed:    ['ms-processed',    'Processed'],
+    pending:      ['ms-pending',      'Pending'],
+    archived:     ['ms-archived',     'Archived'],
+    needs_review: ['ms-needs_review', 'Review'],
+  };
+  const [cls, label] = map[s] || ['ms-pending', s || 'Unknown'];
+  return `<span class="msg-status ${cls}">${label}</span>`;
+}
+
+function topicTag(t) {
+  if (!t) return '';
+  return `<span class="topic-tag">${t}</span>`;
+}
+
+function sigBadge(s) {
+  const map = {
+    pending:  ['sig-pending',  'Pending'],
+    signed:   ['sig-signed',   'Signed'],
+    returned: ['sig-returned', 'Returned'],
+  };
+  const [cls, label] = map[s] || ['sig-pending', s || '—'];
+  return `<span class="doc-sig ${cls}">${label}</span>`;
+}
+
+// ── Load Status ──
+async function loadStatus() {
+  try {
+    const r = await fetch(STATUS_URL + '?t=' + Date.now());
+    const d = await r.json();
+    document.getElementById('health-summary').textContent = d.summary || 'School Agent active';
+    const ts = d.updated_at ? new Date(d.updated_at).toLocaleString('en-GB') : 'unknown';
+    document.getElementById('updated-at').textContent = 'Updated: ' + ts;
+
+    if (d.health === 'error') {
+      const banner = document.getElementById('health-banner');
+      banner.style.background = 'rgba(239,68,68,0.08)';
+      banner.style.borderColor = 'rgba(239,68,68,0.3)';
+      banner.style.borderLeftColor = '#ef4444';
+      banner.style.color = '#fca5a5';
+      banner.querySelector('span:first-child').textContent = '❌';
+    } else if (d.health === 'warning') {
+      const banner = document.getElementById('health-banner');
+      banner.style.background = 'rgba(245,158,11,0.08)';
+      banner.style.borderColor = 'rgba(245,158,11,0.3)';
+      banner.style.borderLeftColor = '#f59e0b';
+      banner.style.color = '#fcd34d';
+      banner.querySelector('span:first-child').textContent = '⚠️';
+    }
+  } catch(e) {
+    document.getElementById('updated-at').textContent = 'Status unavailable';
+  }
+}
+
+// ── Load Responsibilities ──
+async function loadResponsibilities() {
+  try {
+    const r = await fetch(RESPONSIBILITIES_URL + '?t=' + Date.now());
+    const d = await r.json();
+    const w = d.current_week || {};
+    document.getElementById('resp-dropoff').textContent = w.dropoff || '—';
+    document.getElementById('resp-pickup').textContent  = w.pickup  || '—';
+  } catch(e) {}
+}
+
+// ── Load Events ──
+async function loadEvents() {
+  try {
+    const r = await fetch(EVENTS_URL + '?t=' + Date.now());
+    const d = await r.json();
+    const events = (d.events || []).filter(e => e.status !== 'done' && e.status !== 'archived');
+    events.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+
+    document.getElementById('events-updated').textContent = d.updated_at ? 'Last updated: ' + d.updated_at : '';
+
+    // Next event for stats
+    if (events.length > 0) {
+      const next = events[0];
+      document.getElementById('next-event-date').textContent = fmtDate(next.date);
+      document.getElementById('next-event-name').textContent = (next.title || '').slice(0, 40);
+    }
+
+    // Count pending docs
+    const allEvents = d.events || [];
+    const docs = allEvents.filter(e => e.type === 'document' && e.doc_status === 'pending');
+    document.getElementById('open-docs-count').textContent = docs.length;
+    document.getElementById('open-docs-sub').textContent = docs.length > 0
+      ? docs.length + ' form' + (docs.length > 1 ? 's' : '') + ' need signing'
+      : 'No pending forms';
+
+    // Render documents section
+    renderDocs(allEvents);
+
+    if (events.length === 0) {
+      document.getElementById('events-empty').style.display = 'block';
+      document.getElementById('events-table').style.display = 'none';
+      return;
+    }
+
+    document.getElementById('events-empty').style.display = 'none';
+    document.getElementById('events-table').style.display = 'table';
+
+    const tbody = document.getElementById('events-tbody');
+    tbody.innerHTML = events.map(ev => `
+      <tr>
+        <td style="white-space:nowrap;color:#f1f5f9">${fmtDate(ev.date)}</td>
+        <td>${childTag(ev.child)}</td>
+        <td>
+          <div style="color:#f1f5f9;font-weight:600">${ev.title || '—'}</div>
+          ${ev.description ? `<div style="font-size:0.72rem;color:#64748b;margin-top:2px">${ev.description}</div>` : ''}
+        </td>
+        <td><div class="event-type">${ev.type || 'info'}</div></td>
+        <td>${ev.action_required ? '<span class="action-yes">✓ Yes</span>' : '<span class="action-no">—</span>'}</td>
+        <td>${statusBadge(ev.status)}</td>
+      </tr>
+    `).join('');
+  } catch(e) {
+    document.getElementById('events-empty').textContent = 'Failed to load events data';
+    document.getElementById('events-empty').style.display = 'block';
+  }
+}
+
+// ── Render Documents Section ──
+function renderDocs(events) {
+  const docs = (events || []).filter(e => e.type === 'document');
+  const container = document.getElementById('docs-container');
+  const empty = document.getElementById('docs-empty');
+
+  if (!docs.length) {
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  container.innerHTML = docs.map(doc => `
+    <div class="doc-row">
+      <span class="doc-icon">📄</span>
+      <div style="flex:1">
+        <div class="doc-name">${doc.title || 'Document'}</div>
+        <div class="doc-child">${doc.child ? '→ ' + doc.child : ''} ${doc.deadline ? '· Deadline: ' + fmtDate(doc.deadline) : ''}</div>
+      </div>
+      ${sigBadge(doc.doc_status || 'pending')}
+    </div>
+  `).join('');
+}
+
+// ── Load Messages ──
+async function loadMessages() {
+  try {
+    const r = await fetch(MESSAGES_URL + '?t=' + Date.now());
+    const d = await r.json();
+    allMessages = d.messages || [];
+    document.getElementById('messages-updated').textContent =
+      d.updated_at ? 'Last updated: ' + d.updated_at : '';
+
+    // Update child last activity
+    updateChildActivity(allMessages);
+    renderMessages();
+  } catch(e) {
+    document.getElementById('messages-empty').textContent = 'Failed to load messages';
+    document.getElementById('messages-empty').style.display = 'block';
+  }
+}
+
+function updateChildActivity(messages) {
+  const lukasMsg = messages.filter(m => m.child === 'lukas' || m.child === 'both')
+    .sort((a,b) => (b.received_at||'').localeCompare(a.received_at||''))[0];
+  const jonasMsg = messages.filter(m => m.child === 'jonas' || m.child === 'both')
+    .sort((a,b) => (b.received_at||'').localeCompare(a.received_at||''))[0];
+
+  const lukasEl = document.getElementById('lukas-activity');
+  const jonasEl = document.getElementById('jonas-activity');
+
+  if (lukasMsg) {
+    lukasEl.innerHTML = `<span class="label">Last message:</span>${fmtDate(lukasMsg.received_at)} · ${(lukasMsg.subject||'').slice(0,40)}`;
+    lukasEl.className = 'child-last-activity';
+  }
+  if (jonasMsg) {
+    jonasEl.innerHTML = `<span class="label">Last message:</span>${fmtDate(jonasMsg.received_at)} · ${(jonasMsg.subject||'').slice(0,40)}`;
+    jonasEl.className = 'child-last-activity';
+  }
+}
+
+// ── Render Messages with Filters ──
+function renderMessages() {
+  let msgs = allMessages.slice();
+
+  if (filters.child !== 'all') {
+    msgs = msgs.filter(m => m.child === filters.child);
+  }
+  if (filters.status !== 'all') {
+    msgs = msgs.filter(m => m.status === filters.status);
   }
 
-  function setActive(btn) {
-    var group = btn.parentElement;
-    group.querySelectorAll('.log-filter-btn').forEach(function(b){b.classList.remove('active');});
-    btn.classList.add('active');
+  // Sort: pending first, then by date desc
+  msgs.sort((a, b) => {
+    const order = {pending: 0, needs_review: 1, processed: 2, archived: 3};
+    const oa = order[a.status] ?? 4;
+    const ob = order[b.status] ?? 4;
+    if (oa !== ob) return oa - ob;
+    return (b.received_at || '').localeCompare(a.received_at || '');
+  });
+
+  const empty = document.getElementById('messages-empty');
+  const table = document.getElementById('messages-table');
+
+  if (msgs.length === 0) {
+    empty.style.display = 'block';
+    empty.innerHTML = '<span class="empty-icon">📬</span>No messages match the current filter';
+    table.style.display = 'none';
+    return;
   }
 
-  window.logFilterLevel_school = function(btn, level) {
-    setActive(btn);
-    var map = {all:-1, warning:2, error:3};
-    state_school.levelMin = map[level] !== undefined ? map[level] : -1;
-    renderRows_school();
-  };
+  empty.style.display = 'none';
+  table.style.display = 'table';
 
-  window.logFilterAgent_school = function(btn, agent) {
-    setActive(btn);
-    state_school.agent = agent;
-    renderRows_school();
-  };
+  const tbody = document.getElementById('messages-tbody');
+  tbody.innerHTML = msgs.slice(0, 20).map(m => `
+    <tr>
+      <td style="white-space:nowrap;color:#94a3b8">${fmtDate(m.received_at)}</td>
+      <td style="font-size:0.78rem;color:#64748b;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.from || '—'}</td>
+      <td style="color:#cbd5e1;max-width:200px">
+        <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.subject || '(no subject)'}</div>
+        ${m.summary ? `<div style="font-size:0.7rem;color:#64748b;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.summary}</div>` : ''}
+      </td>
+      <td>${childTag(m.child)}</td>
+      <td>${topicTag(m.topic)}</td>
+      <td>${msgStatusBadge(m.status)}</td>
+    </tr>
+  `).join('');
+}
 
-  window.logReload_school = function() {
-    fetch('/data/logs/school.json?t='+Date.now())
-      .then(function(r){return r.json();})
-      .then(function(d){ state_school.data = d; renderRows_school(); })
-      .catch(function(){});
-  };
+// ── Filter Controls ──
+function applyFilter(btn) {
+  const group = btn.dataset.filterGroup;
+  const value = btn.dataset.value;
 
-  state_school.data = [];
-  renderRows_school();
-})();
+  // Deactivate siblings
+  document.querySelectorAll(`[data-filter-group="${group}"]`).forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  filters[group] = value;
+  renderMessages();
+}
+
+// ── Load Pending Reviews ──
+async function loadPendingReviews() {
+  try {
+    const r = await fetch(SCHOOL_MESSAGES_URL + '?t=' + Date.now());
+    const d = await r.json();
+    const pending = (d.messages || []).filter(m => m.status === 'pending_review');
+    const section = document.getElementById('pending-review-section');
+    const list = document.getElementById('pending-review-list');
+
+    if (pending.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = 'block';
+    list.innerHTML = pending.map(item => `
+      <div style="background:#0f172a;border-radius:10px;padding:1rem;margin-bottom:0.85rem;border:1px solid #334155">
+        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.6rem;flex-wrap:wrap">
+          <span style="font-size:0.7rem;font-weight:700;background:#422006;color:#fcd34d;padding:2px 8px;border-radius:8px">${item.confidence}% sicher</span>
+          <span style="font-size:0.85rem;font-weight:600;color:#f1f5f9">${item.subject || '(no subject)'}</span>
+          <span style="font-size:0.72rem;color:#64748b">${item.from ? '· ' + item.from : ''}</span>
+        </div>
+        <div style="font-size:0.82rem;color:#cbd5e1;margin-bottom:0.4rem">
+          <span style="color:#94a3b8;font-size:0.75rem">Vorschlag:</span> ${item.proposal || '—'}
+        </div>
+        <div style="font-size:0.78rem;color:#94a3b8;margin-bottom:0.75rem">
+          <span style="color:#64748b;font-size:0.75rem">Warum unsicher:</span> ${item.reason || '—'}
+        </div>
+        ${item.original_snippet ? `<div style="font-size:0.72rem;color:#475569;font-style:italic;margin-bottom:0.75rem;padding:0.5rem;background:#1e293b;border-radius:6px">${item.original_snippet}</div>` : ''}
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem">
+          ${(item.options || []).map(opt => `
+            <button
+              onclick="console.log('Pending review action:', '${(item.id || '').replace(/'/g,"\\'")}',' ${opt.replace(/'/g,"\\'")}')"
+              style="background:none;border:1px solid #475569;border-radius:6px;color:#94a3b8;padding:4px 12px;font-size:0.78rem;cursor:pointer"
+              onmouseover="this.style.borderColor='#f59e0b';this.style.color='#fcd34d'"
+              onmouseout="this.style.borderColor='#475569';this.style.color='#94a3b8'"
+            >${opt}</button>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {
+    console.warn('Could not load pending reviews:', e);
+  }
+}
+
+// ── Init ──
+Promise.all([
+  loadStatus(),
+  loadResponsibilities(),
+  loadEvents(),
+  loadMessages(),
+  loadPendingReviews(),
+]);
 </script>
-</div></body></html>
+
+</body>
+</html>

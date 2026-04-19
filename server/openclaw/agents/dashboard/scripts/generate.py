@@ -1031,11 +1031,16 @@ def generate_index(items, agent_statuses):
         for agent_id, label, emoji in cluster_agents:
             s = agent_statuses.get(agent_id, {})
             health = s.get("health","unknown")
-            cards += (f'<a href="{agent_id}.html" class="agent-card health-{health}" style="border-right:3px solid {cluster_color}">'
+            extra_id = f' id="{agent_id}-agent-card"' if agent_id == "school" else ""
+            name_badges = health_badge(health)
+            if agent_id == "school":
+                name_badges += '<span id="school-pending-badge" style="display:none;background:#f59e0b;color:#1a1a1a;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:700"></span>'
+            summary_id = f' id="{agent_id}-agent-summary"' if agent_id == "school" else ""
+            cards += (f'<a href="{agent_id}.html" class="agent-card health-{health}" style="border-right:3px solid {cluster_color}"{extra_id}>'
                      f'<div class="agent-emoji">{emoji}</div>'
                      f'<div class="agent-info">'
-                     f'<div class="agent-name">{label} {health_badge(health)}</div>'
-                     f'<div class="agent-summary">{s.get("summary","Not yet active")}</div>'
+                     f'<div class="agent-name">{label} {name_badges}</div>'
+                     f'<div class="agent-summary"{summary_id}>{s.get("summary","Not yet active")}</div>'
                      f'<div class="agent-updated">Updated: {format_time(s.get("updated_at"))}</div>'
                      f'</div></a>')
         clusters_html += (f'<div class="cluster-section">'
@@ -1054,7 +1059,24 @@ def generate_index(items, agent_statuses):
             f'    <div class="section"><div class="section-title">\U0001f4c5 Upcoming</div>{upcoming_html}</div>\n'
             f'  </div>\n'
             f'  <div class="section"><div class="section-title">\U0001f916 Agent Status</div>{clusters_html}</div>\n'
-            '</div></body></html>')
+            '</div>\n'
+            '<script>\n'
+            '(async function() {\n'
+            '  try {\n'
+            "    const r = await fetch('/agents/school/dashboard/status.json?t=' + Date.now());\n"
+            '    const d = await r.json();\n'
+            '    if (d.pending_reviews && d.pending_reviews > 0) {\n'
+            "      const badge = document.getElementById('school-pending-badge');\n"
+            "      if (badge) { badge.textContent = '\u23f3 ' + d.pending_reviews + ' Entscheidung' + (d.pending_reviews > 1 ? 'en' : ''); badge.style.display = 'inline'; }\n"
+            "      const card = document.getElementById('school-agent-card');\n"
+            "      if (card) { card.classList.remove('health-ok'); card.classList.add('health-warning'); }\n"
+            "      const summary = document.getElementById('school-agent-summary');\n"
+            '      if (summary && d.summary) summary.textContent = d.summary;\n'
+            '    }\n'
+            '  } catch(e) {}\n'
+            '})();\n'
+            '</script>\n'
+            '</body></html>')
 
 def generate_agent_page(agent_id, label, emoji, status, agent_statuses=None, agent_logs=None):
     now = datetime.now().strftime("%d %b %Y %H:%M")
@@ -1139,7 +1161,7 @@ def main():
     with open(f"{OUTPUT_DIR}/index.html", "w") as f:
         f.write(generate_index(items, agent_statuses))
 
-    HANDCRAFTED_PAGES = {"boat", "tax"}  # these have custom dashboards — do not overwrite
+    HANDCRAFTED_PAGES = {"boat", "tax", "school", "inbox-manager"}  # these have custom dashboards — do not overwrite
 
     for agent_id, label, emoji in AGENTS:
         if agent_id in HANDCRAFTED_PAGES:

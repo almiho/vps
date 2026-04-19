@@ -1,22 +1,23 @@
 # Boat Todos — Mar y Sol (Fairline Squadron 55)
 
-_Last updated: 2026-04-18 | Managed by Boat Agent | Synced from Drive ToDo-Spreadsheet_
+_Last updated: 2026-04-19 | Managed by Boat Agent | Synced from Drive ToDo-Spreadsheet_
 
 ---
 
 ## 🔴 High Priority / Sicherheitsrelevant
 
-- [ ] **VHF Funkgerät einbauen** — Sicherheitsrelevant für Offshore (IJsselmeer, Nordsee). SRC-Lizenz vorhanden.
-- [ ] **AIS einbauen** — Kollisionsvermeidung, wichtig für größere Gewässer.
-- [ ] **EDC-Motorschaltung follow-up** — Diagnose Aug 2025 ergab offene Punkte, kein Ergebnis bekannt.
-- [ ] **Versicherung aktualität bestätigen** — Nur Dokumente aus 2023 im Drive. Aktuelle Police anfordern/hochladen.
-- [ ] **MMSI / Callsign ermitteln** — BNetzA-Rechnung Jun 2025 vorhanden, MMSI unbekannt. In Doku prüfen.
+- [x] **VHF Funkgerät eingebaut** ✅ — Eingebaut und betriebsbereit (bestätigt 2026-04-19)
+- [x] **AIS eingebaut** ✅ — Eingebaut, wird bei Bedarf eingeschaltet (normalerweise nur auf offener See) (bestätigt 2026-04-19)
+- [x] **EDC-Motorschaltung** ✅ — Geklärt, alles OK (bestätigt 2026-04-19)
+- [x] **Versicherung** ✅ — Aktiv bei Eerdmans Jachtverzekeringen, Referenz 179865. Letzte Dokumente Juni 2025 per Mail erhalten. (bestätigt 2026-04-19)
+- [x] **MMSI** ✅ — 211109750 · Rufzeichen DHMT (bekannt und erfasst)
 
 ---
 
 ## 🟠 In Arbeit
 
-- [ ] **Neuen Bügel für Schlauchboot** — Status: In Arbeit
+- [x] **Neuer Bügel für Schlauchboot** ✅ — Erledigt (2026-04-19)
+- [ ] **GFK-Arbeiten an alten Hydraulik-Anschlüssen** — Nachfolgearbeit Schlauchboot-Bügel
 
 ---
 
@@ -31,7 +32,7 @@ _Last updated: 2026-04-18 | Managed by Boat Agent | Synced from Drive ToDo-Sprea
 - [ ] **Temperatur-Sensoren für Batterien installieren**
 - [ ] **Temperatur-Sensor für Warmwasser installieren**
 - [ ] **Heizluftschlauch in Sitzbank am Tisch kontrollieren**
-- [ ] **Wasserpumpe Toiletten prüfen und reparieren (Fehler oV)**
+- [x] **Wasserpumpe Toiletten** ✅ — Beide in Betrieb, fehlerfrei (bestätigt 2026-04-19)
 
 ---
 

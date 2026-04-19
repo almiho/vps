@@ -29,6 +29,19 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
 .alert-item { background: rgba(239,68,68,0.05); border-radius: 8px; padding: 0.75rem !important; margin-bottom: 0.5rem; border-bottom: none !important; }
 .action-badge { font-size: 0.7rem; background: #ef4444; color: white; padding: 2px 8px; border-radius: 12px; white-space: nowrap; flex-shrink: 0; }
 .empty-state { color: #475569; font-size: 0.875rem; padding: 1rem 0; text-align: center; }
+/* Pending review styles */
+.pending-section { background: #1e293b; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; border-left: 4px solid #f59e0b; display: none; }
+.pending-section.has-items { display: block; }
+.pending-item { background: #0f172a; border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; border: 1px solid #334155; }
+.pending-item:last-child { margin-bottom: 0; }
+.confidence-badge { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+.conf-high { background: #14532d; color: #86efac; }
+.conf-mid  { background: #422006; color: #fcd34d; }
+.conf-low  { background: #450a0a; color: #fca5a5; }
+.route-btn { background: #1e3a5f; border: 1px solid #3b82f6; color: #93c5fd; padding: 3px 10px; border-radius: 6px; font-size: 0.72rem; cursor: pointer; margin: 2px; }
+.route-btn:hover { background: #1e4a7f; }
+.archive-btn { background: none; border: 1px solid #334155; color: #64748b; padding: 3px 10px; border-radius: 6px; font-size: 0.72rem; cursor: pointer; margin: 2px; }
+.archive-btn:hover { border-color: #475569; color: #94a3b8; }
 
 /* Cluster grouping on homepage */
 .cluster-section { margin-bottom: 1.25rem; }
@@ -109,9 +122,15 @@ function toggleAbout() {
 <div class="header">
   <a href="index.html" class="back">← Dashboard</a>
   <div style="display:flex;align-items:center;gap:0.75rem"><span style="font-size:1.5rem">📬</span><span style="font-size:1.1rem;font-weight:700">Inbox Manager</span><span style="background:#22c55e;color:white;padding:2px 8px;border-radius:12px;font-size:0.72rem;font-weight:600">OK</span></div>
-  <div style="font-size:0.75rem;color:#475569">18 Apr 2026 23:34</div>
+  <div style="font-size:0.75rem;color:#475569">19 Apr 2026 10:03</div>
 </div>
 <div class="container" style="max-width:900px">
+
+<!-- Pending Review Section -->
+<div class="pending-section" id="pending-review-section">
+  <div class="section-title">⏳ Pending Review — Routing ausstehend</div>
+  <div id="pending-review-list"><div class="empty-state">Keine ausstehenden Entscheidungen</div></div>
+</div>
   
 <button class="about-toggle" onclick="toggleAbout()">
   ℹ️ About this agent &nbsp;<span id="about-arrow">▼</span>
@@ -139,9 +158,9 @@ function toggleAbout() {
   </div>
 </div>
   <div class="section"><div class="section-title">Status</div>
-    <div class="status-row"><div class="status-summary">Last run: 0 tagged, 0 needs review, 0 skipped.</div><div class="status-updated">Last updated: 18 Apr 23:18</div></div>
+    <div class="status-row"><div class="status-summary">Last run: 0 tagged, 0 needs review, 0 skipped.</div><div class="status-updated">Last updated: 19 Apr 09:47</div></div>
   </div>
-  <div class="section"><div class="section-title">📊 Routing Stats</div><div style="display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:1rem"><div><div style="font-size:1.5rem;font-weight:700;color:#f1f5f9">0</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Total Tagged</div></div><div><div style="font-size:1.5rem;font-weight:700;color:#f59e0b">0</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Needs Review</div></div><div><div style="font-size:1.5rem;font-weight:700;color:#22c55e">0</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Last Run Tagged</div></div><div><div style="font-size:0.85rem;color:#94a3b8">2026-04-18T23:18</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Last Run</div></div></div></div><div class="section"><div class="section-title">⚠️ Needs Review Queue</div><div class="empty-state">Queue empty ✓</div></div><div class="section"><div class="section-title">🔀 Recent Routing Decisions</div><div class="item" style="padding:0.5rem 0"><div style="flex:1;min-width:0"><div class="item-title" style="font-size:0.82rem">Hey</div><div class="item-meta">2026-04-18T16:09</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span style="color:#f59e0b;font-size:0.7rem;font-weight:600">REVIEW</span> <span style="color:#ef4444;font-size:0.7rem;font-weight:600">NONE</span></div></div><div class="item" style="padding:0.5rem 0"><div style="flex:1;min-width:0"><div class="item-title" style="font-size:0.82rem">Elternabend nächste Woche</div><div class="item-meta">2026-04-18T16:09</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span style="background:#422006;color:#fcd34d;padding:2px 8px;border-radius:10px;font-size:0.7rem;font-weight:600;white-space:nowrap">school</span> <span style="color:#22c55e;font-size:0.7rem;font-weight:600">HIGH</span></div></div><div class="item" style="padding:0.5rem 0"><div style="flex:1;min-width:0"><div class="item-title" style="font-size:0.82rem">Ihre Kontoauszug ist bereit</div><div class="item-meta">2026-04-18T16:09</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span style="background:#1e3a5f;color:#93c5fd;padding:2px 8px;border-radius:10px;font-size:0.7rem;font-weight:600;white-space:nowrap">finance</span> <span style="color:#22c55e;font-size:0.7rem;font-weight:600">HIGH</span></div></div></div>
+  <div class="section"><div class="section-title">📊 Routing Stats</div><div style="display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:1rem"><div><div style="font-size:1.5rem;font-weight:700;color:#f1f5f9">0</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Total Tagged</div></div><div><div style="font-size:1.5rem;font-weight:700;color:#f59e0b" id="stat-needs-review">0</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Needs Review</div></div><div><div style="font-size:1.5rem;font-weight:700;color:#f59e0b" id="stat-pending-reviews">0</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Pending Reviews</div></div><div><div style="font-size:1.5rem;font-weight:700;color:#22c55e">0</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Last Run Tagged</div></div><div><div style="font-size:0.85rem;color:#94a3b8">2026-04-19T09:47</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Last Run</div></div></div></div><div class="section"><div class="section-title">⚠️ Needs Review Queue</div><div class="empty-state">Queue empty ✓</div></div><div class="section"><div class="section-title">🔀 Recent Routing Decisions</div><div class="item" style="padding:0.5rem 0"><div style="flex:1;min-width:0"><div class="item-title" style="font-size:0.82rem">Hey</div><div class="item-meta">2026-04-18T16:09</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span style="color:#f59e0b;font-size:0.7rem;font-weight:600">REVIEW</span> <span style="color:#ef4444;font-size:0.7rem;font-weight:600">NONE</span></div></div><div class="item" style="padding:0.5rem 0"><div style="flex:1;min-width:0"><div class="item-title" style="font-size:0.82rem">Elternabend nächste Woche</div><div class="item-meta">2026-04-18T16:09</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span style="background:#422006;color:#fcd34d;padding:2px 8px;border-radius:10px;font-size:0.7rem;font-weight:600;white-space:nowrap">school</span> <span style="color:#22c55e;font-size:0.7rem;font-weight:600">HIGH</span></div></div><div class="item" style="padding:0.5rem 0"><div style="flex:1;min-width:0"><div class="item-title" style="font-size:0.82rem">Ihre Kontoauszug ist bereit</div><div class="item-meta">2026-04-18T16:09</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span style="background:#1e3a5f;color:#93c5fd;padding:2px 8px;border-radius:10px;font-size:0.7rem;font-weight:600;white-space:nowrap">finance</span> <span style="color:#22c55e;font-size:0.7rem;font-weight:600">HIGH</span></div></div></div>
   <div class="section"><div class="section-title">🔴 Alerts & Actions</div><div class="empty-state">No alerts</div></div>
   <div class="section"><div class="section-title">📅 Upcoming</div><div class="empty-state">Nothing upcoming</div></div>
   
@@ -220,8 +239,89 @@ function toggleAbout() {
       .catch(function(){});
   };
 
-  state_inbox_manager.data = [{"timestamp": "2026-04-18T17:09:35", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T17:09:35", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T17:24:34", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T17:24:34", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T17:40:04", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T17:40:04", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T17:55:33", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T17:55:33", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T18:10:48", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T18:10:48", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T18:26:17", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T18:26:17", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T18:41:46", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T18:41:46", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T18:57:15", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T18:57:15", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T19:12:27", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T19:12:27", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T19:27:57", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T19:27:57", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T19:42:57", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T19:42:57", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T19:58:27", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T19:58:27", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T20:13:42", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T20:13:42", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T20:29:10", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T20:29:10", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T20:44:39", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T20:44:39", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T21:00:08", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T21:00:08", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T21:15:20", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T21:15:20", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T21:30:49", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T21:30:49", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T21:46:18", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T21:46:18", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T22:01:47", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T22:01:47", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T22:17:00", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T22:17:00", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T22:32:28", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T22:32:28", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T22:47:59", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T22:47:59", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T23:03:28", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T23:03:28", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-18T23:18:41", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-18T23:18:41", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}];
+  state_inbox_manager.data = [{"timestamp": "2026-04-19T03:39:26", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T03:39:26", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T03:54:55", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T03:54:55", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T04:10:09", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T04:10:09", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T04:25:43", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T04:25:43", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T04:41:17", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T04:41:17", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T04:56:47", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T04:56:47", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T05:12:00", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T05:12:00", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T05:27:29", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T05:27:29", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T05:42:58", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T05:42:58", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T05:58:27", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T05:58:27", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T06:13:33", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T06:13:33", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T06:29:02", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T06:29:02", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T06:44:31", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T06:44:31", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T07:00:00", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T07:00:00", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T07:15:13", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T07:15:13", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T07:30:42", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T07:30:42", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T07:45:51", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T07:45:51", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T08:00:59", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T08:00:59", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T08:16:15", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T08:16:15", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T08:31:45", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T08:31:45", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T08:46:53", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T08:46:53", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T09:01:54", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T09:01:54", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T09:17:07", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T09:17:07", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T09:32:36", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T09:32:36", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}, {"timestamp": "2026-04-19T09:47:41", "agent": "inbox-manager", "level": "info", "event": "run_start", "message": "Inbox Manager routing run starting"}, {"timestamp": "2026-04-19T09:47:41", "agent": "inbox-manager", "level": "info", "event": "no_pending", "message": "No pending messages"}];
   renderRows_inbox_manager();
 })();
 </script>
-</div></body></html>
+</div>
+<script>
+(async function() {
+  const ACTIVE_AGENTS = ['boat','car','cos','finance','health','insurance','life-in-denmark','real-estate','school','tax','travel'];
+
+  function confBadge(score) {
+    if (score >= 85) return '<span class="confidence-badge conf-high">' + score + ' high</span>';
+    if (score >= 60) return '<span class="confidence-badge conf-mid">' + score + ' mid</span>';
+    return '<span class="confidence-badge conf-low">' + score + ' low</span>';
+  }
+
+  function renderPending(items) {
+    const section = document.getElementById('pending-review-section');
+    const list    = document.getElementById('pending-review-list');
+    const stat    = document.getElementById('stat-pending-reviews');
+    if (stat) stat.textContent = items.length;
+    if (!items || items.length === 0) { section.classList.remove('has-items'); return; }
+    section.classList.add('has-items');
+    let html = '';
+    items.forEach(function(item) {
+      var routeBtns = ACTIVE_AGENTS.map(function(a) {
+        var isProp = a === item.proposed_tag ? 'background:#422006;border-color:#f59e0b;color:#fcd34d;' : '';
+        return '<button class="route-btn" style="'+isProp+'" onclick="routeDecision(\'' + item.bus_message_id + '\',\'' + a + '\',\'' + (item.original_from||'') + '\',\'' + (item.original_id||'') + '\')">' + a + '</button>';
+      }).join('');
+      html += '<div class="pending-item" id="pending-' + item.bus_message_id + '">';
+      html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem">';
+      html += '<div><div style="font-size:0.875rem;font-weight:600;color:#f1f5f9">' + (item.subject || '(no subject)') + '</div>';
+      html += '<div style="font-size:0.75rem;color:#64748b;margin-top:2px">Von: ' + (item.original_from || '—') + '</div></div>';
+      html += confBadge(item.confidence || 0);
+      html += '</div>';
+      if (item.snippet) html += '<div style="font-size:0.78rem;color:#94a3b8;margin-bottom:0.5rem;padding:0.4rem;background:#162032;border-radius:4px">' + item.snippet + '</div>';
+      html += '<div style="font-size:0.75rem;color:#64748b;margin-bottom:0.5rem">';
+      html += '<span>Vorschlag: <strong style="color:#fcd34d">' + (item.proposed_tag || 'keiner') + '</strong></span>';
+      if (item.reason) html += ' &nbsp;·&nbsp; <span>' + item.reason + '</span>';
+      html += '</div>';
+      html += '<div style="margin-top:0.5rem">' + routeBtns;
+      html += '<button class="archive-btn" onclick="archiveMessage(\'' + item.bus_message_id + '\')">Archivieren</button>';
+      html += '</div></div>';
+    });
+    list.innerHTML = html;
+  }
+
+  try {
+    const r = await fetch('data/inbox_pending.json?t=' + Date.now());
+    const d = await r.json();
+    renderPending(d.pending || []);
+  } catch(e) {
+    console.warn('inbox_pending.json load failed', e);
+  }
+})();
+
+async function routeDecision(busId, domainTag, originalFrom, originalId) {
+  const btn = event.target;
+  btn.disabled = true; btn.textContent = '...';
+  try {
+    const r = await fetch('/api/route-decision', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({bus_message_id: busId, domain_tag: domainTag, original_from: originalFrom, original_id: originalId})
+    });
+    const d = await r.json();
+    if (d.ok) {
+      const el = document.getElementById('pending-' + busId);
+      if (el) { el.style.opacity='0.4'; el.innerHTML = '<div style="padding:0.5rem;color:#22c55e;font-size:0.82rem">✅ Geroutet an <strong>' + domainTag + '</strong> — gelernt!</div>'; }
+      setTimeout(() => { if(el) el.remove(); }, 2000);
+    }
+  } catch(e) { btn.disabled=false; btn.textContent=domainTag; alert('Fehler: ' + e); }
+}
+
+async function archiveMessage(busId) {
+  try {
+    await fetch('/api/archive-message', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({bus_message_id: busId})
+    });
+    const el = document.getElementById('pending-' + busId);
+    if (el) { el.style.opacity='0.3'; setTimeout(() => el.remove(), 1000); }
+  } catch(e) { alert('Fehler: ' + e); }
+}
+</script>
+</body></html>

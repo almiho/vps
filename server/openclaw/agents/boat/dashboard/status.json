@@ -1,8 +1,17 @@
 {
   "agent": "boat",
-  "updated_at": "2026-04-18T14:30:00",
+  "updated_at": "2026-04-19T19:44:14.259104+00:00",
   "health": "ok",
-  "summary": "Fairline Squadron 55 · Mar y Sol · Harderwijk · ~1.596h · Drive vollständig indexiert · HA Live-Daten aktiv",
+  "summary": "Fairline Squadron 55 \u00b7 Mar y Sol \u00b7 Harderwijk \u00b7 ~1.596h \u00b7 Drive vollst\u00e4ndig indexiert",
+  "location": "52.3840, 5.6361",
+  "live": {
+    "updated_at": "19.04.2026 21:44",
+    "batteries_pct": 100,
+    "diesel_pct": "offline",
+    "water_pct": 85,
+    "blackwater_pct": 33,
+    "shorepower": true
+  },
   "alerts": [],
   "upcoming": []
 }

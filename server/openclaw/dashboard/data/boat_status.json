@@ -1,6 +1,30 @@
 {
-  "fetched_at": "2026-04-18T21:33:26.127491+00:00",
+  "fetched_at": "2026-04-19T19:44:10.168035+00:00",
   "entities": {
+    "person.alex": {
+      "state": "not_home",
+      "unit": "",
+      "friendly_name": "Alex",
+      "latitude": 55.7110601,
+      "longitude": 12.581275,
+      "gps_accuracy": 100
+    },
+    "person.klemens": {
+      "state": "unknown",
+      "unit": "",
+      "friendly_name": "Klemens"
+    },
+    "sensor.iphone_von_klemens_ssid": {
+      "state": "unavailable",
+      "unit": "",
+      "friendly_name": "iPhone von Klemens SSID"
+    },
+    "sensor.alex_pixel_7_pro_wifi_connection": {
+      "state": "unavailable",
+      "unit": "",
+      "friendly_name": "sensor.alex_pixel_7_pro_wifi_connection",
+      "error": "HTTP Error 404: Not Found"
+    },
     "sensor.gps_position": {
       "state": "Active",
       "unit": "",
@@ -93,7 +117,7 @@
       "friendly_name": "Bugstrahl Ladung"
     },
     "sensor.bugstrahl_spannung": {
-      "state": "25.2",
+      "state": "25.1",
       "unit": "V",
       "friendly_name": "Bugstrahl Spannung"
     },
@@ -103,7 +127,7 @@
       "friendly_name": "Heckstrahl Ladung"
     },
     "sensor.heckstrahl_spannung": {
-      "state": "25.5",
+      "state": "25.4",
       "unit": "V",
       "friendly_name": "Heckstrahl Spannung"
     },
@@ -113,7 +137,7 @@
       "friendly_name": "Starter BB Ladung"
     },
     "sensor.starter_bb_spannung": {
-      "state": "25.9",
+      "state": "25.8",
       "unit": "V",
       "friendly_name": "Starter BB Spannung"
     },
@@ -128,7 +152,7 @@
       "friendly_name": "Starter STB Spannung"
     },
     "sensor.landstrom_aktuell": {
-      "state": "175.0",
+      "state": "159.0",
       "unit": "W",
       "friendly_name": "Landstrom aktuell"
     },
@@ -143,7 +167,7 @@
       "friendly_name": "Quattro AC-Eingang"
     },
     "sensor.wechselstromlasten": {
-      "state": "119",
+      "state": "86",
       "unit": "W",
       "friendly_name": "Wechselstromlasten"
     },
@@ -153,7 +177,7 @@
       "friendly_name": "Generatorstrom aktuell"
     },
     "sensor.ac_input_power": {
-      "state": "193",
+      "state": "174",
       "unit": "W",
       "friendly_name": "Quattro AC Input Power"
     },
@@ -183,12 +207,12 @@
       "friendly_name": "Wassertemperatur"
     },
     "sensor.h5074_ceee_temperature": {
-      "state": "11.08",
+      "state": "11.48",
       "unit": "\u00b0C",
       "friendly_name": "H5074 CEEE Temperature"
     },
     "sensor.h5074_ceee_humidity": {
-      "state": "73.12",
+      "state": "64.07",
       "unit": "%",
       "friendly_name": "H5074 CEEE Humidity"
     },
@@ -262,5 +286,14 @@
       "unit": "",
       "friendly_name": "Intervall - Getriebe\u00f6lwechsel"
     }
+  },
+  "live_summary": {
+    "updated_at": "19.04.2026 21:44",
+    "batteries_pct": 100,
+    "diesel_pct": "offline",
+    "water_pct": 85,
+    "blackwater_pct": 33,
+    "shorepower": true,
+    "location": "52.3840, 5.6361"
   }
 }

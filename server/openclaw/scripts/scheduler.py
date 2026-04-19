@@ -57,21 +57,30 @@ SCRIPTS = {
 }
 
 def webserver_alive():
-    """Return True if the webserver process is running and responsive."""
+    """Return True if the webserver is actually responding on the port."""
     try:
-        with open(WEBSERVER_PID_FILE) as f:
-            pid = int(f.read().strip())
-        os.kill(pid, 0)  # Raises if process doesn't exist
-        return True
+        import urllib.request as _ur
+        with _ur.urlopen(f"http://{WEBSERVER_BIND}:{WEBSERVER_PORT}/", timeout=3) as r:
+            return r.status == 200
     except Exception:
         return False
 
 def start_webserver():
-    """Start the dashboard HTTP server and record its PID."""
+    """Start the dashboard HTTP server using server.py (no-cache, single instance)."""
+    # Kill anything already on the port first, then wait for port to free
+    try:
+        subprocess.run(["pkill", "-f", "server.py"], capture_output=True)
+        subprocess.run(["pkill", "-f", f"http.server {WEBSERVER_PORT}"], capture_output=True)
+        import time as _t
+        for _ in range(5):  # Wait up to 5s for port to free
+            _t.sleep(1)
+            if not webserver_alive():
+                break  # Port is free, proceed
+    except Exception:
+        pass
     log_fh = open(WEBSERVER_LOG, "a")
     proc = subprocess.Popen(
-        ["python3", "-m", "http.server", str(WEBSERVER_PORT), "--bind", WEBSERVER_BIND],
-        cwd=WEBSERVER_DIR,
+        ["python3", f"{WORKSPACE}/dashboard/server.py"],
         stdout=log_fh,
         stderr=log_fh,
         start_new_session=True,
@@ -80,11 +89,20 @@ def start_webserver():
         f.write(str(proc.pid))
     log(f"Webserver started — PID {proc.pid} on {WEBSERVER_BIND}:{WEBSERVER_PORT}")
 
+_last_webserver_start = 0
+
 def ensure_webserver():
-    """Restart webserver if it has stopped."""
-    if not webserver_alive():
-        log("Webserver not running — restarting")
-        start_webserver()
+    """Restart webserver only if it is truly not responding, with cooldown."""
+    global _last_webserver_start
+    if webserver_alive():
+        return
+    # Cooldown: don't restart more than once every 60 seconds
+    now = time.time()
+    if now - _last_webserver_start < 60:
+        return
+    log("Webserver not responding — restarting")
+    _last_webserver_start = now
+    start_webserver()
 
 def main():
     log("AlexI Scheduler starting")

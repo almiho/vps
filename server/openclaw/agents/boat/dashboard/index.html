@@ -84,19 +84,59 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; b
   <!-- HERO -->
   <div class="boat-hero">
     <div class="boat-icon">⛵</div>
-    <div>
+    <div style="flex:1">
       <div class="boat-title">Mar y Sol</div>
-      <div class="boat-subtitle">Fairline Squadron 55 · Twin Volvo Penta TAMD · ~25 Jahre alt</div>
+      <div class="boat-subtitle">Fairline Squadron 55 · 2× Volvo Penta TAMD 122P-B (449 kW) · Bj. 2000</div>
       <div class="boat-details">
-        <div class="boat-detail-item"><span class="boat-detail-label">Liegeplatz</span><span class="boat-detail-val">Molecaten Marina, Harderwijk 🇳🇱</span></div>
+        <div class="boat-detail-item"><span class="boat-detail-label">Aktueller Standort</span><span class="boat-detail-val" id="hero-location">Molecaten Marina, Harderwijk 🇳🇱</span></div>
+        <div class="boat-detail-item"><span class="boat-detail-label">Rufzeichen</span><span class="boat-detail-val">DHMT</span></div>
+        <div class="boat-detail-item"><span class="boat-detail-label">MMSI</span><span class="boat-detail-val">211109750</span></div>
         <div class="boat-detail-item"><span class="boat-detail-label">Motorstunden</span><span class="boat-detail-val">~1.596 h (Aug 2025)</span></div>
-        <div class="boat-detail-item"><span class="boat-detail-label">Registrierung</span><span class="boat-detail-val">SSR 29035 (Amtsgericht Hamburg)</span></div>
-        <div class="boat-detail-item"><span class="boat-detail-label">Lizenzen</span><span class="boat-detail-val">SBF-See ✓ · SRC ✓</span></div>
-        <div class="boat-detail-item"><span class="boat-detail-label">Versicherung</span><span class="boat-detail-val">Vorhanden (Police 2023)</span></div>
-        <div class="boat-detail-item"><span class="boat-detail-label">CE-Zertifikat</span><span class="boat-detail-val">✓ vorhanden</span></div>
       </div>
+      <!-- Live Status Tags -->
+      <div style="margin-top:0.9rem;display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center">
+        <span style="font-size:0.68rem;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-right:0.25rem">Live:</span>
+        <span class="tag" id="tag-batteries" style="font-size:0.75rem;padding:3px 10px">🔋 Batterien —</span>
+        <span class="tag" id="tag-diesel" style="font-size:0.75rem;padding:3px 10px">⛽ Diesel —</span>
+        <span class="tag" id="tag-water" style="font-size:0.75rem;padding:3px 10px">💧 Wasser —</span>
+        <span class="tag" id="tag-blackwater" style="font-size:0.75rem;padding:3px 10px">🚽 Schwarzwasser —</span>
+        <span class="tag" id="tag-shorepower" style="font-size:0.75rem;padding:3px 10px">🔌 Landstrom —</span>
+      </div>
+      <div style="font-size:0.68rem;color:#475569;margin-top:0.4rem" id="live-updated">Live-Daten: nicht verfügbar — manuelle Aktualisierung erforderlich</div>
     </div>
   </div>
+  <script>
+  // Load live status from status.json
+  fetch('status.json').then(r=>r.json()).then(d=>{
+    const live = d.live || {};
+    function applyTag(id, val, unit) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const label = el.textContent.split(' ').slice(0,2).join(' ');
+      if (val === null || val === undefined) { el.className='tag tag-pending'; el.textContent=label+' —'; return; }
+      const pct = typeof val === 'number' ? val : null;
+      if (pct !== null) {
+        const display = pct + (unit||'%');
+        if (id==='tag-blackwater') {
+          el.className = pct > 80 ? 'tag tag-warn' : 'tag tag-ok';
+        } else {
+          el.className = pct < 20 ? 'tag tag-warn' : 'tag tag-ok';
+        }
+        el.textContent = label + ' ' + display;
+      } else {
+        el.className = val===true||val==='ok'||val==='an' ? 'tag tag-ok' : val===false||val==='aus' ? 'tag tag-info' : 'tag tag-pending';
+        el.textContent = label + ' ' + (val===true||val==='an'?'AN':val===false||val==='aus'?'AUS':val);
+      }
+    }
+    applyTag('tag-batteries', live.batteries_pct);
+    applyTag('tag-diesel', live.diesel_pct);
+    applyTag('tag-water', live.water_pct);
+    applyTag('tag-blackwater', live.blackwater_pct);
+    applyTag('tag-shorepower', live.shorepower);
+    if (d.location) document.getElementById('hero-location').textContent = d.location;
+    if (live.updated_at) document.getElementById('live-updated').textContent = 'Live-Daten: ' + live.updated_at;
+  }).catch(()=>{});
+  </script>
 
   <!-- KEY STATS -->
   <div class="stat-grid">

@@ -172,7 +172,7 @@ def search_messages(wrapper_url: str, token: str, session_id: str, query: str, m
     response = call_tool(wrapper_url, token, session_id, "search_gmail_messages", {
         "user_google_email": email,
         "query": query,
-        "max_results": max_results,
+        "page_size": max_results,
     })
     result = extract_tool_result(response)
     if isinstance(result, list):
@@ -182,6 +182,17 @@ def search_messages(wrapper_url: str, token: str, session_id: str, query: str, m
         msgs = result["messages"]
         log(f"Found {len(msgs)} messages")
         return msgs
+    elif isinstance(result, str):
+        # Parse text response — extract Message IDs
+        import re
+        ids = re.findall(r'Message ID:\s*([a-f0-9]+)', result)
+        thread_ids = re.findall(r'Thread ID:\s*([a-f0-9]+)', result)
+        if ids:
+            msgs = [{"id": mid, "threadId": tid} for mid, tid in zip(ids, thread_ids or ids)]
+            log(f"Parsed {len(msgs)} message IDs from text response")
+            return msgs
+        log(f"Unexpected search result shape: {type(result)} — {str(result)[:200]}")
+        return []
     else:
         log(f"Unexpected search result shape: {type(result)} — {str(result)[:200]}")
         return []
@@ -197,6 +208,20 @@ def fetch_message_content(wrapper_url: str, token: str, session_id: str, message
     result = extract_tool_result(response)
     if isinstance(result, dict):
         return result
+    if isinstance(result, str):
+        # Wrapper returned plain text — parse subject/from/body from text
+        import re
+        parsed = {}
+        m = re.search(r'Subject:\s*(.+)', result)
+        if m: parsed['subject'] = m.group(1).strip()
+        m = re.search(r'From:\s*(.+)', result)
+        if m: parsed['from'] = m.group(1).strip()
+        # Body is everything after '--- BODY ---'
+        body_match = re.split(r'---\s*BODY\s*---', result, maxsplit=1)
+        if len(body_match) > 1:
+            parsed['body'] = body_match[1].strip()[:2000]
+        parsed['id'] = message_id
+        return parsed
     log(f"Unexpected content shape for {message_id}: {type(result)}")
     return {}
 
@@ -296,13 +321,18 @@ def write_to_bus(db_path: Path, record: dict) -> bool:
             log(f"Skipping duplicate source_id: {record['source_id']}")
             return False
 
+        import uuid as _uuid
+        now = datetime.datetime.now().isoformat(timespec="seconds")
+        record.setdefault('id', str(_uuid.uuid4()))
+        record.setdefault('created_at', now)
+        record.setdefault('updated_at', now)
         cursor.execute("""
             INSERT INTO messages
-                (source_channel, source_id, source_address, sender_name, subject, body,
-                 reply_context, domain_tag, status)
+                (id, created_at, updated_at, source_channel, source_id, source_address,
+                 sender_name, subject, body, reply_context, domain_tag, status)
             VALUES
-                (:source_channel, :source_id, :source_address, :sender_name, :subject, :body,
-                 :reply_context, :domain_tag, :status)
+                (:id, :created_at, :updated_at, :source_channel, :source_id, :source_address,
+                 :sender_name, :subject, :body, :reply_context, :domain_tag, :status)
         """, record)
         conn.commit()
         log(f"Inserted message: source_id={record['source_id']} from={record['source_address']}")

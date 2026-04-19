@@ -1,6 +1,6 @@
 {
   "agent": "calendar",
-  "updated_at": "2026-04-18T01:00:15.059270",
+  "updated_at": "2026-04-19T01:00:14.584739",
   "health": "ok",
   "summary": "16 events this week, 0 today \u00b7 showing today in Upcoming",
   "alerts": [],
@@ -17,7 +17,7 @@
     },
     {
       "priority": 4,
-      "title": "\ud83d\udcc5 No key events found for today (2026-04-18)",
+      "title": "\ud83d\udcc5 No key events found for today (2026-04-19)",
       "due_at": null
     }
   ],
