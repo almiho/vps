@@ -160,7 +160,9 @@ function toggleAbout() {
   <div class="section"><div class="section-title">Status</div>
     <div class="status-row"><div class="status-summary">Last run: 0 tagged, 0 needs review, 0 skipped.</div><div class="status-updated">Last updated: 19 Apr 09:47</div></div>
   </div>
-  <div class="section"><div class="section-title">📊 Routing Stats</div><div style="display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:1rem"><div><div style="font-size:1.5rem;font-weight:700;color:#f1f5f9">0</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Total Tagged</div></div><div><div style="font-size:1.5rem;font-weight:700;color:#f59e0b" id="stat-needs-review">0</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Needs Review</div></div><div><div style="font-size:1.5rem;font-weight:700;color:#f59e0b" id="stat-pending-reviews">0</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Pending Reviews</div></div><div><div style="font-size:1.5rem;font-weight:700;color:#22c55e">0</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Last Run Tagged</div></div><div><div style="font-size:0.85rem;color:#94a3b8">2026-04-19T09:47</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Last Run</div></div></div></div><div class="section"><div class="section-title">⚠️ Needs Review Queue</div><div class="empty-state">Queue empty ✓</div></div><div class="section"><div class="section-title">🔀 Recent Routing Decisions</div><div class="item" style="padding:0.5rem 0"><div style="flex:1;min-width:0"><div class="item-title" style="font-size:0.82rem">Hey</div><div class="item-meta">2026-04-18T16:09</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span style="color:#f59e0b;font-size:0.7rem;font-weight:600">REVIEW</span> <span style="color:#ef4444;font-size:0.7rem;font-weight:600">NONE</span></div></div><div class="item" style="padding:0.5rem 0"><div style="flex:1;min-width:0"><div class="item-title" style="font-size:0.82rem">Elternabend nächste Woche</div><div class="item-meta">2026-04-18T16:09</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span style="background:#422006;color:#fcd34d;padding:2px 8px;border-radius:10px;font-size:0.7rem;font-weight:600;white-space:nowrap">school</span> <span style="color:#22c55e;font-size:0.7rem;font-weight:600">HIGH</span></div></div><div class="item" style="padding:0.5rem 0"><div style="flex:1;min-width:0"><div class="item-title" style="font-size:0.82rem">Ihre Kontoauszug ist bereit</div><div class="item-meta">2026-04-18T16:09</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span style="background:#1e3a5f;color:#93c5fd;padding:2px 8px;border-radius:10px;font-size:0.7rem;font-weight:600;white-space:nowrap">finance</span> <span style="color:#22c55e;font-size:0.7rem;font-weight:600">HIGH</span></div></div></div>
+  <div class="section"><div class="section-title">📊 Routing Stats</div><div style="display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:1rem"><div><div style="font-size:1.5rem;font-weight:700;color:#f1f5f9" id="stat-total-tagged">—</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Total Tagged</div></div><div><div style="font-size:1.5rem;font-weight:700;color:#f59e0b" id="stat-needs-review">0</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Needs Review</div></div><div><div style="font-size:1.5rem;font-weight:700;color:#f59e0b" id="stat-pending-reviews">0</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Pending Reviews</div></div><div><div style="font-size:1.5rem;font-weight:700;color:#22c55e" id="stat-last-run-tagged">—</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Last Run Tagged</div></div><div><div style="font-size:0.85rem;color:#94a3b8" id="stat-last-run-at">—</div><div style="font-size:0.72rem;color:#64748b;text-transform:uppercase">Last Run</div></div></div></div>
+  <div class="section" id="pending-review-section"><div class="section-title">⚠️ Needs Review Queue</div><div id="pending-review-list"><div class="empty-state">Queue empty ✓</div></div></div>
+  <div class="section"><div class="section-title">🔀 Recent Routing Decisions</div><div id="routing-decisions-list"><div class="empty-state">Loading…</div></div></div>
   <div class="section"><div class="section-title">🔴 Alerts & Actions</div><div class="empty-state">No alerts</div></div>
   <div class="section"><div class="section-title">📅 Upcoming</div><div class="empty-state">Nothing upcoming</div></div>
   
@@ -291,6 +293,69 @@ function toggleAbout() {
     renderPending(d.pending || []);
   } catch(e) {
     console.warn('inbox_pending.json load failed', e);
+  }
+
+  // Load stats + routing decisions from status.json
+  try {
+    const sr = await fetch('/agents/inbox-manager/dashboard/status.json?t=' + Date.now());
+    const sd = await sr.json();
+    const stats = sd.stats || {};
+
+    // Update stat counters
+    const el = (id) => document.getElementById(id);
+    if (el('stat-total-tagged'))   el('stat-total-tagged').textContent   = stats.total_tagged_alltime ?? '—';
+    if (el('stat-last-run-tagged')) el('stat-last-run-tagged').textContent = stats.last_run_tagged ?? '—';
+    if (el('stat-needs-review'))   el('stat-needs-review').textContent   = stats.last_run_needs_review ?? '—';
+    if (el('stat-last-run-at')) {
+      const ts = stats.last_run_at ? stats.last_run_at.slice(0,16).replace('T',' ') : '—';
+      el('stat-last-run-at').textContent = ts;
+    }
+
+    // Render routing decisions
+    const decisions = (sd.recent_decisions || []).slice().reverse();
+    const decEl = document.getElementById('routing-decisions-list');
+    if (decEl) {
+      if (!decisions.length) {
+        decEl.innerHTML = '<div class="empty-state">No decisions yet</div>';
+      } else {
+        const domainColors = {
+          school:'#422006,#fcd34d', finance:'#1e3a5f,#93c5fd', 'real-estate':'#1e3a5f,#93c5fd',
+          boat:'#164e63,#67e8f9', car:'#1e3a5f,#93c5fd', health:'#14532d,#86efac',
+          travel:'#4a1d96,#c4b5fd', tax:'#7c2d12,#fdba74', insurance:'#1e293b,#94a3b8',
+          'life-in-denmark':'#1e293b,#94a3b8', cos:'#1e293b,#94a3b8'
+        };
+        let html = '';
+        decisions.forEach(function(d) {
+          const ts = (d.timestamp||'').slice(0,16).replace('T',' ');
+          const action = d.action === 'tagged' ? 'TAGGED' : 'REVIEW';
+          const actionColor = d.action === 'tagged' ? '#22c55e' : '#f59e0b';
+          let domainBadge = '';
+          if (d.domain) {
+            const [bg,fg] = (domainColors[d.domain]||'#1e293b,#94a3b8').split(',');
+            domainBadge = '<span style="background:'+bg+';color:'+fg+';padding:2px 8px;border-radius:10px;font-size:0.7rem;font-weight:600;white-space:nowrap">'+d.domain+'</span>';
+          } else if (d.proposed_tag) {
+            domainBadge = '<span style="background:#450a0a;color:#fca5a5;padding:2px 8px;border-radius:10px;font-size:0.7rem;font-weight:600;white-space:nowrap">?'+d.proposed_tag+'</span>';
+          }
+          const score = d.confidence_score ?? '';
+          const scoreLabel = score >= 85 ? '<span style="color:#22c55e;font-size:0.7rem;font-weight:600">'+score+' HIGH</span>' :
+                             score >= 60 ? '<span style="color:#f59e0b;font-size:0.7rem;font-weight:600">'+score+' MID</span>' :
+                             score > 0   ? '<span style="color:#ef4444;font-size:0.7rem;font-weight:600">'+score+' LOW</span>' : '';
+          html += '<div class="item" style="padding:0.5rem 0">';
+          html += '<div style="flex:1;min-width:0">';
+          html += '<div class="item-title" style="font-size:0.82rem">'+((d.subject||'').slice(0,70)||'(no subject)')+'</div>';
+          html += '<div class="item-meta">'+ts+(d.reason?' &nbsp;·&nbsp; '+d.reason.slice(0,60):'')+'</div>';
+          html += '</div>';
+          html += '<div style="display:flex;gap:0.5rem;align-items:center;flex-shrink:0">';
+          html += domainBadge;
+          html += scoreLabel;
+          html += '<span style="color:'+actionColor+';font-size:0.7rem;font-weight:600">'+action+'</span>';
+          html += '</div></div>';
+        });
+        decEl.innerHTML = html;
+      }
+    }
+  } catch(e) {
+    console.warn('status.json load failed', e);
   }
 })();
 

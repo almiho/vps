@@ -1,6 +1,6 @@
 {
   "agent": "inbox-manager",
-  "updated_at": "2026-04-19T22:46:30",
+  "updated_at": "2026-04-19T23:01:30",
   "health": "warning",
   "summary": "Last run: 0 tagged, 0 needs review, 0 skipped.",
   "pending_reviews": 1,
@@ -15,11 +15,11 @@
   ],
   "upcoming": [],
   "stats": {
-    "total_tagged_alltime": 0,
+    "total_tagged_alltime": 1,
     "last_run_tagged": 0,
     "last_run_needs_review": 0,
     "last_run_skipped": 0,
-    "last_run_at": "2026-04-19T22:46:30"
+    "last_run_at": "2026-04-19T23:01:30"
   },
   "recent_decisions": [
     {
@@ -99,6 +99,20 @@
       "scores": {},
       "action": "needs_review",
       "proposed_tag": null
+    },
+    {
+      "timestamp": "2026-04-19T22:58:31",
+      "message_id": "e3f82b69-71c0-41c8-977c-9204a0f66f2c",
+      "source_id": "19d9a3db92ecd964",
+      "subject": "CIS Community News",
+      "domain": "school",
+      "confidence": "high",
+      "confidence_score": 96,
+      "reason": "sole match: 2 keyword(s)",
+      "scores": {
+        "school": 2
+      },
+      "action": "tagged"
     }
   ],
   "needs_review_queue": [
