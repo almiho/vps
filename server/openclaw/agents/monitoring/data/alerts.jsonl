@@ -54,3 +54,6 @@
 {"type": "alert_fired", "title": "System problem: Heartbeats", "logged_at": "2026-04-19T20:43:23.010605"}
 {"type": "failure", "component": "google_token", "detail": "Google OAuth token file missing \u2014 Gmail, Calendar, Drive will fail. Re-authenticate via: openclaw google auth", "logged_at": "2026-04-19T22:35:29.635516"}
 {"type": "alert_fired", "title": "System problem: Google Token", "logged_at": "2026-04-19T22:35:29.635894"}
+{"type": "failure", "component": "git_uncommitted", "detail": "28 uncommitted change(s) in workspace. Run: cd /home/node/.openclaw/workspace && git add -A && git commit -m 'auto-save' && bash scripts/push.sh", "logged_at": "2026-04-20T01:28:50.298248"}
+{"type": "failure", "component": "git_uncommitted", "detail": "28 uncommitted change(s) in workspace. Run: cd /home/node/.openclaw/workspace && git add -A && git commit -m 'auto-save' && bash scripts/push.sh", "logged_at": "2026-04-20T13:02:34.413738"}
+{"type": "alert_fired", "title": "System problem: Git Uncommitted", "logged_at": "2026-04-20T13:02:34.414178"}

@@ -1,12 +1,12 @@
 {
   "agent": "comms-collector",
-  "updated_at": "2026-04-19T22:44:26",
+  "updated_at": "2026-04-22T11:17:43",
   "health": "ok",
   "summary": "Passive mode. Gmail inbox: 500+ unread.",
   "gmail_inbox_unread": 500,
   "gmail_inbox_unread_more": true,
   "gmail_inbox_unread_display": "500+",
-  "gmail_stats_updated_at": "2026-04-19T22:44:26",
+  "gmail_stats_updated_at": "2026-04-22T11:17:43",
   "alerts": [],
   "upcoming": []
 }

@@ -10,12 +10,7 @@ from datetime import datetime
 
 LOG = "/home/node/.openclaw/workspace/logs/scheduler.log"
 WORKSPACE = "/home/node/.openclaw/workspace"
-
-WEBSERVER_PID_FILE = f"{WORKSPACE}/logs/webserver.pid"
-WEBSERVER_LOG      = f"{WORKSPACE}/logs/webserver.log"
-WEBSERVER_BIND     = "100.67.100.125"
-WEBSERVER_PORT     = 8080
-WEBSERVER_DIR      = f"{WORKSPACE}/dashboard"
+WEBSERVER_CTL = f"{WORKSPACE}/scripts/dashboard-webctl.sh"
 
 import subprocess as _sp
 # Restore SSH keys on startup (wiped by container updates)
@@ -55,45 +50,29 @@ SCRIPTS = {
     "boat_status":  (60 * 60, f"{WORKSPACE}/scripts/fetch_boat_status.py",                            "Boat HA status fetch"),
     "inbox_manager": (15 * 60, f"{WORKSPACE}/agents/inbox-manager/scripts/route_messages.py",         "Inbox message routing"),
     "school_pickup":  (24 * 60 * 60, f"{WORKSPACE}/agents/school/scripts/fetch_pickup_schedule.py",   "School pickup schedule fetch"),
+    "school_process": (15 * 60,       f"{WORKSPACE}/agents/school/scripts/process_messages.py",         "School message bus consumer"),
 }
 
 def webserver_alive():
-    """Return True if the webserver is actually responding on the port."""
+    """Return True if the dashboard service is responding on localhost."""
     try:
-        import urllib.request as _ur
-        with _ur.urlopen(f"http://{WEBSERVER_BIND}:{WEBSERVER_PORT}/", timeout=3) as r:
-            return r.status == 200
+        r = subprocess.run([WEBSERVER_CTL, "status"], capture_output=True, text=True, timeout=10)
+        return r.returncode == 0
     except Exception:
         return False
 
 def start_webserver():
-    """Start the dashboard HTTP server using server.py (no-cache, single instance)."""
-    # Kill anything already on the port first, then wait for port to free
-    try:
-        subprocess.run(["pkill", "-f", "server.py"], capture_output=True)
-        subprocess.run(["pkill", "-f", f"http.server {WEBSERVER_PORT}"], capture_output=True)
-        import time as _t
-        for _ in range(5):  # Wait up to 5s for port to free
-            _t.sleep(1)
-            if not webserver_alive():
-                break  # Port is free, proceed
-    except Exception:
-        pass
-    log_fh = open(WEBSERVER_LOG, "a")
-    proc = subprocess.Popen(
-        ["python3", f"{WORKSPACE}/dashboard/server.py"],
-        stdout=log_fh,
-        stderr=log_fh,
-        start_new_session=True,
-    )
-    with open(WEBSERVER_PID_FILE, "w") as f:
-        f.write(str(proc.pid))
-    log(f"Webserver started — PID {proc.pid} on {WEBSERVER_BIND}:{WEBSERVER_PORT}")
+    """Start the dashboard web service through the service wrapper."""
+    r = subprocess.run([WEBSERVER_CTL, "start"], capture_output=True, text=True, timeout=20)
+    if r.returncode == 0:
+        log(f"Webserver ensured — {r.stdout.strip() or 'started'}")
+    else:
+        log(f"Webserver start failed — {r.stderr.strip() or r.stdout.strip()}")
 
 _last_webserver_start = 0
 
 def ensure_webserver():
-    """Restart webserver only if it is truly not responding, with cooldown."""
+    """Ensure the dashboard service is up, with a short restart cooldown."""
     global _last_webserver_start
     if webserver_alive():
         return

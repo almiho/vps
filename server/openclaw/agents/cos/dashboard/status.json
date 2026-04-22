@@ -1,9 +1,17 @@
 {
   "agent": "cos",
-  "updated_at": "2026-04-19T23:01:00.579552",
-  "health": "warning",
-  "summary": "Running. 10/18 agents active. Milestones 0\u20132 complete. All good.",
-  "alerts": [],
+  "updated_at": "2026-04-22T11:13:32.083760",
+  "health": "ok",
+  "summary": "Running. 10/18 agents. Review: Infra flagged (monitoring): OpenClaw 2026.4.15 \u2192 2026.4",
+  "alerts": [
+    {
+      "priority": 3,
+      "title": "Infra flagged (monitoring): OpenClaw 2026.4.15 \u2192 2026.4.21  (released 2026-04-22)",
+      "body": "I've reviewed Infra's analysis. My take: low strategic risk.\nThe changes are mostly memory/UI improvements \u2014 nothing that affects our core setup.\nRecommendation: update at your next convenient moment, not urgently.\n\u2192 When you're ready: openclaw update (or however you installed it)",
+      "due_at": null,
+      "action_required": false
+    }
+  ],
   "upcoming": [
     {
       "priority": 1,

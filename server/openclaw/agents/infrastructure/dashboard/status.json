@@ -1,9 +1,17 @@
 {
   "agent": "infrastructure",
-  "updated_at": "2026-04-19T23:10:41.205153",
-  "health": "ok",
-  "summary": "All systems healthy. Milestones 0\u20132 complete.",
-  "alerts": [],
+  "updated_at": "2026-04-22T11:11:09.007297",
+  "health": "warning",
+  "summary": "Review needed: OpenClaw 2026.4.15 \u2192 2026.4.21  (released 2026-04-22)",
+  "alerts": [
+    {
+      "priority": 2,
+      "title": "OpenClaw 2026.4.15 \u2192 2026.4.21  (released 2026-04-22)",
+      "body": "\ud83d\udd34 Risk: MEDIUM \u2014 Contains changes to core infrastructure (gateway/agent runtime) \u2014 read notes carefully and test thoroughly\n\n\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\n\ud83d\udd34 Higher risk \u2014 update during a quiet moment  |  Gateway changes\n  The gateway handles ALL traffic: Telegram, agent sessions, cron jobs.\n  If it breaks, everything stops \u2014 agents, dashboard, Telegram alerts.\n  Specific change details not in release summary \u2014 I can't tell you exactly what shifted.\n  My assessment: treat as medium risk. Update when you have 5 min to test, not mid-day.\n  \u2192 Immediately after: openclaw gateway status \u2014 expect 'RPC probe: ok'.\n  \u2192 If it fails: openclaw gateway restart\n",
+      "due_at": null,
+      "action_required": false
+    }
+  ],
   "upcoming": [
     {
       "priority": 1,

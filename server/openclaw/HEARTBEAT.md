@@ -6,10 +6,10 @@ Run first: `bash /home/node/.openclaw/workspace/scripts/restore_ssh.sh`
 Check and auto-restart if needed:
 
 1. **Scheduler** — `pgrep -f "scheduler.py"` — if not running, start it:
-   `python3 /home/node/.openclaw/workspace/scripts/scheduler.py`
+   `/home/node/.openclaw/workspace/scripts/schedulerctl.sh start`
 
 2. **Web server** — check `http://100.67.100.125:8080/` — if not reachable, start it:
-   `python3 /home/node/.openclaw/workspace/dashboard/server.py`
+   `/home/node/.openclaw/workspace/scripts/dashboard-webctl.sh start`
 
 If any was down and you restarted it, notify Alexander briefly.
 Otherwise stay silent (HEARTBEAT_OK).

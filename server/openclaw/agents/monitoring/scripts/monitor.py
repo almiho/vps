@@ -19,6 +19,9 @@ log = AgentLogger("monitoring")
 ALERT_LOG    = f"{WORKSPACE}/agents/monitoring/data/alerts.jsonl"
 AGENTS_DIR   = f"{WORKSPACE}/agents"
 PREV_STATE   = f"{WORKSPACE}/agents/monitoring/data/prev_state.json"
+DASHBOARD_LOCAL_URL = "http://127.0.0.1:8080/"
+DASHBOARD_TAILNET_URL = "http://100.67.100.125:8080/"
+DASHBOARD_CTL = f"{WORKSPACE}/scripts/dashboard-webctl.sh"
 
 # Telegram delivery via OpenClaw CLI
 def send_telegram_alert(title, body):
@@ -79,6 +82,14 @@ def log_alert(alert):
     with open(ALERT_LOG, "a") as f:
         f.write(json.dumps({**alert, "logged_at": datetime.now().isoformat()}) + "\n")
 
+
+def http_ok(url, timeout=3):
+    try:
+        with urllib.request.urlopen(url, timeout=timeout) as r:
+            return r.status == 200
+    except Exception:
+        return False
+
 # ── Checks ────────────────────────────────────────────────────────────────
 
 def check_gateway():
@@ -92,12 +103,7 @@ def check_gateway():
     proc_count = int(proc) if proc.isdigit() else 0
 
     # Check if web server is still up (separate service, helps assess scope)
-    try:
-        import urllib.request as _ur
-        with _ur.urlopen("http://100.67.100.125:8080/", timeout=3) as r:
-            web_ok = r.status == 200
-    except Exception:
-        web_ok = False
+    web_ok = http_ok(DASHBOARD_LOCAL_URL)
 
     # Check recent scheduler log for gateway errors
     recent = run("tail -20 /home/node/.openclaw/workspace/logs/scheduler.log 2>/dev/null")
@@ -131,33 +137,33 @@ def check_gateway():
     return {"name": "gateway", "ok": False, "detail": detail}
 
 def check_web_server():
-    try:
-        with urllib.request.urlopen("http://100.67.100.125:8080/", timeout=5) as r:
-            ok = r.status == 200
-    except Exception:
-        ok = False
+    local_ok = http_ok(DASHBOARD_LOCAL_URL, timeout=5)
+    tailnet_ok = http_ok(DASHBOARD_TAILNET_URL, timeout=5)
 
-    if ok:
-        return {"name": "web_server", "ok": True, "detail": "Dashboard reachable at http://100.67.100.125:8080/"}
+    if local_ok and tailnet_ok:
+        return {"name": "web_server", "ok": True, "detail": f"Dashboard reachable locally and via Tailscale ({DASHBOARD_TAILNET_URL})"}
 
-    # Not reachable — investigate
-    proc = run("pgrep -f 'http.server' 2>/dev/null").strip()
+    proc = run("pgrep -f 'dashboard/server.py' 2>/dev/null").strip()
     proc_running = bool(proc)
-    recent = run("tail -5 /home/node/.openclaw/workspace/logs/webserver.log 2>/dev/null")
+    recent = run("tail -5 /home/node/.openclaw/workspace/logs/dashboard-web.log 2>/dev/null")
 
-    if not proc_running:
+    if local_ok and not tailnet_ok:
         detail = (
-            "Dashboard unreachable at :8080 and web server process not found — it has stopped. "
-            "Assessment: process crashed or was never started. "
-            "→ Restart: cd /home/node/.openclaw/workspace/dashboard && "
-            "nohup python3 -m http.server 8080 --bind 100.67.100.125 &"
+            f"Dashboard is healthy on localhost but not reachable on Tailscale ({DASHBOARD_TAILNET_URL}). "
+            "Assessment: service is up, but the Tailscale-facing bind or route is broken. "
+            f"→ Check: {DASHBOARD_CTL} status"
+        )
+    elif not proc_running:
+        detail = (
+            f"Dashboard unreachable on localhost and Tailscale ({DASHBOARD_TAILNET_URL}), and no web server process found. "
+            "Assessment: the dashboard service is down. "
+            f"→ Restart: {DASHBOARD_CTL} restart"
         )
     else:
         detail = (
-            f"Dashboard unreachable at :8080, but web server process is running (PID {proc}). "
-            "Assessment: process alive but not responding — may be hung or bound to wrong address. "
-            "→ Kill and restart: kill " + proc + " && cd /home/node/.openclaw/workspace/dashboard && "
-            "nohup python3 -m http.server 8080 --bind 100.67.100.125 &"
+            f"Dashboard unreachable on localhost and Tailscale ({DASHBOARD_TAILNET_URL}), but the web server process is running (PID {proc}). "
+            "Assessment: process alive but not responding, or it is bound incorrectly. "
+            f"→ Inspect/restart: {DASHBOARD_CTL} status && {DASHBOARD_CTL} restart"
         )
         if recent:
             detail += f"\nLast log entry: {recent.splitlines()[-1].strip()}"
@@ -256,7 +262,7 @@ def check_cron_jobs():
         return {"name": "cron", "ok": True,
                 "detail": f"Scheduler daemon running (PID {pid}) — dashboard 15m, watch 5m, infra 1hr"}
     return {"name": "cron", "ok": False,
-            "detail": "Scheduler daemon not running — dashboard and health checks have stopped.\n→ Restart: python3 /home/node/.openclaw/workspace/scripts/scheduler.py"}
+            "detail": "Scheduler daemon not running — dashboard and health checks have stopped.\n→ Restart: /home/node/.openclaw/workspace/scripts/schedulerctl.sh start"}
 
 def check_google_mcp():
     """Check the Google Workspace MCP server (email, calendar, drive)."""
@@ -406,22 +412,17 @@ def main():
     hour = datetime.now().hour
     is_night = hour >= 23 or hour < 7
 
-    # Self-healing: attempt to restart web server before alerting
+    # Self-healing: attempt one local service restart before alerting
     for failure in new_failures:
         if failure["name"] == "web_server":
             log.info("self_heal", "Web server down — attempting self-restart")
             try:
-                import subprocess as _sp, time as _t, urllib.request as _ur
-                # Kill all competing processes on the port
-                _sp.run(["pkill", "-f", "server.py"], capture_output=True)
-                _sp.run(["pkill", "-f", "http.server 8080"], capture_output=True)
-                _t.sleep(2)
-                _sp.Popen(["python3", f"{WORKSPACE}/dashboard/server.py"])
+                import subprocess as _sp, time as _t
+                _sp.run([DASHBOARD_CTL, "restart"], capture_output=True, text=True, timeout=20)
                 _t.sleep(3)
-                with _ur.urlopen("http://100.67.100.125:8080/", timeout=3) as r:
-                    if r.status == 200:
-                        log.info("self_heal", "Web server restarted successfully — no alert needed")
-                        failure["self_healed"] = True
+                if http_ok(DASHBOARD_LOCAL_URL, timeout=3) and http_ok(DASHBOARD_TAILNET_URL, timeout=3):
+                    log.info("self_heal", "Web server restarted successfully — no alert needed")
+                    failure["self_healed"] = True
             except Exception as e:
                 log.error("self_heal", f"Self-restart failed: {e}")
 
@@ -468,7 +469,7 @@ def main():
     upcoming = [
         {"priority": 2, "title": "Will watch Comms Collector once connected (Milestone 4) — message bus queue depth", "due_at": None},
         {"priority": 3, "title": "Will watch School Agent pickup reminders once live (Milestone 6) — time-critical", "due_at": None},
-        {"priority": 3, "title": "Will add web server auto-restart if it goes down (future improvement)", "due_at": None},
+        {"priority": 3, "title": "Will keep watching dashboard local + Tailscale reachability", "due_at": None},
     ]
 
     status = {

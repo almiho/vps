@@ -1,13 +1,13 @@
 {
-  "fetched_at": "2026-04-19T20:44:26.117424+00:00",
+  "fetched_at": "2026-04-22T09:15:57.384627+00:00",
   "entities": {
     "person.alex": {
       "state": "not_home",
       "unit": "",
       "friendly_name": "Alex",
-      "latitude": 55.7110601,
-      "longitude": 12.581275,
-      "gps_accuracy": 100
+      "latitude": 55.2092116,
+      "longitude": 9.9943163,
+      "gps_accuracy": 20
     },
     "person.klemens": {
       "state": "unknown",
@@ -117,7 +117,7 @@
       "friendly_name": "Bugstrahl Ladung"
     },
     "sensor.bugstrahl_spannung": {
-      "state": "25.1",
+      "state": "25.0",
       "unit": "V",
       "friendly_name": "Bugstrahl Spannung"
     },
@@ -127,7 +127,7 @@
       "friendly_name": "Heckstrahl Ladung"
     },
     "sensor.heckstrahl_spannung": {
-      "state": "25.4",
+      "state": "25.3",
       "unit": "V",
       "friendly_name": "Heckstrahl Spannung"
     },
@@ -147,12 +147,12 @@
       "friendly_name": "Starter STB Ladung"
     },
     "sensor.starter_stb_spannung": {
-      "state": "25.8",
+      "state": "25.7",
       "unit": "V",
       "friendly_name": "Starter STB Spannung"
     },
     "sensor.landstrom_aktuell": {
-      "state": "183.0",
+      "state": "159.0",
       "unit": "W",
       "friendly_name": "Landstrom aktuell"
     },
@@ -167,7 +167,7 @@
       "friendly_name": "Quattro AC-Eingang"
     },
     "sensor.wechselstromlasten": {
-      "state": "106",
+      "state": "94",
       "unit": "W",
       "friendly_name": "Wechselstromlasten"
     },
@@ -177,7 +177,7 @@
       "friendly_name": "Generatorstrom aktuell"
     },
     "sensor.ac_input_power": {
-      "state": "183",
+      "state": "160",
       "unit": "W",
       "friendly_name": "Quattro AC Input Power"
     },
@@ -192,12 +192,12 @@
       "friendly_name": "Diesel STB"
     },
     "sensor.frischwasser": {
-      "state": "85",
+      "state": "84",
       "unit": "%",
       "friendly_name": "Frischwasser"
     },
     "sensor.schwarzwasser": {
-      "state": "33",
+      "state": "46",
       "unit": "%",
       "friendly_name": "Schwarzwasser"
     },
@@ -207,12 +207,12 @@
       "friendly_name": "Wassertemperatur"
     },
     "sensor.h5074_ceee_temperature": {
-      "state": "10.36",
+      "state": "unavailable",
       "unit": "\u00b0C",
       "friendly_name": "H5074 CEEE Temperature"
     },
     "sensor.h5074_ceee_humidity": {
-      "state": "67.64",
+      "state": "unavailable",
       "unit": "%",
       "friendly_name": "H5074 CEEE Humidity"
     },
@@ -288,11 +288,11 @@
     }
   },
   "live_summary": {
-    "updated_at": "19.04.2026 22:44",
+    "updated_at": "22.04.2026 11:16",
     "batteries_pct": 100,
     "diesel_pct": "offline",
-    "water_pct": 85,
-    "blackwater_pct": 33,
+    "water_pct": 84,
+    "blackwater_pct": 46,
     "shorepower": true,
     "location": "52.3840, 5.6361"
   }

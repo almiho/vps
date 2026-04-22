@@ -1,6 +1,6 @@
 {
   "agent": "inbox-manager",
-  "updated_at": "2026-04-19T23:09:12",
+  "updated_at": "2026-04-22T11:13:32",
   "health": "warning",
   "summary": "Last run: 0 tagged, 0 needs review, 0 skipped.",
   "pending_reviews": 1,
@@ -19,7 +19,7 @@
     "last_run_tagged": 0,
     "last_run_needs_review": 0,
     "last_run_skipped": 0,
-    "last_run_at": "2026-04-19T23:09:12"
+    "last_run_at": "2026-04-22T11:13:32"
   },
   "recent_decisions": [
     {
@@ -51,6 +51,19 @@
         "school": 2
       },
       "action": "tagged"
+    },
+    {
+      "timestamp": "2026-04-20T10:27:38",
+      "message_id": "7005e8d8-089a-45b9-9be5-cfd40cc2f826",
+      "source_id": "19da9c9d643fc6d8",
+      "subject": "Fwd: accu en pomp",
+      "domain": null,
+      "confidence": "none",
+      "confidence_score": 0,
+      "reason": "no keyword match",
+      "scores": {},
+      "action": "needs_review",
+      "proposed_tag": null
     }
   ],
   "needs_review_queue": [

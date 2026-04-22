@@ -1,8 +1,8 @@
 {
   "agent": "monitoring",
-  "updated_at": "2026-04-19T23:08:40.996082",
-  "health": "ok",
-  "summary": "All systems healthy. Gateway \u2713 Dashboard \u2713 Bus \u2713 Disk \u2713 Agents \u2713 Scheduler \u2713 Google MCP \u2713",
+  "updated_at": "2026-04-22T11:17:32.794372",
+  "health": "error",
+  "summary": "Down: Git Uncommitted \u2014 Problem detected \u2014 alert sent",
   "checks": {
     "gateway": {
       "ok": true,
@@ -10,7 +10,7 @@
     },
     "web_server": {
       "ok": true,
-      "detail": "Dashboard reachable at http://100.67.100.125:8080/"
+      "detail": "Dashboard reachable locally and via Tailscale (http://100.67.100.125:8080/)"
     },
     "bus": {
       "ok": true,
@@ -18,7 +18,7 @@
     },
     "disk": {
       "ok": true,
-      "detail": "12% used (12G of total, 85G free). Healthy."
+      "detail": "11% used (11G of total, 86G free). Healthy."
     },
     "heartbeats": {
       "ok": true,
@@ -26,18 +26,26 @@
     },
     "cron": {
       "ok": true,
-      "detail": "Scheduler daemon running (PID 339) \u2014 dashboard 15m, watch 5m, infra 1hr"
+      "detail": "Scheduler daemon running (PID 1708) \u2014 dashboard 15m, watch 5m, infra 1hr"
     },
     "google_mcp": {
       "ok": true,
       "detail": "Google Workspace MCP healthy \u2014 Gmail, Calendar, Drive sessions available."
     },
     "git_uncommitted": {
-      "ok": true,
-      "detail": "39 uncommitted changes, last commit 0.9h ago \u2014 within threshold"
+      "ok": false,
+      "detail": "30 uncommitted change(s) in workspace. Run: cd /home/node/.openclaw/workspace && git add -A && git commit -m 'auto-save' && bash scripts/push.sh"
     }
   },
-  "alerts": [],
+  "alerts": [
+    {
+      "priority": 1,
+      "title": "Git Uncommitted \u2014 Problem detected",
+      "body": "30 uncommitted change(s) in workspace. Run: cd /home/node/.openclaw/workspace && git add -A && git commit -m 'auto-save' && bash scripts/push.sh",
+      "action_required": true,
+      "due_at": null
+    }
+  ],
   "upcoming": [
     {
       "priority": 2,
@@ -51,7 +59,7 @@
     },
     {
       "priority": 3,
-      "title": "Will add web server auto-restart if it goes down (future improvement)",
+      "title": "Will keep watching dashboard local + Tailscale reachability",
       "due_at": null
     }
   ]

@@ -467,10 +467,11 @@
       <thead>
         <tr>
           <th>Date</th>
-          <th>From</th>
           <th>Subject</th>
-          <th>Child</th>
           <th>Topic</th>
+          <th>Child</th>
+          <th>Confidence</th>
+          <th>Comment</th>
           <th>Status</th>
         </tr>
       </thead>
@@ -813,19 +814,23 @@ function renderMessages() {
   table.style.display = 'table';
 
   const tbody = document.getElementById('messages-tbody');
-  tbody.innerHTML = msgs.slice(0, 20).map(m => `
+  tbody.innerHTML = msgs.slice(0, 20).map(m => {
+    const conf = m.confidence;
+    const confColor = conf >= 80 ? '#22c55e' : conf >= 60 ? '#f59e0b' : '#ef4444';
+    const confLabel = conf != null ? `<span style="color:${confColor};font-weight:600">${conf}%</span>` : '—';
+    return `
     <tr>
       <td style="white-space:nowrap;color:#94a3b8">${fmtDate(m.received_at)}</td>
-      <td style="font-size:0.78rem;color:#64748b;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.from || '—'}</td>
-      <td style="color:#cbd5e1;max-width:200px">
+      <td style="color:#cbd5e1;max-width:180px">
         <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.subject || '(no subject)'}</div>
-        ${m.summary ? `<div style="font-size:0.7rem;color:#64748b;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.summary}</div>` : ''}
       </td>
-      <td>${childTag(m.child)}</td>
       <td>${topicTag(m.topic)}</td>
+      <td>${childTag(m.child)}</td>
+      <td style="text-align:center">${confLabel}</td>
+      <td style="font-size:0.75rem;color:#94a3b8;max-width:260px">${m.comment || '—'}</td>
       <td>${msgStatusBadge(m.status)}</td>
-    </tr>
-  `).join('');
+    </tr>`;
+  }).join('');
 }
 
 // ── Filter Controls ──

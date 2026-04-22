@@ -1,17 +1,40 @@
 #!/usr/bin/env python3
 """
 AlexI Dashboard Server — no-cache static files + routing decision API.
-POST /api/route-decision  → confirm routing of a pending review message
-POST /api/archive-message → archive a pending review message
+
+Binds only to the explicitly configured addresses, by default:
+- 127.0.0.1
+- 100.67.100.125 (Tailscale)
+
+Never bind to 0.0.0.0.
 """
-import http.server, os, json, sqlite3, uuid
+
+import http.server
+import json
+import os
+import signal
+import sqlite3
+import threading
+import time
 from datetime import datetime
 from pathlib import Path
 
 WORKSPACE = Path('/home/node/.openclaw/workspace')
-BUS_DB    = WORKSPACE / 'data' / 'bus.db'
-FEEDBACK  = WORKSPACE / 'agents' / 'inbox-manager' / 'data' / 'routing_feedback.json'
-PENDING   = WORKSPACE / 'dashboard' / 'data' / 'inbox_pending.json'
+BUS_DB = WORKSPACE / 'data' / 'bus.db'
+FEEDBACK = WORKSPACE / 'agents' / 'inbox-manager' / 'data' / 'routing_feedback.json'
+PENDING = WORKSPACE / 'dashboard' / 'data' / 'inbox_pending.json'
+PORT = int(os.environ.get('DASHBOARD_PORT', '8080'))
+BIND_ADDRS = [
+    addr.strip()
+    for addr in os.environ.get('DASHBOARD_BIND_ADDRS', '127.0.0.1,100.67.100.125').split(',')
+    if addr.strip()
+]
+
+
+class ReusableThreadingHTTPServer(http.server.ThreadingHTTPServer):
+    allow_reuse_address = True
+    daemon_threads = True
+
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
@@ -20,13 +43,17 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Origin', '*')
         super().end_headers()
 
-    def log_message(self, *a): pass
+    def log_message(self, *a):
+        pass
 
     def do_GET(self):
+        if self.path == '/__healthz':
+            self._json_response({'ok': True, 'bind_addrs': BIND_ADDRS, 'port': PORT})
+            return
+
         # Serve /agents/... paths from workspace root (outside dashboard/ dir)
         if self.path.startswith('/agents/'):
             file_path = WORKSPACE / self.path.lstrip('/')
-            # Strip query string
             file_path = Path(str(file_path).split('?')[0])
             if file_path.exists() and file_path.is_file():
                 content = file_path.read_bytes()
@@ -41,7 +68,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(404)
                 self.end_headers()
             return
-        # Default: serve from dashboard/ directory
+
         super().do_GET()
 
     def do_OPTIONS(self):
@@ -53,7 +80,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     def do_POST(self):
         length = int(self.headers.get('Content-Length', 0))
-        body   = json.loads(self.rfile.read(length)) if length else {}
+        body = json.loads(self.rfile.read(length)) if length else {}
 
         if self.path == '/api/route-decision':
             self._handle_route_decision(body)
@@ -72,7 +99,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     def _handle_route_decision(self, body):
         """Confirm routing: set domain_tag + status='tagged' on bus message, learn the sender."""
-        bus_id     = body.get('bus_message_id')
+        bus_id = body.get('bus_message_id')
         domain_tag = body.get('domain_tag')
         original_from = body.get('original_from', '')
 
@@ -82,20 +109,21 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         now = datetime.now().isoformat(timespec='seconds')
 
-        # 1. Update bus: mark CoS review message as processed
         conn = sqlite3.connect(str(BUS_DB))
-        conn.execute("UPDATE messages SET status='processed', domain_tag=?, updated_at=? WHERE id=?",
-                     (domain_tag, now, bus_id))
+        conn.execute(
+            "UPDATE messages SET status='processed', domain_tag=?, updated_at=? WHERE id=?",
+            (domain_tag, now, bus_id),
+        )
 
-        # 2. Also tag the original message if we can find it
         original_id = body.get('original_id')
         if original_id:
-            conn.execute("UPDATE messages SET status='tagged', domain_tag=?, updated_at=? WHERE id=?",
-                         (domain_tag, now, original_id))
+            conn.execute(
+                "UPDATE messages SET status='tagged', domain_tag=?, updated_at=? WHERE id=?",
+                (domain_tag, now, original_id),
+            )
         conn.commit()
         conn.close()
 
-        # 3. Learn: save sender → domain mapping to routing_feedback.json
         if original_from:
             feedback = {}
             if FEEDBACK.exists():
@@ -112,13 +140,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             feedback['updated_at'] = now
             FEEDBACK.write_text(json.dumps(feedback, indent=2))
 
-        # 4. Remove from pending JSON
         self._remove_from_pending(bus_id)
-
         self._json_response({'ok': True, 'routed_to': domain_tag})
 
     def _handle_archive(self, body):
-        """Archive a pending review message."""
         bus_id = body.get('bus_message_id')
         if not bus_id:
             self._json_response({'error': 'missing bus_message_id'}, 400)
@@ -142,5 +167,55 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             pass
 
 
-os.chdir('/home/node/.openclaw/workspace/dashboard')
-http.server.HTTPServer(('100.67.100.125', 8080), Handler).serve_forever()
+def serve_forever(bind_addr: str, port: int, servers: list):
+    httpd = ReusableThreadingHTTPServer((bind_addr, port), Handler)
+    servers.append(httpd)
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    return httpd, thread
+
+
+def main():
+    os.chdir('/home/node/.openclaw/workspace/dashboard')
+
+    servers = []
+    threads = []
+    started = []
+    failures = []
+
+    for bind_addr in BIND_ADDRS:
+        try:
+            httpd, thread = serve_forever(bind_addr, PORT, servers)
+            threads.append(thread)
+            started.append(bind_addr)
+            print(f"Dashboard server listening on http://{bind_addr}:{PORT}/", flush=True)
+        except Exception as e:
+            failures.append((bind_addr, str(e)))
+            print(f"Dashboard server failed on {bind_addr}:{PORT} -> {e}", flush=True)
+
+    if not started:
+        raise SystemExit(f"Dashboard server could not bind to any address: {failures}")
+
+    stop_event = threading.Event()
+
+    def shutdown(*_args):
+        for server in servers:
+            try:
+                server.shutdown()
+                server.server_close()
+            except Exception:
+                pass
+        stop_event.set()
+
+    signal.signal(signal.SIGTERM, shutdown)
+    signal.signal(signal.SIGINT, shutdown)
+
+    try:
+        while not stop_event.is_set():
+            time.sleep(0.5)
+    finally:
+        shutdown()
+
+
+if __name__ == '__main__':
+    main()

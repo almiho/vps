@@ -6,5 +6,5 @@
   "heartbeats": true,
   "cron": true,
   "google_mcp": true,
-  "git_uncommitted": true
+  "git_uncommitted": false
 }

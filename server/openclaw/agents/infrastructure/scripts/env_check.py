@@ -180,10 +180,18 @@ def check_disk():
 
 def check_web_server():
     try:
-        with urllib.request.urlopen("http://100.67.100.125:8080/", timeout=3) as r:
-            return r.status == 200
+        with urllib.request.urlopen("http://127.0.0.1:8080/__healthz", timeout=3) as r:
+            local_ok = r.status == 200
     except:
-        return False
+        local_ok = False
+
+    try:
+        with urllib.request.urlopen("http://100.67.100.125:8080/", timeout=3) as r:
+            tailnet_ok = r.status == 200
+    except:
+        tailnet_ok = False
+
+    return local_ok and tailnet_ok
 
 def check_bus():
     return os.path.exists(f"{WORKSPACE}/data/bus.db")
@@ -262,10 +270,10 @@ def main():
     if not check_web_server():
         log.error("webserver_check", "Dashboard not reachable at http://100.67.100.125:8080/")
         alerts.append(build_alert(1, "Dashboard web server not reachable", [
-            "⚠️ http://100.67.100.125:8080/ is not responding.",
-            "The dashboard is inaccessible from Tailscale devices.",
-            "→ Restart: cd /home/node/.openclaw/workspace/dashboard",
-            "→ Run: nohup python3 -m http.server 8080 --bind 100.67.100.125 &"
+            "⚠️ Dashboard is not healthy on localhost and Tailscale.",
+            "The dashboard is inaccessible from Tailscale devices, or the local service bind is broken.",
+            "→ Check: /home/node/.openclaw/workspace/scripts/dashboard-webctl.sh status",
+            "→ Restart: /home/node/.openclaw/workspace/scripts/dashboard-webctl.sh restart"
         ], action_required=True))
         if health != "error": health = "warning"
 

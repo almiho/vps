@@ -4,7 +4,12 @@
       "domain_tag": "real-estate",
       "learned_at": "2026-04-19T10:32:54",
       "domain_hint": "immocation"
+    },
+    "k.berthues@gmail.com": {
+      "domain_tag": "boat",
+      "learned_at": "2026-04-20T10:31:15",
+      "domain_hint": "gmail"
     }
   },
-  "updated_at": "2026-04-19T10:32:54"
+  "updated_at": "2026-04-20T10:31:15"
 }

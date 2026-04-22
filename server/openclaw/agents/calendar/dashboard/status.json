@@ -1,23 +1,18 @@
 {
   "agent": "calendar",
-  "updated_at": "2026-04-19T01:00:14.584739",
+  "updated_at": "2026-04-22T01:00:16.353632",
   "health": "ok",
-  "summary": "16 events this week, 0 today \u00b7 showing today in Upcoming",
+  "summary": "18 events this week, 3 today \u00b7 showing today in Upcoming",
   "alerts": [],
   "upcoming": [
     {
-      "priority": 3,
-      "title": "\ud83d\ude8c No kids pickup event found for today",
-      "due_at": null
+      "priority": 1,
+      "title": "\ud83d\ude8c Kids pickup \u2014 Tanja at 15:30 (today)",
+      "due_at": "2026-04-22T15:30:00+02:00"
     },
     {
       "priority": 3,
       "title": "\u26a0\ufe0f GlobalConnect calendar not connected \u2014 alehof@globalconnect.dk needs OAuth",
-      "due_at": null
-    },
-    {
-      "priority": 4,
-      "title": "\ud83d\udcc5 No key events found for today (2026-04-19)",
       "due_at": null
     }
   ],
